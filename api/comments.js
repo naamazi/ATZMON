@@ -11,8 +11,12 @@ const clean = (s, max) => String(s || "").replace(/[\u0000-\u0008\u000B-\u001F]/
 const uid = () => (globalThis.crypto && crypto.randomUUID) ? crypto.randomUUID() : Math.random().toString(36).slice(2) + Date.now().toString(36);
 
 export default async function handler(req, res) {
+  try { return await run(req, res); } catch (e) { return res.status(500).json({ error: String(e && e.message || e) }); }
+}
+
+async function run(req, res) {
   res.setHeader("Cache-Control", "no-store");
-  if (!URL_ || !TOKEN) return res.status(500).json({ error: "storage not connected" });
+  if (!URL_ || !TOKEN) return res.status(503).json({ error: "storage not connected", env: Object.keys(process.env).filter(k => /KV|REDIS|UPSTASH/.test(k)) });
   let body = req.body || {};
   if (typeof body === "string") { try { body = JSON.parse(body); } catch { body = {}; } }
   const issue = clean(req.query.issue || body.issue, 8);
