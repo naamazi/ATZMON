@@ -12,7 +12,7 @@
 <style>[hidden]{display:none!important}</style>
 <title>מידעצמון</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&family=Secular+One&family=Rubik:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;800&family=IBM+Plex+Sans+Hebrew:wght@400;500;600;700&family=Secular+One&family=Suez+One&display=swap">
 <style>
 /* Layout: a single readable column like the printed issue, sticky corner tabs, cards only for notices and corners */
 :root{
@@ -747,6 +747,122 @@ main a:not(.cal):not(.share):not(.issue-nav):not(.fp-more):not(.tel){color:var(-
 .scene-wrap[data-tod="dusk"] .sk1{stop-color:#e9bb92!important}.scene-wrap[data-tod="dusk"] .sk2{stop-color:#c99aa0!important}
 .scene-wrap[data-tod="dusk"] .terrain{filter:brightness(.84) saturate(.95)}
 .scene-wrap[data-tod="dusk"] .sun{transform:translateY(60px)}
+
+/* ---------- type: two pairings (A default, B via ?font=b) ---------- */
+:root{--f-body:"Heebo",Arial,sans-serif!important;--f-ui:"Heebo",Arial,sans-serif!important;--f-display:"Secular One","Heebo",sans-serif!important;--f-serif:"Secular One","Heebo",sans-serif!important;--f-head:"Secular One","Heebo",sans-serif!important;--f-hand:"Secular One","Heebo",sans-serif!important;--f-read:"Heebo",Arial,sans-serif!important}
+html[data-font="b"]{--f-body:"IBM Plex Sans Hebrew",Arial,sans-serif!important;--f-ui:"IBM Plex Sans Hebrew",Arial,sans-serif!important;--f-display:"Suez One",serif!important;--f-serif:"Suez One",serif!important;--f-head:"Suez One",serif!important;--f-hand:"Suez One",serif!important;--f-read:"IBM Plex Sans Hebrew",Arial,sans-serif!important}
+body{font-family:var(--f-body)!important;letter-spacing:0}
+h1,h2,h3,.word,.hand,.baby,.mini b{font-family:var(--f-display)!important;font-weight:400!important}
+p,li{font-family:var(--f-body)}
+/* softer ink, a touch warmer paper, better contrast for secondary text */
+:root{--bg:#f8f5ec;--surface:#fffdf7;--ink:#24291f;--muted:#5d6052;--line:#e3dfcd;--hill:#4b6a36;--deep:#2f4426;--hill-soft:#edf0e0;--gold:#a8862f}
+section[data-sec] > h2{letter-spacing:-.01em;line-height:1.15}
+
+/* ---------- top bar: symmetric ---------- */
+.appbar{display:grid!important;grid-template-columns:1fr auto 1fr;align-items:center}
+.mini{justify-self:start}
+.mini b,.mini #mini-n{display:none!important}
+.mini .rl{width:40px!important}
+.acts{justify-self:end;display:flex;gap:8px}
+.appbar .act{width:44px;height:44px;min-height:44px!important;padding:0!important;border-radius:50%!important;justify-content:center}
+.appbar .act span{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.appbar .act svg{width:21px!important;height:21px!important}
+.appbar .mid{justify-self:center;font:600 14px var(--f-body);color:var(--muted);white-space:nowrap}
+/* tabs: fade without covering the active pill */
+.tabs::after{display:none!important}
+.tabs{-webkit-mask-image:linear-gradient(to right,transparent 0,#000 30px);mask-image:linear-gradient(to right,transparent 0,#000 30px)}
+.tabs a.on{box-shadow:none!important;outline:none}
+/* dateline: one quiet line with the parasha */
+#m-extra{display:inline!important;font-weight:400;opacity:.85}
+.dateline{gap:0 12px!important}
+.dateline>span+span::before{content:"·";margin-inline-end:12px;opacity:.6}
+
+/* ---------- coming up card ---------- */
+.soon{background:var(--surface)!important;color:var(--ink)!important;border:1.5px solid var(--hill);padding:0!important;overflow:hidden;box-shadow:0 10px 30px -18px rgba(47,68,38,.45)}
+.soon-h{margin:0!important;padding:14px 16px;background:var(--deep);color:#fbf8ef;align-items:center!important}
+.soon-h .t{display:grid;line-height:1.15}
+.soon-h .t b{font:400 23px var(--f-display);font-weight:400}
+.soon-h .t small{font:600 13.5px var(--f-body);opacity:.85;margin-top:2px}
+.soon-f{display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:0 14px;border-radius:999px;border:1.5px solid rgba(251,248,239,.6);background:transparent;color:#fbf8ef;font:600 14px var(--f-body);cursor:pointer}
+.soon-f svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:2;stroke-linejoin:round}
+.soon-f[aria-expanded="true"],.soon-f.on{background:#fbf8ef;color:var(--deep)}
+.soon-cats{display:flex;flex-wrap:wrap;gap:6px;padding:12px 16px 2px}
+.soon-cats[hidden]{display:none}
+.soon-cats button{min-height:38px;padding:0 13px;border-radius:999px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink);font:600 14.5px var(--f-body);cursor:pointer}
+.soon-cats button.on{background:var(--hill);border-color:var(--hill);color:#fffdf8}
+.soon-list{padding:4px 16px 0!important}
+.soon-list li{grid-template-columns:58px 1fr 42px!important;border-top:1px solid var(--line)!important;padding:14px 0!important}
+.soon-list li:first-child{border-top:none!important}
+.soon-list .when{background:none!important;padding:0!important;text-align:center;border-inline-end:2px solid var(--hill);padding-inline-end:10px!important}
+.soon-list .when b{font:400 30px/1 var(--f-display)!important;color:var(--hill)!important;letter-spacing:-.02em}
+.soon-list .when b.w{font-size:21px!important}
+.soon-list .when span{color:var(--muted);opacity:1!important;font-size:12.5px!important;font-weight:700!important;margin-top:4px}
+.soon-list .what b{color:var(--ink)}
+.soon-list .what span{color:var(--muted);opacity:1!important}
+.soon .cal{border-color:var(--line)!important;color:var(--hill)!important}
+.soon .fp-more{color:var(--hill)!important;margin:4px 16px 12px!important}
+.soon-empty{padding:14px 16px 4px;color:var(--muted);margin:0}
+
+/* ---------- week agenda dates: crisp, still loud ---------- */
+.agenda2 .dh{border-bottom:2px solid var(--hill)!important;gap:10px!important}
+.agenda2 .dh b{font:400 34px/1 var(--f-display)!important;color:var(--hill)!important;letter-spacing:-.02em}
+.agenda2 .dh span{font:700 14.5px var(--f-body)!important;color:var(--muted)!important;letter-spacing:.02em}
+.agenda2 .tm{color:var(--deep)!important;font-weight:700!important}
+
+/* ---------- section headers ---------- */
+[data-sec="vaad"] > .kicker,[data-sec="board"] > .kicker,[data-sec="corners"] > .kicker{display:none!important}
+
+/* ---------- opening words: real subheads ---------- */
+.editor h3,.editor h4{font:400 21px/1.3 var(--f-display)!important;color:var(--deep);margin:26px 0 8px!important;padding-top:14px;border-top:1px solid var(--line)}
+.editor details h4:first-of-type{margin-top:18px!important}
+.editor h4 + p,.editor h3 + p{margin-top:0}
+.editor .intro-note{font-size:15px;color:var(--muted);font-style:normal}
+
+/* ---------- corners: uniform rows ---------- */
+.corner .label{white-space:normal!important;overflow:visible!important;text-overflow:clip!important;line-height:1.3}
+.corner .img.ill{display:grid;place-items:center;background:var(--hill-soft);border-radius:14px;aspect-ratio:1}
+.corner .img.ill svg{width:44%;height:44%;fill:none;stroke:var(--hill);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.corner:not(.collapsed) .img.ill{aspect-ratio:21/9}
+.corner:not(.collapsed) .img.ill svg{width:56px;height:56px}
+.c-meta{font-size:14px;color:var(--muted);margin:-2px 0 10px;font-weight:600}
+.corner.collapsed .c-meta{display:none}
+
+/* ---------- reactions + share ---------- */
+.rx{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:14px 0 2px;padding-top:12px;border-top:1px dashed var(--line)}
+.rx-b{display:inline-flex;align-items:center;gap:4px;min-height:38px;padding:0 10px;border-radius:999px;border:1.5px solid var(--line);background:var(--surface);font-size:17px;cursor:pointer;transition:transform .15s,border-color .15s,background .15s}
+.rx-b span{font:600 13.5px var(--f-body);color:var(--muted);min-width:0}
+.rx-b span:empty{display:none}
+.rx-b.on{border-color:var(--hill);background:var(--hill-soft)}
+.rx-b:active{transform:scale(.92)}
+.rx-share{display:inline-flex;align-items:center;gap:6px;min-height:38px;padding:0 13px;margin-inline-start:auto;border-radius:999px;border:1.5px solid var(--line);background:transparent;color:var(--deep);font:600 14px var(--f-body);cursor:pointer}
+.rx-share svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.corner.collapsed .rx{display:none}
+.burst{position:fixed;pointer-events:none;z-index:60;font-size:18px;animation:burst 1.1s ease-out forwards}
+@keyframes burst{0%{transform:translate(0,0) scale(.6);opacity:1}100%{transform:translate(var(--dx),var(--dy)) scale(1.1) rotate(var(--r));opacity:0}}
+.leaf-fall{position:fixed;top:-14px;pointer-events:none;z-index:60;width:12px;height:7px;border-radius:0 80% 0 80%;animation:lf 2.4s ease-in forwards}
+@keyframes lf{to{transform:translate(var(--dx),70vh) rotate(420deg);opacity:0}}
+
+/* ---------- floating close ---------- */
+.fclose{position:fixed;bottom:16px;left:50%;transform:translate(-50%,20px);z-index:40;display:inline-flex;align-items:center;gap:8px;min-height:48px;padding:0 20px;border-radius:999px;border:none;background:var(--deep);color:#fbf8ef;font:600 15.5px var(--f-body);box-shadow:0 8px 24px -8px rgba(0,0,0,.4);opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;max-width:calc(100vw - 32px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fclose.show{opacity:1;pointer-events:auto;transform:translate(-50%,0)}
+.fclose svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;flex:none}
+
+/* ---------- gentle reveal on scroll ---------- */
+@media (prefers-reduced-motion:no-preference){
+  html.anim section[data-sec],html.anim .corner,html.anim .soon,html.anim .notice{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease}
+  html.anim .seen{opacity:1!important;transform:none!important}
+}
+
+/* ---------- header art: depth ---------- */
+.haze{pointer-events:none}
+.tshadow{fill:#2f4426;opacity:.14}
+
+.soon-list li{grid-template-columns:66px 1fr 42px!important}
+.soon-list .when b{font-size:22px!important}
+.soon-list .when b.w{font-size:20px!important}
+.issue-nav::after{border:none!important;border-left:2.5px solid currentColor!important;border-bottom:2.5px solid currentColor!important;transform:rotate(45deg)!important;width:10px!important;height:10px!important}
+
+section[data-sec] > :not(.sec-ill):not(.kicker):not(h2){clear:both}
 </style>
 
 </head>
@@ -754,7 +870,7 @@ main a:not(.cal):not(.share):not(.issue-nav):not(.fp-more):not(.tel){color:var(-
 <div class="topbar" id="topbar">
   <div class="appbar">
     <button type="button" class="mini" id="mini" aria-label="לראש העמוד"><img class="rl" src="img/logo_round.png" alt=""><b><i>מיד</i>עצמון</b><span id="mini-n"></span></button>
-    <div class="acts">
+    <span class="mid" id="mid"></span><div class="acts">
       <button type="button" class="act" id="btn-search" aria-expanded="false" aria-controls="p-search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M16.5 16.5 21 21"/></svg><span>חיפוש</span></button>
       <button type="button" class="act" id="btn-fs" aria-expanded="false" aria-controls="p-fs"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 19 8 6l5 13M4.8 15h6.4M15 19l3.5-9 3.5 9M16 16.5h5"/></svg><span>גודל טקסט</span></button>
     </div>
@@ -794,11 +910,11 @@ main a:not(.cal):not(.share):not(.issue-nav):not(.fp-more):not(.tel){color:var(-
   <defs>
     <linearGradient id="skyg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" class="sk0"/><stop offset=".6" class="sk1"/><stop offset="1" class="sk2"/></linearGradient>
     <filter id="grain" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="table" tableValues="0 .5"/></feComponentTransfer></filter>
-    <path id="road" d="M560 330C590 300 640 296 650 276S600 250 640 236 700 222 690 210"/>
+    <linearGradient id="hazeg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fffdf5" stop-opacity="0"/><stop offset=".35" stop-color="#fffdf5" stop-opacity=".38"/><stop offset="1" stop-color="#fffdf5" stop-opacity="0"/></linearGradient><radialGradient id="glow" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#fff3c9" stop-opacity=".45"/><stop offset="1" stop-color="#fff3c9" stop-opacity="0"/></radialGradient><path id="road" d="M560 330C590 300 640 296 650 276S600 250 640 236 700 222 690 210"/>
   </defs>
   <rect class="sky" x="0" y="0" width="1200" height="320" fill="url(#skyg)"/>
   <g class="stars" fill="#fffdf8"><circle cx="300" cy="40" r="1.6"/><circle cx="370" cy="70" r="1.2"/><circle cx="450" cy="30" r="1.4"/><circle cx="540" cy="58" r="1.1"/><circle cx="610" cy="24" r="1.5"/><circle cx="700" cy="66" r="1.1"/><circle cx="760" cy="34" r="1.4"/><circle cx="930" cy="52" r="1.2"/><circle cx="240" cy="80" r="1.2"/></g>
-  <g class="sun"><circle cx="860" cy="84" r="34" fill="#f1e3b3"/></g>
+  <g class="sun"><circle cx="860" cy="84" r="80" fill="url(#glow)"/><circle cx="860" cy="84" r="34" fill="#f1e3b3"/></g>
   <g class="moon"><path d="M858 58a26 26 0 1 0 26 36 21 21 0 1 1-26-36z" fill="#f4efd9"/></g>
   <g class="clouds c-light" fill="#fffdf8" opacity=".92"><ellipse cx="400" cy="78" rx="44" ry="13"/><ellipse cx="428" cy="68" rx="26" ry="14"/><ellipse cx="980" cy="120" rx="34" ry="10"/><ellipse cx="998" cy="112" rx="18" ry="10"/></g>
   <g class="clouds c-heavy" fill="#d9ddd6"><ellipse cx="320" cy="56" rx="90" ry="24"/><ellipse cx="380" cy="42" rx="54" ry="22"/><ellipse cx="640" cy="50" rx="100" ry="22"/><ellipse cx="690" cy="36" rx="56" ry="20"/><ellipse cx="930" cy="56" rx="94" ry="24"/><ellipse cx="870" cy="44" rx="50" ry="20"/></g>
@@ -810,7 +926,7 @@ main a:not(.cal):not(.share):not(.issue-nav):not(.fp-more):not(.tel){color:var(-
       <path d="M180 214l90-14 70 6-80 16z"/><path class="f2" d="M260 222l80-16 80 4-70 18z"/><path class="f3" d="M350 226l70-18 90 2-60 20z"/>
       <path class="f2" d="M860 210l90-12 60 6-80 14z"/><path d="M940 218l70-14 80 4-66 16z"/><path class="f3" d="M1010 224l80-14 70 4-60 16z"/>
     </g>
-    <path class="h2" d="M0 236C120 220 260 214 380 222S520 236 560 222 620 196 700 192 860 200 960 218 1120 230 1200 228V320H0Z"/>
+    <rect class="haze" x="0" y="140" width="1200" height="120" fill="url(#hazeg)"/><path class="h2" d="M0 236C120 220 260 214 380 222S520 236 560 222 620 196 700 192 860 200 960 218 1120 230 1200 228V320H0Z"/>
     <g class="pines"><circle cx="560" cy="214" r="12"/><circle cx="574" cy="206" r="10"/><circle cx="830" cy="204" r="12"/><circle cx="846" cy="210" r="9"/><circle cx="742" cy="190" r="10"/></g>
     <g class="cyp"><path d="M590 214c-5-16-4-38 3-52 8 14 9 36 3 52z"/><path d="M606 216c-4-12-3-30 2-41 6 11 7 29 2 41z"/><path d="M812 206c-5-15-4-34 3-46 7 12 8 31 3 46z"/><path d="M308 232c-4-12-3-28 3-38 6 10 7 26 3 38z"/></g>
     <g class="houses">
@@ -826,7 +942,7 @@ main a:not(.cal):not(.share):not(.issue-nav):not(.fp-more):not(.tel){color:var(-
     <g class="smoke" fill="#fffdf8"><circle cx="685" cy="168" r="4"/><circle cx="688" cy="158" r="5"/><circle cx="684" cy="146" r="6"/></g>
     <use href="#road" class="road"/>
     <path class="h3" d="M0 268C140 252 260 250 400 260S560 280 600 278 760 256 900 258 1120 270 1200 264V320H0Z"/>
-    <g class="olives">
+    <g class="tshadows"><ellipse class="tshadow" cx="336" cy="278" rx="34" ry="5"/><ellipse class="tshadow" cx="472" cy="281" rx="22" ry="4"/><ellipse class="tshadow" cx="910" cy="273" rx="40" ry="5"/></g><g class="olives">
       <g class="tree"><path class="trunk" d="M330 276v-14"/><ellipse cx="330" cy="254" rx="26" ry="16"/><ellipse cx="352" cy="258" rx="15" ry="11"/></g>
       <g class="tree"><path class="trunk" d="M470 280v-12"/><ellipse cx="470" cy="262" rx="20" ry="13"/></g>
       <g class="tree swingtree"><path class="trunk" d="M904 272v-22"/><ellipse cx="904" cy="238" rx="32" ry="18"/><ellipse cx="930" cy="244" rx="18" ry="12"/></g>
@@ -842,7 +958,7 @@ main a:not(.cal):not(.share):not(.issue-nav):not(.fp-more):not(.tel){color:var(-
     <g class="bloom"><circle cx="240" cy="292" r="3"/><circle cx="256" cy="296" r="3"/><circle cx="520" cy="300" r="3"/><circle cx="986" cy="292" r="3"/><circle cx="1002" cy="296" r="3"/></g>
     <path class="h4" d="M0 300C180 288 340 290 520 298S860 308 1200 292V320H0Z"/>
   </g>
-  <rect class="fog" x="0" y="120" width="1200" height="200"/>
+  <rect class="haze" x="0" y="96" width="1200" height="150" fill="url(#hazeg)"/><rect class="fog" x="0" y="120" width="1200" height="200"/>
   <rect class="grain" x="0" y="0" width="1200" height="320" filter="url(#grain)"/>
 </svg><div class="fx" aria-hidden="true"></div></div>
     <div class="switcher">
@@ -896,9 +1012,9 @@ main a:not(.cal):not(.share):not(.issue-nav):not(.fp-more):not(.tel){color:var(-
         <p>מה נגיד? נגמר לנו הכוח. שנהיה בריאים, שנשלם בשקט, ורק שיתנו לנו לחיות בשלום – כי כבר מאסנו במלחמות, ביוקר המחיה, בשקרים והעבודה בעיניים.</p>
       </details>
       <div class="byline"><span class="avs"><img src="img/w_nir.jpg" alt="ניר שנק"><img src="img/w_zigi.jpg" alt="זיגי זיגלמן"></span><span class="bl-t"><b>שבת שלום! ניר וזיגי</b><small>ניר שנק ויעקב (זיגי) זיגלמן, עורכי מידעצמון</small></span></div>
-    </article>
+    </article><div class="rx" data-item="editor" data-title="דברי פתיחה"><button type="button" class="rx-b" data-e="heart" aria-label="אהבתי">❤️<span></span></button><button type="button" class="rx-b" data-e="laugh" aria-label="מצחיק">😂<span></span></button><button type="button" class="rx-b" data-e="wow" aria-label="מרשים">😮<span></span></button><button type="button" class="rx-b" data-e="clap" aria-label="כל הכבוד">👏<span></span></button><button type="button" class="rx-share" aria-label="שיתוף: דברי פתיחה"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 8l5-5 5 5M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg>שיתוף</button></div>
   </section>
-<section class="soon" aria-labelledby="soon-h"><div class="soon-h" id="soon-h">בקרוב בעצמון<small>לכל הקהילה</small></div><ol class="soon-list"></ol><a class="fp-more" href="#week">לכל האירועים</a></section>
+<section class="soon" aria-labelledby="soon-h"><div class="soon-h" id="soon-h"><span class="t"><b>בקרוב בעצמון</b><small>כולם מוזמנים</small></span><button type="button" class="soon-f" aria-expanded="false" aria-controls="soon-cats"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5h18l-7 8v5l-4 2v-7z"/></svg>סינון</button></div><div class="soon-cats" id="soon-cats" hidden></div><ol class="soon-list"></ol><a class="fp-more" href="#week">לכל האירועים</a></section>
 
   <aside class="inshort" aria-label="בקצרה">
     <div class="is-head">בקצרה השבוע</div>
@@ -954,7 +1070,7 @@ main a:not(.cal):not(.share):not(.issue-nav):not(.fp-more):not(.tel){color:var(-
         <h4>מועד הישיבה הבאה</h4>
         <p>הישיבה הבאה תתקיים ביום שלישי, 20.10.26, בשעה 19:30.</p>
       </div>
-    </details>
+    </details><div class="rx" data-item="vaad" data-title="מהוועד"><button type="button" class="rx-b" data-e="heart" aria-label="אהבתי">❤️<span></span></button><button type="button" class="rx-b" data-e="laugh" aria-label="מצחיק">😂<span></span></button><button type="button" class="rx-b" data-e="wow" aria-label="מרשים">😮<span></span></button><button type="button" class="rx-b" data-e="clap" aria-label="כל הכבוד">👏<span></span></button><button type="button" class="rx-share" aria-label="שיתוף: מהוועד"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 8l5-5 5 5M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg>שיתוף</button></div>
   </section>
 
   <section data-sec="board">
@@ -1012,15 +1128,15 @@ main a:not(.cal):not(.share):not(.issue-nav):not(.fp-more):not(.tel){color:var(-
             <p>"ויאמר ה' לנח: בא אתה וכל ביתך אל התיבה". לפעמים, כשיש מבול, צריך להתכנס פנימה, אל תוך תיבה. פרשנינו מסבירים שזו קריאה לכל אחד מאיתנו: מהי תיבת נח שלך? בעידן של חרדות, טרדות והסחות דעת, מה נותן לנו עוגן וחוסן? וגם: "צא מן התיבה" – צריך לדעת מתי להיכנס, וגם מתי לצאת אל העולם.</p>
             <p>ובשבע מצוות בני נח, שהן המינימום המוסרי של כל אדם: לא לעבוד עבודה זרה, לא לקלל את האלוהים, לא לרצוח, לא לגזול, לא לגלות עריות, לא לאכול אבר מן החי, ולשפוט לפי החוק.</p>
           </details>
-        </div>
+        <div class="rx" data-item="c1" data-title="פרשת נח"><button type="button" class="rx-b" data-e="heart" aria-label="אהבתי">❤️<span></span></button><button type="button" class="rx-b" data-e="laugh" aria-label="מצחיק">😂<span></span></button><button type="button" class="rx-b" data-e="wow" aria-label="מרשים">😮<span></span></button><button type="button" class="rx-b" data-e="clap" aria-label="כל הכבוד">👏<span></span></button><button type="button" class="rx-share" aria-label="שיתוף: פרשת נח"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 8l5-5 5 5M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg>שיתוף</button></div></div>
       </article>
 
-      <article class="corner">
-        <div class="in">
+      <article class="corner side">
+        <div class="img ill" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 5.5A2.5 2.5 0 0 1 7.5 3H19v15H7.5A2.5 2.5 0 0 0 5 20.5zM5 20.5A2.5 2.5 0 0 0 7.5 23H19v-5"/></svg></div><div class="in">
           <div class="label">קטע קריאה או ספר שאהבתי</div>
           <h3>לזכרו של יהודה אטלס</h3>
           <p>המשורר והסופר יהודה אטלס, שכתב לדורות של ילדים ישראלים את "כשאני יהיה גדול" ו"ככה זה כשאתה גדול", הלך החודש לעולמו. בגיליון בחרו העורכים שלושה משיריו לזכרו: "איפה היו השכנים?", שיר על רגע של קרבה בין אב לבת, ושיר על אישה שבאה הביתה עם ריחות מעיר אחרת. שווה להוריד מהמדף ולקרוא שוב, הפעם בקול, עם הנכדים.</p>
-        </div>
+        <div class="rx" data-item="c2" data-title="לזכרו של יהודה אטלס"><button type="button" class="rx-b" data-e="heart" aria-label="אהבתי">❤️<span></span></button><button type="button" class="rx-b" data-e="laugh" aria-label="מצחיק">😂<span></span></button><button type="button" class="rx-b" data-e="wow" aria-label="מרשים">😮<span></span></button><button type="button" class="rx-b" data-e="clap" aria-label="כל הכבוד">👏<span></span></button><button type="button" class="rx-share" aria-label="שיתוף: לזכרו של יהודה אטלס"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 8l5-5 5 5M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg>שיתוף</button></div></div>
       </article>
 
       <article class="corner side">
@@ -1034,7 +1150,7 @@ main a:not(.cal):not(.share):not(.issue-nav):not(.fp-more):not(.tel){color:var(-
             <p><b>נקודה שווה לקפה:</b> כמה מדרגות יורדות אל המפל, שם, תחת עץ, ממתינה פינת ישיבה קסומה. על משטח הטיילת מוטבעים פסוקים, הלקוחים מהתנ"ך ובהם מוזכר הירדן.</p>
             <p><b>מתי לבוא:</b> כל השנה. בחורפים גשומים פני הירדן עולים, המים מטפסים על הגדות, והמפל כמעט נעלם. מומלץ להימנע משימוש בכלים חד-פעמיים, בהתאם לחוקי המועצה האזורית.</p>
           </details>
-        </div>
+        <div class="rx" data-item="c3" data-title="טיילת עמי ומפגש מקורות הירדן"><button type="button" class="rx-b" data-e="heart" aria-label="אהבתי">❤️<span></span></button><button type="button" class="rx-b" data-e="laugh" aria-label="מצחיק">😂<span></span></button><button type="button" class="rx-b" data-e="wow" aria-label="מרשים">😮<span></span></button><button type="button" class="rx-b" data-e="clap" aria-label="כל הכבוד">👏<span></span></button><button type="button" class="rx-share" aria-label="שיתוף: טיילת עמי ומפגש מקורות הירדן"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 8l5-5 5 5M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg>שיתוף</button></div></div>
       </article>
 
       <article class="corner side">
@@ -1049,7 +1165,7 @@ main a:not(.cal):not(.share):not(.issue-nav):not(.fp-more):not(.tel){color:var(-
             <li><b>השקיה:</b> הגשמים עוד לא מספיקים, אז ממשיכים להשקות, אבל מגדילים את המרווחים.</li>
             <li><b>מדשאה:</b> לפני הגשמים הראשונים מגביהים את הכיסוח ל-7–10 ס"מ, כדי שלא תיחשף לקור.</li>
           </ul>
-        </div>
+        <div class="rx" data-item="c4" data-title="הגינה בסתיו: מה עושים עכשיו"><button type="button" class="rx-b" data-e="heart" aria-label="אהבתי">❤️<span></span></button><button type="button" class="rx-b" data-e="laugh" aria-label="מצחיק">😂<span></span></button><button type="button" class="rx-b" data-e="wow" aria-label="מרשים">😮<span></span></button><button type="button" class="rx-b" data-e="clap" aria-label="כל הכבוד">👏<span></span></button><button type="button" class="rx-share" aria-label="שיתוף: הגינה בסתיו: מה עושים עכשיו"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 8l5-5 5 5M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg>שיתוף</button></div></div>
       </article>
 
       <article class="corner side">
@@ -1062,19 +1178,19 @@ main a:not(.cal):not(.share):not(.issue-nav):not(.fp-more):not(.tel){color:var(-
             <p><b>במכבי חיפה:</b> אלי דסה חתם לשנתיים, חיזוק משמעותי לירוקים לפני שזומן לחלון האחרון. הוא מצטרף מיד לסגל של ברק בכר.</p>
             <p><b>הברק חזר?</b> ארבעה ניצחונות ברציפות, כולל 1:4 על הפועל ירושלים בטדי. זו הפתיחה הטובה ביותר של בכר מאז עונת האליפות השלישית שלו, עם 15 נקודות בשישה מחזורים. ההתקפה מביאה ניצחונות, אבל ההגנה עוד לא מספקת את הסחורה. אולי דסה יביא את השינוי.</p>
           </details>
-        </div>
+        <div class="rx" data-item="c5" data-title="הפועל חיפה חגגה בתוספת הזמן"><button type="button" class="rx-b" data-e="heart" aria-label="אהבתי">❤️<span></span></button><button type="button" class="rx-b" data-e="laugh" aria-label="מצחיק">😂<span></span></button><button type="button" class="rx-b" data-e="wow" aria-label="מרשים">😮<span></span></button><button type="button" class="rx-b" data-e="clap" aria-label="כל הכבוד">👏<span></span></button><button type="button" class="rx-share" aria-label="שיתוף: הפועל חיפה חגגה בתוספת הזמן"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 8l5-5 5 5M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg>שיתוף</button></div></div>
       </article>
 
-      <article class="corner">
-        <div class="in">
+      <article class="corner side">
+        <div class="img ill" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 7H6v5h3c0 2-1 3-3 3v2c3 0 5-2 5-5V7zM19 7h-4v5h3c0 2-1 3-3 3v2c3 0 5-2 5-5V7z"/></svg></div><div class="in">
           <div class="label"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 7H6v5h3c0 2-1 3-3 3v2c3 0 5-2 5-5V7zM19 7h-4v5h3c0 2-1 3-3 3v2c3 0 5-2 5-5V7z"/></svg><span>האקדמיה ללשון עברית</span></div>
           <h3>כֵּן, ולא "כֵּנֶה"</h3>
           <p>אדם גלוי וישר אינו "כֵּנֶה" אלא כֵּן. המילה שייכת לשורשי ע"ו, כמו עָר, עֵד ומֵת, ונטייתה: כֵּנָה, כֵּנִים, כֵּנוֹת. הצורה "כֵּנֶה" נוצרה בהשפעת צורות כמו גֵּאֶה, זֵהֶה וכֵּהֶה. הפיצו לכל מי שצריכים לדעת: הכי נכון לומר לה כן!</p>
-        </div>
+        <div class="rx" data-item="c6" data-title="כֵּן, ולא &quot;כֵּנֶה&quot;"><button type="button" class="rx-b" data-e="heart" aria-label="אהבתי">❤️<span></span></button><button type="button" class="rx-b" data-e="laugh" aria-label="מצחיק">😂<span></span></button><button type="button" class="rx-b" data-e="wow" aria-label="מרשים">😮<span></span></button><button type="button" class="rx-b" data-e="clap" aria-label="כל הכבוד">👏<span></span></button><button type="button" class="rx-share" aria-label="שיתוף: כֵּן, ולא &quot;כֵּנֶה&quot;"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 8l5-5 5 5M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg>שיתוף</button></div></div>
       </article>
 
-      <article class="corner">
-        <div class="in">
+      <article class="corner side">
+        <div class="img ill" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 19C5 11 11 5 19 5c0 8-6 14-14 14zM5 19l7.5-7.5"/></svg></div><div class="in">
           <div class="label"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19C5 11 11 5 19 5c0 8-6 14-14 14zM5 19l7.5-7.5"/></svg><span>תרופות סבתא</span></div>
           <h3>שיעול בלי תרופות</h3>
           <ul>
@@ -1083,14 +1199,14 @@ main a:not(.cal):not(.share):not(.issue-nav):not(.fp-more):not(.tel){color:var(-
             <li><b>לישון בתנוחה נכונה:</b> כרית נוספת מתחת לראש מקלה על הנשימה.</li>
             <li><b>מכשיר אדים קרים:</b> בחדר השינה, ואפשר להוסיף כמה טיפות שמן אקליפטוס.</li>
           </ul>
-        </div>
+        <div class="rx" data-item="c7" data-title="שיעול בלי תרופות"><button type="button" class="rx-b" data-e="heart" aria-label="אהבתי">❤️<span></span></button><button type="button" class="rx-b" data-e="laugh" aria-label="מצחיק">😂<span></span></button><button type="button" class="rx-b" data-e="wow" aria-label="מרשים">😮<span></span></button><button type="button" class="rx-b" data-e="clap" aria-label="כל הכבוד">👏<span></span></button><button type="button" class="rx-share" aria-label="שיתוף: שיעול בלי תרופות"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 8l5-5 5 5M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg>שיתוף</button></div></div>
       </article>
 
       <article class="corner side">
         <img class="img" src="img/e_ai.jpg" alt="איור של מרעיון לתמונה" loading="lazy">
         <div class="in">
-          <div class="label"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 3l1.8 5.2L18 10l-5.2 1.8L11 17l-1.8-5.2L4 10l5.2-1.8zM18.5 15l.8 2.2 2.2.8-2.2.8-.8 2.2-.8-2.2-2.2-.8 2.2-.8z"/></svg><span>פינת ה-AI · מאמר מס' 57 · מגיש שמוליק נוי</span></div>
-          <h3>איך ליצור תמונות AI מדויקות יותר</h3>
+          <div class="label"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 3l1.8 5.2L18 10l-5.2 1.8L11 17l-1.8-5.2L4 10l5.2-1.8zM18.5 15l.8 2.2 2.2.8-2.2.8-.8 2.2-.8-2.2-2.2-.8 2.2-.8z"/></svg><span>פינת ה-AI</span></div>
+          <h3>איך ליצור תמונות AI מדויקות יותר</h3><p class="c-meta">מאמר מס' 57 · מגיש שמוליק נוי</p>
           <p>ביקשתם תמונה ולא קיבלתם בדיוק מה שרציתם? במקום לנסח בכל פעם בקשה מאפס, אפשר לעבוד עם תבנית פרומפט קבועה בארבעה חלקים:</p>
           <ol>
             <li><b>הרעיון המרכזי:</b> מה יוצרים ולשם מה. "תמונה מדהימה" לא מספיק; "איור למאמר על מעבר מעומס לסדר" נותן כיוון.</li>
@@ -1101,7 +1217,7 @@ main a:not(.cal):not(.share):not(.issue-nav):not(.fp-more):not(.tel){color:var(-
           <details class="more"><summary>איך לנסות ולשפר</summary>
             <p>בחרו כלי שיש לכם גישה אליו (למשל ChatGPT או Google AI), הדביקו את הפרומפט המלא, ובדקו את התמונה מול הבקשה. במקום להתחיל מחדש, בקשו תיקון ממוקד אחד בכל פעם, למשל "הרחיבו את השטח הפנוי בצד שמאל", ושמרו את התבנית שעבדה לפעם הבאה.</p>
           </details>
-        </div>
+        <div class="rx" data-item="c8" data-title="איך ליצור תמונות AI מדויקות יותר"><button type="button" class="rx-b" data-e="heart" aria-label="אהבתי">❤️<span></span></button><button type="button" class="rx-b" data-e="laugh" aria-label="מצחיק">😂<span></span></button><button type="button" class="rx-b" data-e="wow" aria-label="מרשים">😮<span></span></button><button type="button" class="rx-b" data-e="clap" aria-label="כל הכבוד">👏<span></span></button><button type="button" class="rx-share" aria-label="שיתוף: איך ליצור תמונות AI מדויקות יותר"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 8l5-5 5 5M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg>שיתוף</button></div></div>
       </article>
 
       <article class="corner side">
@@ -1111,20 +1227,20 @@ main a:not(.cal):not(.share):not(.issue-nav):not(.fp-more):not(.tel){color:var(-
           <h3>הלחם והדגים, עכו</h3>
           <p>מאז 1962 פועלת בעכו מסעדת "הלחם והדגים" של משפחת חנא, ומגישה דגים, פירות ים, בשרים ותוספות משובחות. ב-1995 שופצה ונפתחה מחדש בטיילת עכו החדשה, מול הים, עם יצירות אמנות על הקירות ותריסים צבעוניים. הארוחה מתחילה בסלטים בדרך המסורתית: חומוס, טחינה, חצילים, טבולה, סלט טורקי ועוד.</p>
           <p><b>כתובת:</b> ההגנה 30, עכו, הטיילת · <b>שעות:</b> א'–שבת 12:30–01:00 · <b>טלפון:</b> <span class="ltr">04-9819023</span> · נגיש לנכים</p>
-        </div>
+        <div class="rx" data-item="c9" data-title="הלחם והדגים, עכו"><button type="button" class="rx-b" data-e="heart" aria-label="אהבתי">❤️<span></span></button><button type="button" class="rx-b" data-e="laugh" aria-label="מצחיק">😂<span></span></button><button type="button" class="rx-b" data-e="wow" aria-label="מרשים">😮<span></span></button><button type="button" class="rx-b" data-e="clap" aria-label="כל הכבוד">👏<span></span></button><button type="button" class="rx-share" aria-label="שיתוף: הלחם והדגים, עכו"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 8l5-5 5 5M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg>שיתוף</button></div></div>
       </article>
 
-      <article class="corner">
-        <div class="in">
+      <article class="corner side">
+        <div class="img ill" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20 4C12 4 7 9 6 18M6 18c5 0 10-3 12-9M6 18l-2 2.5"/></svg></div><div class="in">
           <div class="label"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 4C12 4 7 9 6 18M6 18c5 0 10-3 12-9M6 18l-2 2.5"/></svg><span>סיפור לשבת</span></div>
           <h3>הצרצר ברחוב הסואן</h3>
           <p>שני חברים טיילו בצהריים ברחוב הומה. פתאום עצר אחד מהם, התכופף והוציא מתחת לגדר צרצר קטן. "איך שמעת אותו בתוך כל הרעש הזה?" שאל חברו. "אין לי שום יכולת מיוחדת", ענה. "בוא נבדוק". הוא הוציא מטבע מכיסו והשליך אותו על המדרכה, ומיד עצרו כל האנשים מסביב והתחילו לחפש. "לכולנו יש כישרון הקשבה", אמר, "השאלה רק מה מעניין אותנו לשמוע".</p>
           <p><b>והנמשל:</b> כל המילים שילדינו אומרים, כל הצלילים המופלאים שבטבע, נעלמים בתוך אין קשב. רגע להבחין, לבחור לשמוע, לדעת.</p>
-        </div>
+        <div class="rx" data-item="c10" data-title="הצרצר ברחוב הסואן"><button type="button" class="rx-b" data-e="heart" aria-label="אהבתי">❤️<span></span></button><button type="button" class="rx-b" data-e="laugh" aria-label="מצחיק">😂<span></span></button><button type="button" class="rx-b" data-e="wow" aria-label="מרשים">😮<span></span></button><button type="button" class="rx-b" data-e="clap" aria-label="כל הכבוד">👏<span></span></button><button type="button" class="rx-share" aria-label="שיתוף: הצרצר ברחוב הסואן"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 8l5-5 5 5M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg>שיתוף</button></div></div>
       </article>
 
-      <div class="corner humor">
-        <div class="in">
+      <div class="corner humor side">
+        <div class="img ill" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8.5 14.5a4.2 4.2 0 0 0 7 0M9 9.5v.5M15 9.5v.5"/></svg></div><div class="in">
           <div class="label">פינת הבדיחות</div>
           <h3>שלוש בדיחות לשבת</h3>
           <div class="notes">
@@ -1132,7 +1248,7 @@ main a:not(.cal):not(.share):not(.issue-nav):not(.fp-more):not(.tel){color:var(-
             <p class="sticky alt" style="--r:1.5deg">חיים ומשה בבית קפה. פתאום נשמע קול צפירה של מכבי אש. "סלח לי", אומר חיים, "אני חייב לרוץ". "לא ידעתי שאתה כבאי". "אני לא. בעלה של השכנה שלי כן".</p>
             <p class="sticky" style="--r:1deg">סבתא לנכדה: "אתה אוהב סרטים מצוירים?" "מאוד! אבל אבא ואמא מפחדים מזה". "למה?" "כל פעם שהם שמים לי סרט מצויר, הם רצים לחדר השינה ומתחבאים מתחת לשמיכה".</p>
           </div>
-        </div>
+        <div class="rx" data-item="c11" data-title="שלוש בדיחות לשבת"><button type="button" class="rx-b" data-e="heart" aria-label="אהבתי">❤️<span></span></button><button type="button" class="rx-b" data-e="laugh" aria-label="מצחיק">😂<span></span></button><button type="button" class="rx-b" data-e="wow" aria-label="מרשים">😮<span></span></button><button type="button" class="rx-b" data-e="clap" aria-label="כל הכבוד">👏<span></span></button><button type="button" class="rx-share" aria-label="שיתוף: שלוש בדיחות לשבת"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 8l5-5 5 5M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg>שיתוף</button></div></div>
       </div>
 
     </div>
@@ -1153,7 +1269,7 @@ main a:not(.cal):not(.share):not(.issue-nav):not(.fp-more):not(.tel){color:var(-
         <li><span class="d">21.10</span><span>יוכי וינשטיין, רומי מרינברג, איה שטיינר, אינה פולסקי</span></li>
         <li><span class="d">22.10</span><span>יצחק זרצקי, יובל אריאלי, יוגב צרפתי</span></li>
       </ul>
-    </div>
+    </div><div class="rx" data-item="mazal" data-title="מזל טוב"><button type="button" class="rx-b" data-e="heart" aria-label="אהבתי">❤️<span></span></button><button type="button" class="rx-b" data-e="laugh" aria-label="מצחיק">😂<span></span></button><button type="button" class="rx-b" data-e="wow" aria-label="מרשים">😮<span></span></button><button type="button" class="rx-b" data-e="clap" aria-label="כל הכבוד">👏<span></span></button><button type="button" class="rx-share" aria-label="שיתוף: מזל טוב"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 8l5-5 5 5M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg>שיתוף</button></div>
   </section>
 
   <section data-sec="talk" class="talk">
@@ -1210,9 +1326,9 @@ main a:not(.cal):not(.share):not(.issue-nav):not(.fp-more):not(.tel){color:var(-
         <p>הלוואי ונשמע רק בשורות טובות...</p>
       </details>
       <div class="byline"><span class="avs"><img src="img/w_nir.jpg" alt="ניר שנק"><img src="img/w_zigi.jpg" alt="זיגי זיגלמן"></span><span class="bl-t"><b>שבת שלום! ניר וזיגי</b><small>ניר שנק ויעקב (זיגי) זיגלמן, עורכי מידעצמון</small></span></div>
-    </article>
+    </article><div class="rx" data-item="editor" data-title="דברי פתיחה"><button type="button" class="rx-b" data-e="heart" aria-label="אהבתי">❤️<span></span></button><button type="button" class="rx-b" data-e="laugh" aria-label="מצחיק">😂<span></span></button><button type="button" class="rx-b" data-e="wow" aria-label="מרשים">😮<span></span></button><button type="button" class="rx-b" data-e="clap" aria-label="כל הכבוד">👏<span></span></button><button type="button" class="rx-share" aria-label="שיתוף: דברי פתיחה"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 8l5-5 5 5M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg>שיתוף</button></div>
   </section>
-<section class="soon" aria-labelledby="soon-h"><div class="soon-h" id="soon-h">בקרוב בעצמון<small>לכל הקהילה</small></div><ol class="soon-list"></ol><a class="fp-more" href="#week">לכל האירועים</a></section>
+<section class="soon" aria-labelledby="soon-h"><div class="soon-h" id="soon-h"><span class="t"><b>בקרוב בעצמון</b><small>כולם מוזמנים</small></span><button type="button" class="soon-f" aria-expanded="false" aria-controls="soon-cats"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5h18l-7 8v5l-4 2v-7z"/></svg>סינון</button></div><div class="soon-cats" id="soon-cats" hidden></div><ol class="soon-list"></ol><a class="fp-more" href="#week">לכל האירועים</a></section>
 
   <aside class="inshort" aria-label="בקצרה">
     <div class="is-head">בקצרה השבוע</div>
@@ -1306,7 +1422,7 @@ main a:not(.cal):not(.share):not(.issue-nav):not(.fp-more):not(.tel){color:var(-
         <h4>עבודה עם מפוח ביישוב</h4>
         <p>התקבלה פנייה להפסיק את השימוש במפוח ליד בית משפחה. השימוש מותר בחוק וחיוני לניקיון השבילים, אך יש להימנע ככל האפשר מרעש ומטרד באזורי מגורים.</p>
       </div>
-    </details>
+    </details><div class="rx" data-item="vaad" data-title="מהוועד"><button type="button" class="rx-b" data-e="heart" aria-label="אהבתי">❤️<span></span></button><button type="button" class="rx-b" data-e="laugh" aria-label="מצחיק">😂<span></span></button><button type="button" class="rx-b" data-e="wow" aria-label="מרשים">😮<span></span></button><button type="button" class="rx-b" data-e="clap" aria-label="כל הכבוד">👏<span></span></button><button type="button" class="rx-share" aria-label="שיתוף: מהוועד"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 8l5-5 5 5M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg>שיתוף</button></div>
   </section>
 
   <section data-sec="board">
@@ -1349,7 +1465,7 @@ main a:not(.cal):not(.share):not(.issue-nav):not(.fp-more):not(.tel){color:var(-
     <div class="thanks">
       <blockquote>בהכרת התודה בגיליון הקודם לצוות החגים שכחנו להודות לנתן וזאב. אז נתן רגב וזאב לוי היקרים, בשם הוועדה ובשם כל עצמון, תודה על העזרה בסידור המועדון לקראת תפילת יום כיפור. יישר כוח!<cite>תודה לנילי פוירשטיין שהעירה</cite></blockquote>
       <blockquote>תודה גדולה לאיתי גור אריה ולכל מי שעזר בהפעלת הקרנת הטקס הלאומי המרגש והכואב של ה-7.10, ולצוות הקונטיינר המסור שהיה שם לכל דבר. שנדע ימים טובים במהרה.</blockquote>
-    </div>
+    </div><div class="rx" data-item="thanks" data-title="תודות"><button type="button" class="rx-b" data-e="heart" aria-label="אהבתי">❤️<span></span></button><button type="button" class="rx-b" data-e="laugh" aria-label="מצחיק">😂<span></span></button><button type="button" class="rx-b" data-e="wow" aria-label="מרשים">😮<span></span></button><button type="button" class="rx-b" data-e="clap" aria-label="כל הכבוד">👏<span></span></button><button type="button" class="rx-share" aria-label="שיתוף: תודות"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 8l5-5 5 5M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg>שיתוף</button></div>
   </section>
 
   <section data-sec="corners">
@@ -1368,7 +1484,7 @@ main a:not(.cal):not(.share):not(.issue-nav):not(.fp-more):not(.tel){color:var(-
             <p>בפרשה אחת קצרה העולם נברא מאפס, והאנושות מספיקה לחוות את רגעי השיא שלה וגם להתרסק אל השפל: בריאת העולם בשישה ימים והשבת, אדם וחווה בגן עדן, החטא והגירוש, הרצח הראשון של קין והבל, ועשרה דורות של הידרדרות עד שנמצא צדיק אחד, נח.</p>
             <p>זהו סיפור על בחירה חופשית, סקרנות, יצר לב האדם והמחיר של האחריות. ב"שבת בראשית" מתחילים לקרוא את התורה מחדש. זוהי תזכורת: העולם נברא, יש לו תכלית, הכאוס לא שולט בו, והאור ינצח לבסוף את החושך.</p>
           </details>
-        </div>
+        <div class="rx" data-item="c1" data-title="בראשית"><button type="button" class="rx-b" data-e="heart" aria-label="אהבתי">❤️<span></span></button><button type="button" class="rx-b" data-e="laugh" aria-label="מצחיק">😂<span></span></button><button type="button" class="rx-b" data-e="wow" aria-label="מרשים">😮<span></span></button><button type="button" class="rx-b" data-e="clap" aria-label="כל הכבוד">👏<span></span></button><button type="button" class="rx-share" aria-label="שיתוף: בראשית"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 8l5-5 5 5M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg>שיתוף</button></div></div>
       </article>
 
       <article class="corner side">
@@ -1377,7 +1493,7 @@ main a:not(.cal):not(.share):not(.issue-nav):not(.fp-more):not(.tel){color:var(-
           <div class="label"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 7H6v5h3c0 2-1 3-3 3v2c3 0 5-2 5-5V7zM19 7h-4v5h3c0 2-1 3-3 3v2c3 0 5-2 5-5V7z"/></svg><span>האקדמיה ללשון</span></div>
           <h3>זיכרון</h3>
           <p>המונח זיכרון מלווה אותנו משחר ימינו כעם. במקרא מצוות רבות שתכליתן לשמר זיכרון, כמו חג הפסח או האבנים שנלקחו מן הירדן. בטקסים הממלכתיים נאמר נוסח מיוחד של "יזכור", שיסודו בהספד שחיבר ברל כצנלסון על הרוגי תל חי.</p>
-        </div>
+        <div class="rx" data-item="c2" data-title="זיכרון"><button type="button" class="rx-b" data-e="heart" aria-label="אהבתי">❤️<span></span></button><button type="button" class="rx-b" data-e="laugh" aria-label="מצחיק">😂<span></span></button><button type="button" class="rx-b" data-e="wow" aria-label="מרשים">😮<span></span></button><button type="button" class="rx-b" data-e="clap" aria-label="כל הכבוד">👏<span></span></button><button type="button" class="rx-share" aria-label="שיתוף: זיכרון"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 8l5-5 5 5M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg>שיתוף</button></div></div>
       </article>
 
       <article class="corner side">
@@ -1391,7 +1507,7 @@ main a:not(.cal):not(.share):not(.issue-nav):not(.fp-more):not(.tel){color:var(-
             <ol><li>חולטים את העגבניות לרגע, מקלפים וקוצצים.</li><li>מטגנים בשמן זית את הפלפל, ואחריו השום והעגבניות עם מלח. מבשלים כ-7 דקות.</li><li>מביאים לרתיחה חזקה, ולפני שהנוזלים מתאדים שוברים פנימה את הביצים. לא מכסים.</li><li>מוכן כשהחלבון מתקרש והחלמון בדיוק כמו שאתם אוהבים.</li></ol>
             <h4 style="margin:14px 0 4px">וגם: ירקות בתנור לאנטיפסטי</h4><p>חותכים לחתיכות בגודל אחיד, מערבבים בקערה עם שמן ומלח, ומחלקים לתבניות לפי זמן הבישול (קשים, בינוניים, רכים). אופים מכוסה ב-170–180 מעלות עד שמתרככים, ואז מסירים את הנייר ומשחימים ב-230 מעלות בטורבו.</p>
           </details>
-        </div>
+        <div class="rx" data-item="c3" data-title="שקשוקה קלאסית, בגרסת אייל שני"><button type="button" class="rx-b" data-e="heart" aria-label="אהבתי">❤️<span></span></button><button type="button" class="rx-b" data-e="laugh" aria-label="מצחיק">😂<span></span></button><button type="button" class="rx-b" data-e="wow" aria-label="מרשים">😮<span></span></button><button type="button" class="rx-b" data-e="clap" aria-label="כל הכבוד">👏<span></span></button><button type="button" class="rx-share" aria-label="שיתוף: שקשוקה קלאסית, בגרסת אייל שני"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 8l5-5 5 5M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg>שיתוף</button></div></div>
       </article>
 
       <article class="corner side">
@@ -1403,7 +1519,7 @@ main a:not(.cal):not(.share):not(.issue-nav):not(.fp-more):not(.tel){color:var(-
           <details class="more"><summary>ומה עוד בנצרת</summary>
             <p>לקינוח, שתי דקות הליכה לכנאפה או קטאיף עם תה מרווה. לפני הארוחה אפשר לצאת לסיור: מעיין מרים וכנסיית גבריאל הקדוש, רחוב אל-בישארה, השוק העתיק, המסגד הלבן וכנסיית הבשורה.</p>
           </details>
-        </div>
+        <div class="rx" data-item="c4" data-title="תשרין, נצרת"><button type="button" class="rx-b" data-e="heart" aria-label="אהבתי">❤️<span></span></button><button type="button" class="rx-b" data-e="laugh" aria-label="מצחיק">😂<span></span></button><button type="button" class="rx-b" data-e="wow" aria-label="מרשים">😮<span></span></button><button type="button" class="rx-b" data-e="clap" aria-label="כל הכבוד">👏<span></span></button><button type="button" class="rx-share" aria-label="שיתוף: תשרין, נצרת"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 8l5-5 5 5M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg>שיתוף</button></div></div>
       </article>
 
       <article class="corner side">
@@ -1413,25 +1529,25 @@ main a:not(.cal):not(.share):not(.issue-nav):not(.fp-more):not(.tel){color:var(-
           <h3>אגמון החולה בתחילת אוקטובר</h3>
           <p>שיא נדידת הסתיו: להקות חסידות, שקנאים, העגורים הראשונים ועופות דורסים. מסלול אספלט מישורי של כ-8.5 ק"מ, ברגל, באופניים, ברכב גולף או בעגלת המסתור.</p>
           <p><b>טיפ:</b> להגיע עם הפתיחה או אחר הצהריים המאוחרים, כשהציפורים הכי פעילות והאור הכי יפה.</p>
-        </div>
+        <div class="rx" data-item="c5" data-title="אגמון החולה בתחילת אוקטובר"><button type="button" class="rx-b" data-e="heart" aria-label="אהבתי">❤️<span></span></button><button type="button" class="rx-b" data-e="laugh" aria-label="מצחיק">😂<span></span></button><button type="button" class="rx-b" data-e="wow" aria-label="מרשים">😮<span></span></button><button type="button" class="rx-b" data-e="clap" aria-label="כל הכבוד">👏<span></span></button><button type="button" class="rx-share" aria-label="שיתוף: אגמון החולה בתחילת אוקטובר"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 8l5-5 5 5M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg>שיתוף</button></div></div>
       </article>
 
-      <article class="corner">
-        <div class="in">
+      <article class="corner side">
+        <div class="img ill" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7.5l3.5 2.5-1.3 4h-4.4L8.5 10zM12 3v4.5M21 10.5l-5.5-.5M17.5 19.5l-3.3-5.5M6.5 19.5l3.3-5.5M3 10.5l5.5-.5"/></svg></div><div class="in">
           <div class="label"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7.5l3.5 2.5-1.3 4h-4.4L8.5 10zM12 3v4.5M21 10.5l-5.5-.5M17.5 19.5l-3.3-5.5M6.5 19.5l3.3-5.5M3 10.5l5.5-.5"/></svg><span>פינת הספורט</span></div>
           <h3>פתיחה מאכזבת לנבחרות</h3>
           <p>הנבחרת הבוגרת של רן בן שמעון השיגה 2 נקודות בלבד מ-12 בדרג ב' של ליגת האומות, ונמצאת במקום האחרון בבית:</p>
           <ul><li>אוסטריה – ישראל 3:1</li><li>ישראל – אירלנד 3:0</li><li>ישראל – קוסובו 0:0</li><li>אירלנד – ישראל 1:1</li></ul>
           <p>הנבחרת הצעירה של גיא לוזון סיימה בתיקו 1:1 בנורבגיה ונשארה מחוץ לפלייאוף מוקדמות היורו.</p>
-        </div>
+        <div class="rx" data-item="c6" data-title="פתיחה מאכזבת לנבחרות"><button type="button" class="rx-b" data-e="heart" aria-label="אהבתי">❤️<span></span></button><button type="button" class="rx-b" data-e="laugh" aria-label="מצחיק">😂<span></span></button><button type="button" class="rx-b" data-e="wow" aria-label="מרשים">😮<span></span></button><button type="button" class="rx-b" data-e="clap" aria-label="כל הכבוד">👏<span></span></button><button type="button" class="rx-share" aria-label="שיתוף: פתיחה מאכזבת לנבחרות"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 8l5-5 5 5M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg>שיתוף</button></div></div>
       </article>
 
-      <article class="corner">
-        <div class="in">
+      <article class="corner side">
+        <div class="img ill" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 15.5a4 4 0 1 1 .9-7.9A5 5 0 0 1 17.6 9a3.3 3.3 0 0 1-.6 6.5zM8.5 18.5l-1 2.5M12.5 18.5l-1 2.5M16.5 18.5l-1 2.5"/></svg></div><div class="in">
           <div class="label"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 15.5a4 4 0 1 1 .9-7.9A5 5 0 0 1 17.6 9a3.3 3.3 0 0 1-.6 6.5zM8.5 18.5l-1 2.5M12.5 18.5l-1 2.5M16.5 18.5l-1 2.5"/></svg><span>פינת הגשם</span></div>
           <h3>6 מ"מ פותחים את העונה</h3>
           <p>ידידנו איש הגשם, אורי שנער: 4 מ"מ שירדו אתמול מצטרפים ל-2 מ"מ מלפני כמה ימים. "הנסיבות מורכבות, אך נראה שצפוי לנו חורף גשום מן הממוצע. נחייה ונראה!"</p>
-        </div>
+        <div class="rx" data-item="c7" data-title="6 מ&quot;מ פותחים את העונה"><button type="button" class="rx-b" data-e="heart" aria-label="אהבתי">❤️<span></span></button><button type="button" class="rx-b" data-e="laugh" aria-label="מצחיק">😂<span></span></button><button type="button" class="rx-b" data-e="wow" aria-label="מרשים">😮<span></span></button><button type="button" class="rx-b" data-e="clap" aria-label="כל הכבוד">👏<span></span></button><button type="button" class="rx-share" aria-label="שיתוף: 6 מ&quot;מ פותחים את העונה"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 8l5-5 5 5M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg>שיתוף</button></div></div>
       </article>
 
       <article class="corner side">
@@ -1440,7 +1556,7 @@ main a:not(.cal):not(.share):not(.issue-nav):not(.fp-more):not(.tel){color:var(-
           <div class="label"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19C5 11 11 5 19 5c0 8-6 14-14 14zM5 19l7.5-7.5"/></svg><span>תרופות סבתא</span></div>
           <h3>סלרי, ה"ויאגרה הטבעית"?</h3>
           <p>סבתא אומרת שסלרי בריא לזוגיות. ובלי קשר לגיל הקוראים, הוא ידוע גם כמסייע לוויסות לחץ הדם, וזרעיו נחשבים טובים לעור. סבתא אומרת, סבתא יודעת...</p>
-        </div>
+        <div class="rx" data-item="c8" data-title="סלרי, ה&quot;ויאגרה הטבעית&quot;?"><button type="button" class="rx-b" data-e="heart" aria-label="אהבתי">❤️<span></span></button><button type="button" class="rx-b" data-e="laugh" aria-label="מצחיק">😂<span></span></button><button type="button" class="rx-b" data-e="wow" aria-label="מרשים">😮<span></span></button><button type="button" class="rx-b" data-e="clap" aria-label="כל הכבוד">👏<span></span></button><button type="button" class="rx-share" aria-label="שיתוף: סלרי, ה&quot;ויאגרה הטבעית&quot;?"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 8l5-5 5 5M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg>שיתוף</button></div></div>
       </article>
 
       <article class="corner side">
@@ -1449,13 +1565,13 @@ main a:not(.cal):not(.share):not(.issue-nav):not(.fp-more):not(.tel){color:var(-
           <div class="label"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5.5A2.5 2.5 0 0 1 7.5 3H19v15H7.5A2.5 2.5 0 0 0 5 20.5zM5 20.5A2.5 2.5 0 0 0 7.5 23H19v-5"/></svg><span>טיפ לספר</span></div>
           <h3>יש ממי ללמוד, אייל דורון</h3>
           <p>שמונה שיעורים משני חיים, בהשראת ריד הופמן, מיסטר ביסט, אופרה וינפרי, ג'וני אייב, ג'סינדה ארדרן, ריד הייסטינגס ועוד. כל פרק הוא קורס קטן בדרך חשיבה.</p>
-        </div>
+        <div class="rx" data-item="c9" data-title="יש ממי ללמוד, אייל דורון"><button type="button" class="rx-b" data-e="heart" aria-label="אהבתי">❤️<span></span></button><button type="button" class="rx-b" data-e="laugh" aria-label="מצחיק">😂<span></span></button><button type="button" class="rx-b" data-e="wow" aria-label="מרשים">😮<span></span></button><button type="button" class="rx-b" data-e="clap" aria-label="כל הכבוד">👏<span></span></button><button type="button" class="rx-share" aria-label="שיתוף: יש ממי ללמוד, אייל דורון"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 8l5-5 5 5M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg>שיתוף</button></div></div>
       </article>
 
-      <article class="corner">
-        <div class="in">
-          <div class="label"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 3l1.8 5.2L18 10l-5.2 1.8L11 17l-1.8-5.2L4 10l5.2-1.8zM18.5 15l.8 2.2 2.2.8-2.2.8-.8 2.2-.8-2.2-2.2-.8 2.2-.8z"/></svg><span>פינת ה-AI · מאמר מס' 56 · מגיש שמוליק נוי</span></div>
-          <h3>איך לכתוב קורות חיים בעידן ה-AI</h3>
+      <article class="corner side">
+        <div class="img ill" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M11 3l1.8 5.2L18 10l-5.2 1.8L11 17l-1.8-5.2L4 10l5.2-1.8zM18.5 15l.8 2.2 2.2.8-2.2.8-.8 2.2-.8-2.2-2.2-.8 2.2-.8z"/></svg></div><div class="in">
+          <div class="label"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 3l1.8 5.2L18 10l-5.2 1.8L11 17l-1.8-5.2L4 10l5.2-1.8zM18.5 15l.8 2.2 2.2.8-2.2.8-.8 2.2-.8-2.2-2.2-.8 2.2-.8z"/></svg><span>פינת ה-AI</span></div>
+          <h3>איך לכתוב קורות חיים בעידן ה-AI</h3><p class="c-meta">מאמר מס' 56 · מגיש שמוליק נוי</p>
           <p>רוב החברות מסננות היום מועמדים במערכות אוטומטיות לפני שמגייס קורא. בקיצור:</p>
           <ul>
             <li>שמרו על קובץ פשוט שאפשר לסמן ולהעתיק ממנו טקסט.</li>
@@ -1464,7 +1580,7 @@ main a:not(.cal):not(.share):not(.issue-nav):not(.fp-more):not(.tel){color:var(-
             <li>החליפו "הייתי אחראי על" בתוצאה שאפשר למדוד.</li>
             <li>אם AI הוא מיומנות שלכם, הראו מה עשיתם איתו ולא רק את שם הכלי.</li>
           </ul>
-        </div>
+        <div class="rx" data-item="c10" data-title="איך לכתוב קורות חיים בעידן ה-AI"><button type="button" class="rx-b" data-e="heart" aria-label="אהבתי">❤️<span></span></button><button type="button" class="rx-b" data-e="laugh" aria-label="מצחיק">😂<span></span></button><button type="button" class="rx-b" data-e="wow" aria-label="מרשים">😮<span></span></button><button type="button" class="rx-b" data-e="clap" aria-label="כל הכבוד">👏<span></span></button><button type="button" class="rx-share" aria-label="שיתוף: איך לכתוב קורות חיים בעידן ה-AI"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 8l5-5 5 5M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg>שיתוף</button></div></div>
       </article>
 
       <article class="corner side">
@@ -1474,7 +1590,7 @@ main a:not(.cal):not(.share):not(.issue-nav):not(.fp-more):not(.tel){color:var(-
           <h3>אחרי טיסת פליי-דובאי</h3>
           <p>זוג מבוגרים טס להוואי לחגוג 50 שנות נישואים. המנועים מתקלקלים, והמטוס נוחת בשלום על אי בודד. הבעל שואל: "שילמת את הלוואת הרכב? את חשבון החשמל? את בית החולים?" "לא, לא ולא." הוא קופץ מאושר ומחבק אותה: "אל תדאגי מתוקה, עם כל החובות האלה, הם בטוח ימצאו אותנו!"</p>
           <p class="sticky alt" style="margin-top:12px">משל הנמלה: עובדת חרוצה שעבדה מצוין בלי מנהל. החברה מינתה לה מפקח, ואז מזכירה, אנליסט ומנהל מחלקה. היא כתבה דוחות במקום לעבוד, התפוקה ירדה, והיועץ שהובא המליץ לצמצם... ופיטרו את הנמלה.</p>
-        </div>
+        <div class="rx" data-item="c11" data-title="אחרי טיסת פליי-דובאי"><button type="button" class="rx-b" data-e="heart" aria-label="אהבתי">❤️<span></span></button><button type="button" class="rx-b" data-e="laugh" aria-label="מצחיק">😂<span></span></button><button type="button" class="rx-b" data-e="wow" aria-label="מרשים">😮<span></span></button><button type="button" class="rx-b" data-e="clap" aria-label="כל הכבוד">👏<span></span></button><button type="button" class="rx-share" aria-label="שיתוף: אחרי טיסת פליי-דובאי"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 8l5-5 5 5M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg>שיתוף</button></div></div>
       </article>
 
     </div>
@@ -1497,7 +1613,7 @@ main a:not(.cal):not(.share):not(.issue-nav):not(.fp-more):not(.tel){color:var(-
         <li><span class="d">14.10</span><span>כרמלה גונן, גיל לוקץ, גל יאנובסקי, יצחק נומהאוזר, עירית שכטר, נדב כהן מלכה</span></li>
         <li><span class="d">15.10</span><span>יעל ניב, שלי נחמני, יובל גילרי, דפנה ברוטברט, מאיה כהן, נטע כהן, נועם לוין, יניב פליקשטיין</span></li>
       </ul>
-    </div>
+    </div><div class="rx" data-item="mazal" data-title="מזל טוב"><button type="button" class="rx-b" data-e="heart" aria-label="אהבתי">❤️<span></span></button><button type="button" class="rx-b" data-e="laugh" aria-label="מצחיק">😂<span></span></button><button type="button" class="rx-b" data-e="wow" aria-label="מרשים">😮<span></span></button><button type="button" class="rx-b" data-e="clap" aria-label="כל הכבוד">👏<span></span></button><button type="button" class="rx-share" aria-label="שיתוף: מזל טוב"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 8l5-5 5 5M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg>שיתוף</button></div>
   </section>
 
 
@@ -1870,7 +1986,7 @@ main a:not(.cal):not(.share):not(.issue-nav):not(.fp-more):not(.tel){color:var(-
     });
     var more=ed.querySelector('.soon .fp-more'); if(more) more.onclick=function(e){ e.preventDefault(); jump(ed.querySelector('[data-sec="week"]')); };
   }
-  soon(); window.addEventListener('hashchange',function(){ setTimeout(soon,60); });
+  /* replaced by JS16 */
 
   /* comments */
   var API='/api/comments', LOCAL=!/\.(vercel|netlify)\.app$/.test(location.hostname);
@@ -1921,6 +2037,119 @@ main a:not(.cal):not(.share):not(.issue-nav):not(.fp-more):not(.tel){color:var(-
     var ed=[].slice.call(document.querySelectorAll('.ed')).filter(function(x){return !x.hidden})[0]; var s=ed&&ed.querySelector('[data-sec="'+k+'"]'); if(!s) return;
     e.preventDefault(); var y=s.getBoundingClientRect().top+window.pageYOffset-topbar.getBoundingClientRect().height-8; try{window.scrollTo({top:y,behavior:'smooth'})}catch(_){window.scrollTo(0,y)}
   });
+})();
+</script>
+<script>
+(function(){
+  var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+  try{ var fp=new URLSearchParams(location.search).get('font'); if(fp) localStorage.setItem('mz-font',fp); var ff=localStorage.getItem('mz-font'); if(ff==='b') document.documentElement.setAttribute('data-font','b'); }catch(_){}
+  var topbar=document.getElementById('topbar');
+  function cur(){ return [].slice.call(document.querySelectorAll('.ed')).filter(function(e){return !e.hidden})[0]; }
+  function jump(el){ if(!el) return; var y=el.getBoundingClientRect().top+window.pageYOffset-topbar.getBoundingClientRect().height-10; try{window.scrollTo({top:y,behavior:'smooth'})}catch(_){window.scrollTo(0,y)} }
+  /* issue number in the middle of the bar */
+  var mid=document.getElementById('mid'); function setMid(){ var e=cur(); if(e&&mid) mid.textContent='גיליון '+e.getAttribute('data-n'); } setMid();
+
+  /* ---- coming up with filter ---- */
+  var CATS=[['gil','גיל נעים',/גיל נעים|ותיקים|גיל הזהב/],['kids','הורים וילדים',/הורים|ילד|נוער|חינוך|משפח/],['meet','מפגשים פתוחים',/מפגש ועדות|אסיפ|אמנה|ועדות|כנס|ישיבה פתוחה|קהילה/],['culture','תרבות ופנאי',/הופעה|להקת|ערב|הרצאה|תערוכ|ספרי|סיור|טיול|מוצאי שבת|ורוד|פסטיבל|קונטיינר|התרמת/]];
+  function catOf(t){ for(var i=0;i<CATS.length;i++){ if(CATS[i][2].test(t)) return CATS[i][0]; } return 'other'; }
+  var MO={'ינו׳':0,'פבר׳':1,'מרץ':2,'אפר׳':3,'מאי':4,'יוני':5,'יולי':6,'אוג׳':7,'ספט׳':8,'אוק׳':9,'נוב׳':10,'דצמ׳':11};
+  function rowsOf(ed){
+    var now=new Date(); now.setHours(0,0,0,0); var y=now.getFullYear(), rows=[];
+    ed.querySelectorAll('.agenda2 .day').forEach(function(day){
+      var b=day.querySelector('.dh b'), sp=day.querySelector('.dh span'); if(!b||!sp) return;
+      var parts=sp.textContent.split('·'), mo=MO[parts[0].trim()], wd=(parts[1]||'').trim(); if(mo===undefined) return;
+      var dt=new Date(y,mo,+b.textContent); if(dt<now&&(now-dt)>200*864e5) dt=new Date(y+1,mo,+b.textContent);
+      day.querySelectorAll('.ev').forEach(function(ev){ if(ev.querySelector('.nx')) return; var w=ev.querySelector('.w'); rows.push({dt:dt,wd:wd,d:b.textContent+'.'+(mo+1),ev:ev,cat:catOf(w?w.textContent:'')}); });
+    });
+    var fut=rows.filter(function(r){return r.dt>=now}); return {all:fut.length?fut:rows,now:now};
+  }
+  function soon(){
+    var ed=cur(); if(!ed) return; var box=ed.querySelector('.soon'); if(!box) return;
+    var list=box.querySelector('.soon-list'), cats=box.querySelector('.soon-cats'), fb=box.querySelector('.soon-f');
+    var R=rowsOf(ed), sel=box.getAttribute('data-cat')||'';
+    /* categories present this week */
+    if(!cats.childNodes.length){
+      var present=CATS.filter(function(c){ return R.all.some(function(r){return r.cat===c[0]}); });
+      if(present.length<2){ fb.hidden=true; }
+      [['','הכל']].concat(present).forEach(function(c){ var b=document.createElement('button'); b.type='button'; b.textContent=c[1]; b.setAttribute('data-c',c[0]); if(c[0]===sel) b.classList.add('on');
+        b.onclick=function(){ box.setAttribute('data-cat',c[0]); cats.querySelectorAll('button').forEach(function(x){x.classList.toggle('on',x===b)}); fb.classList.toggle('on',!!c[0]); soon(); }; cats.appendChild(b); });
+      fb.onclick=function(){ var o=cats.hidden; cats.hidden=!o; fb.setAttribute('aria-expanded',o); };
+    }
+    list.innerHTML='';
+    var rows=sel?R.all.filter(function(r){return r.cat===sel}):R.all.slice(0,3);
+    rows.forEach(function(r){
+      var diff=Math.round((r.dt-R.now)/864e5), word=diff===0?'היום':diff===1?'מחר':(diff>1&&diff<7?r.wd:'');
+      var li=document.createElement('li'), tm=r.ev.querySelector('.tm'), w=r.ev.querySelector('.w'), cal=r.ev.querySelector('.cal');
+      li.innerHTML='<div class="when"><b></b><span></span></div><div class="what"><b></b><span></span></div>';
+      var wb=li.querySelector('.when b'); wb.textContent=word||r.d; if(word) wb.classList.add('w');
+      li.querySelector('.when span').textContent=(word?r.d:r.wd)+(tm&&tm.textContent?'\n'+tm.textContent:'');
+      li.querySelector('.what b').textContent=w.querySelector('b').textContent; var ws=w.querySelector('span:not(.nx)'); li.querySelector('.what span').textContent=ws?ws.textContent:'';
+      if(cal) li.appendChild(cal.cloneNode(true)); list.appendChild(li);
+    });
+    var em=box.querySelector('.soon-empty'); if(!rows.length&&!em){ em=document.createElement('p'); em.className='soon-empty'; em.textContent='אין אירועים מהסוג הזה בקרוב.'; list.after(em); } else if(rows.length&&em) em.remove();
+    var more=box.querySelector('.fp-more'); if(more) more.onclick=function(e){ e.preventDefault(); jump(ed.querySelector('[data-sec="week"]')); };
+  }
+  soon(); window.addEventListener('hashchange',function(){ setTimeout(function(){ soon(); setMid(); reactLoad(); },80); });
+
+  /* ---- olive leaves when adding to calendar ---- */
+  document.addEventListener('click',function(e){ if(!e.target.closest('.cal')||reduce) return; var cols=['#4b6a36','#8a9c6c','#a8862f','#b9c48e'];
+    for(var i=0;i<12;i++){ var l=document.createElement('i'); l.className='leaf-fall'; l.style.left=(Math.random()*100)+'vw'; l.style.background=cols[i%4]; l.style.setProperty('--dx',(Math.random()*80-40)+'px'); l.style.animationDelay=(Math.random()*.5)+'s'; document.body.appendChild(l); setTimeout(function(x){return function(){x.remove()}}(l),3200); } },true);
+
+  /* ---- voice: only if a Hebrew voice exists ---- */
+  function voiceCheck(){ var has=('speechSynthesis' in window)&&speechSynthesis.getVoices().some(function(v){return /^(he|iw)/i.test(v.lang)}); document.querySelectorAll('.listen').forEach(function(b){ b.style.display=has?'':'none'; }); }
+  voiceCheck(); if('speechSynthesis' in window){ try{ speechSynthesis.onvoiceschanged=voiceCheck; }catch(_){} }
+
+  /* ---- reactions + share ---- */
+  var API='/api/react', LOCAL=!/\.(vercel|netlify)\.app$/.test(location.hostname);
+  function mineR(){ try{return JSON.parse(localStorage.getItem('mz-rx')||'{}')}catch(_){return {}} }
+  function saveR(m){ try{localStorage.setItem('mz-rx',JSON.stringify(m))}catch(_){} }
+  function localCounts(){ try{return JSON.parse(localStorage.getItem('mz-rx-local')||'{}')}catch(_){return {}} }
+  function paint(ed,counts){ var m=mineR(), n=ed.getAttribute('data-n');
+    ed.querySelectorAll('.rx').forEach(function(bar){ var it=bar.getAttribute('data-item');
+      bar.querySelectorAll('.rx-b').forEach(function(b){ var k=it+'|'+b.getAttribute('data-e'), c=(counts&&counts[k])||0; b.querySelector('span').textContent=c?c:''; b.classList.toggle('on',!!m[n+':'+k]); }); }); }
+  function reactLoad(){ var ed=cur(); if(!ed) return; var n=ed.getAttribute('data-n');
+    if(LOCAL){ paint(ed,(localCounts()[n])||{}); return; }
+    fetch(API+'?issue='+n).then(function(r){return r.json()}).then(function(c){ paint(ed,c); }).catch(function(){ paint(ed,{}); }); }
+  reactLoad();
+  function burst(x,y,ch){ if(reduce) return; for(var i=0;i<8;i++){ var s=document.createElement('span'); s.className='burst'; s.textContent=ch; s.style.left=x+'px'; s.style.top=y+'px';
+      var a=Math.random()*Math.PI*2, d=40+Math.random()*50; s.style.setProperty('--dx',Math.cos(a)*d+'px'); s.style.setProperty('--dy',(Math.sin(a)*d-40)+'px'); s.style.setProperty('--r',(Math.random()*60-30)+'deg'); s.style.fontSize=(12+Math.random()*10)+'px';
+      document.body.appendChild(s); setTimeout(function(x){return function(){x.remove()}}(s),1200); } }
+  document.addEventListener('click',function(e){
+    var b=e.target.closest('.rx-b'); if(!b) return; e.stopPropagation();
+    var bar=b.closest('.rx'), ed=b.closest('.ed'), n=ed.getAttribute('data-n'), k=bar.getAttribute('data-item')+'|'+b.getAttribute('data-e'), m=mineR(), on=!m[n+':'+k];
+    if(on) m[n+':'+k]=1; else delete m[n+':'+k]; saveR(m);
+    var sp=b.querySelector('span'), c=(+sp.textContent||0)+(on?1:-1); sp.textContent=c>0?c:''; b.classList.toggle('on',on);
+    if(on){ var r=b.getBoundingClientRect(); burst(r.left+r.width/2,r.top,b.getAttribute('data-e')==='heart'?'❤️':b.firstChild.textContent); }
+    if(LOCAL){ var all=localCounts(), ic=all[n]||{}; ic[k]=Math.max(0,(ic[k]||0)+(on?1:-1)); all[n]=ic; try{localStorage.setItem('mz-rx-local',JSON.stringify(all))}catch(_){} return; }
+    fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({issue:n,key:k,delta:on?1:-1})}).catch(function(){});
+  },true);
+  document.addEventListener('click',function(e){
+    var s=e.target.closest('.rx-share'); if(!s) return; e.stopPropagation();
+    var bar=s.closest('.rx'), ed=s.closest('.ed'), url=location.origin+location.pathname+'#'+ed.id+'~'+bar.getAttribute('data-item'), t=bar.getAttribute('data-title')+' · מידעצמון '+ed.getAttribute('data-n');
+    if(navigator.share){ navigator.share({title:t,url:url}).catch(function(){}); } else { window.open('https://wa.me/?text='+encodeURIComponent(t+'\n'+url),'_blank','noopener'); }
+  },true);
+  /* open a shared item */
+  (function(){ var m=location.hash.match(/^#(g\d+)~(.+)$/); if(!m) return; setTimeout(function(){ var ed=document.getElementById(m[1]); if(!ed) return; if(ed.hidden){ location.hash='#'+m[1]; }
+      var bar=ed.querySelector('.rx[data-item="'+m[2]+'"]'); if(!bar) return; var c=bar.closest('.corner'); if(c) c.classList.remove('collapsed'); jump(c||bar.closest('section')); },400); })();
+
+  /* ---- floating close for long open blocks ---- */
+  var fc=document.createElement('button'); fc.type='button'; fc.className='fclose'; fc.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 15l6-6 6 6"/></svg><span></span>'; document.body.appendChild(fc);
+  var target=null;
+  function openBlocks(){ var ed=cur(); if(!ed) return []; var a=[].slice.call(ed.querySelectorAll('.corner:not(.collapsed)')); ed.querySelectorAll('details.more[open],details.proto[open]').forEach(function(d){ a.push(d); }); return a; }
+  function check(){ var vh=window.innerHeight, hb=topbar.getBoundingClientRect().height, t=null;
+    openBlocks().forEach(function(el){ var box=el.tagName==='DETAILS'?(el.closest('.editor')||el):el; var r=box.getBoundingClientRect(); if(r.top<hb-40&&r.bottom>vh*.55&&r.height>vh*.8) t=el; });
+    target=t; if(t){ var nm=t.tagName==='DETAILS'?(t.closest('[data-sec="editor"]')?'דברי הפתיחה':(t.querySelector('summary')||{}).textContent||'הקטע'):((t.querySelector('h3')||{}).textContent||'הפינה');
+      fc.querySelector('span').textContent='סגירת '+nm.trim().slice(0,28); } fc.classList.toggle('show',!!t); }
+  window.addEventListener('scroll',check,{passive:true}); document.addEventListener('click',function(){ setTimeout(check,50); });
+  fc.onclick=function(){ if(!target) return; var t=target, anchor;
+    if(t.tagName==='DETAILS'){ t.open=false; anchor=t.closest('.editor')||t; } else { t.classList.add('collapsed'); t.setAttribute('aria-expanded','false'); anchor=t; }
+    fc.classList.remove('show'); jump(anchor.closest('section')&&t.tagName==='DETAILS'?anchor.closest('section'):anchor); };
+
+  /* ---- gentle reveal ---- */
+  if(!reduce&&'IntersectionObserver' in window){ document.documentElement.classList.add('anim');
+    var io=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('seen'); io.unobserve(e.target); } }); },{rootMargin:'0px 0px -8% 0px'});
+    document.querySelectorAll('section[data-sec],.corner,.soon,.notice').forEach(function(el){ io.observe(el); });
+    setTimeout(function(){ document.querySelectorAll('section[data-sec],.corner,.soon,.notice').forEach(function(el){ var r=el.getBoundingClientRect(); if(r.top<innerHeight) el.classList.add('seen'); }); },60); }
 })();
 </script>
 
