@@ -1873,7 +1873,7 @@ main a:not(.cal):not(.share):not(.issue-nav):not(.fp-more):not(.tel){color:var(-
   soon(); window.addEventListener('hashchange',function(){ setTimeout(soon,60); });
 
   /* comments */
-  var API='/.netlify/functions/comments', LOCAL=!/\.netlify\.app$/.test(location.hostname);
+  var API='/api/comments', LOCAL=!/\.(vercel|netlify)\.app$/.test(location.hostname);
   function mine(){ try{return JSON.parse(localStorage.getItem('mz-mine')||'{}')}catch(_){return {}} }
   function saveMine(m){ try{localStorage.setItem('mz-mine',JSON.stringify(m))}catch(_){} }
   function localAll(){ try{return JSON.parse(localStorage.getItem('mz-local-comments')||'{}')}catch(_){return {}} }
