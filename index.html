@@ -1,0 +1,1586 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f7f4ec">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="icon" href="icon-192.png">
+<meta property="og:title" content="מידעצמון">
+<meta property="og:description" content="עלון הקהילה של עצמון">
+<style>[hidden]{display:none!important}</style>
+<title>מידעצמון</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=Secular+One&family=Suez+One&display=swap">
+<style>
+/* ---- live scene ---- */
+.front .scene{height:clamp(130px,36vw,190px);background:none!important}
+.sk0{stop-color:var(--bg)}.sk1{stop-color:#eef1e6}.sk2{stop-color:#e9eedf}
+.h1{fill:#e3e8cc}.h2{fill:#c5d1a0}.h3{fill:#9fb27a}.h4{fill:#6f8a4e}
+.cyp path{fill:#4c6338}.wall{fill:#fbf8ef}.roof{fill:#c79f72}.win{fill:#e3e8cc;transition:fill 1s}
+.tree ellipse{fill:#7f9660}.trunk{stroke:#5d5a44;stroke-width:3;stroke-linecap:round}
+.squill .stem{stroke:#7f9660;stroke-width:2;stroke-linecap:round}.squill .fl{fill:#fffdf8}
+.bloom{fill:#fffdf8}
+.stars,.moon,.c-heavy,.fog,.squill,.bloom{display:none}
+.moon-cut{fill:var(--sky-n,#33433f)}
+.fog{fill:#f4f2ea;opacity:.55}
+.sky,.terrain,.sun,.clouds{transition:filter 1.2s,opacity 1.2s}
+/* time of day */
+.scene-wrap[data-tod="dawn"] .sk1{stop-color:#f6ecd6}.scene-wrap[data-tod="dawn"] .sk2{stop-color:#f2e6cf}
+.scene-wrap[data-tod="dusk"] .sk1{stop-color:#eedcc8}.scene-wrap[data-tod="dusk"] .sk2{stop-color:#e2cfd2}
+.scene-wrap[data-tod="dusk"] .sun circle{fill:#efd29c}
+.scene-wrap[data-tod="dusk"] .sun{transform:translateY(46px)}
+.scene-wrap[data-tod="night"] .sk0{stop-color:var(--bg)}.scene-wrap[data-tod="night"] .sk1{stop-color:#3c4c48}.scene-wrap[data-tod="night"] .sk2{stop-color:#33433f}
+.scene-wrap[data-tod="night"] .sun{display:none}
+.scene-wrap[data-tod="night"] .moon,.scene-wrap[data-tod="night"] .stars{display:inline}
+.scene-wrap[data-tod="night"] .terrain{filter:brightness(.52) saturate(.75)}
+.scene-wrap[data-tod="night"] .clouds{opacity:.35}
+.scene-wrap[data-tod="night"] .win,.scene-wrap[data-tod="dusk"] .win{fill:#f6d77e}
+.scene-wrap[data-tod="dusk"] .terrain{filter:brightness(.9) saturate(.9)}
+/* weather */
+.scene-wrap[data-wx="cloudy"] .c-heavy,.scene-wrap[data-wx="rain"] .c-heavy,.scene-wrap[data-wx="storm"] .c-heavy{display:inline}
+.scene-wrap[data-wx="rain"] .sun,.scene-wrap[data-wx="storm"] .sun,.scene-wrap[data-wx="fog"] .sun{opacity:.25}
+.scene-wrap[data-wx="rain"] .c-heavy,.scene-wrap[data-wx="storm"] .c-heavy{fill:#bfc5c0}
+.scene-wrap[data-wx="rain"] .terrain,.scene-wrap[data-wx="storm"] .terrain{filter:saturate(.8) brightness(.94)}
+.scene-wrap[data-wx="fog"] .fog{display:inline}
+.scene-wrap[data-wx="cloudy"] .sk1,.scene-wrap[data-wx="rain"] .sk1,.scene-wrap[data-wx="storm"] .sk1{stop-color:#e4e7e2}
+/* season */
+.scene-wrap[data-season="autumn"] .squill{display:inline}
+.scene-wrap[data-season="spring"] .bloom{display:inline}
+/* overlay effects */
+.scene-wrap{position:relative;overflow:hidden}
+.fx{position:absolute;inset:0;pointer-events:none}
+.fx i{position:absolute;top:-14px;display:block}
+.fx .leaf{width:9px;height:6px;border-radius:0 80% 0 80%;animation:leaf linear infinite}
+@keyframes leaf{0%{transform:translate(0,0) rotate(0)}50%{transform:translate(-18px,90px) rotate(180deg)}100%{transform:translate(8px,210px) rotate(360deg)}}
+.fx .drop{width:1.5px;height:14px;background:linear-gradient(transparent,#8fa1ad);opacity:.7;animation:drop linear infinite}
+@keyframes drop{to{transform:translate(-14px,230px)}}
+.scene-wrap[data-wind="1"] .tree,.scene-wrap[data-wind="1"] .cyp path{transform-box:fill-box;transform-origin:50% 100%;animation:sway 3.2s ease-in-out infinite alternate}
+@keyframes sway{from{transform:rotate(-2.5deg)}to{transform:rotate(2.5deg)}}
+@media (prefers-reduced-motion:no-preference){
+  .c-light{animation:drift 30s ease-in-out infinite alternate}
+  @keyframes drift{from{transform:translateX(-14px)}to{transform:translateX(18px)}}
+  .sun{animation:rise 2.2s cubic-bezier(.2,.7,.2,1) both}
+  @keyframes rise{from{transform:translateY(48px);opacity:0}}
+  .stars circle{animation:tw 3s ease-in-out infinite alternate}
+  .stars circle:nth-child(3n){animation-delay:1.2s}.stars circle:nth-child(3n+1){animation-delay:2s}
+  @keyframes tw{to{opacity:.3}}
+}
+@media (prefers-reduced-motion:reduce){.fx{display:none}.scene-wrap .tree,.scene-wrap .cyp path{animation:none!important}}
+.dateline .shab{display:none}
+
+/* ---- agenda by day ---- */
+.agenda2{list-style:none;margin:6px 0 0;padding:0;display:grid;gap:18px;max-width:560px}
+.agenda2 .day{display:grid;gap:0}
+.agenda2 .dh{display:flex;align-items:baseline;gap:8px;margin:0 0 4px;padding-bottom:6px;border-bottom:2px solid var(--hill);font:inherit}
+.agenda2 .dh b{font:400 28px/1 "Secular One",var(--f-body);color:var(--hill)}
+.agenda2 .dh span{font-size:16px;font-weight:700;color:var(--deep)}
+.agenda2 .ev{display:grid;grid-template-columns:54px 1fr 44px;gap:10px;align-items:start;padding:10px 0;border-bottom:1px solid var(--line)}
+.agenda2 .ev:last-child{border-bottom:none}
+.agenda2 .tm{font-weight:700;font-size:16px;color:var(--deep);font-variant-numeric:tabular-nums;padding-top:1px;direction:ltr;text-align:right}
+.agenda2 .w b{display:block;font-size:17px;line-height:1.35}
+.agenda2 .w span{display:block;margin-top:2px;font-size:15px;line-height:1.45;color:var(--muted)}
+.agenda2 .cal{justify-self:end}
+.agenda2 .clip{display:none!important}
+
+/* ---- previous issue ---- */
+.issue-navs{display:grid;gap:10px;margin:34px 0 8px}
+.issue-nav{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:58px;padding:0 20px;border-radius:16px;border:1.5px solid var(--hill);background:var(--surface);color:var(--deep);text-decoration:none;font-weight:700;font-size:17px}
+.issue-nav b{font:400 22px "Secular One",var(--f-body);color:var(--hill)}
+.issue-nav::after{content:"";order:3;width:10px;height:10px;border-inline-start:2.5px solid currentColor;border-bottom:2.5px solid currentColor;transform:rotate(45deg)}
+.issue-nav.back{background:var(--hill);color:#fffdf8}.issue-nav.back b{color:#fffdf8}
+.old-note{margin:14px 0 0;padding:10px 14px;border-radius:12px;background:var(--hill-soft);font-weight:600;color:var(--deep)}
+.old-note a{color:var(--deep);font-weight:800}
+.old-note:not(.top){display:none}
+
+#m-extra{display:none!important}
+.dateline{flex-wrap:nowrap!important;white-space:nowrap;gap:0 14px!important;font-size:clamp(13px,3.9vw,16px)!important}
+/* autumn: warmer sky, golden hills, more leaves */
+.scene-wrap[data-season="autumn"]:not([data-tod="night"]):not([data-wx="rain"]):not([data-wx="storm"]) .sk1{stop-color:#f4dfb4}
+.scene-wrap[data-season="autumn"]:not([data-tod="night"]):not([data-wx="rain"]):not([data-wx="storm"]) .sk2{stop-color:#efcf9e}
+.scene-wrap[data-season="autumn"][data-tod="dusk"] .sk1{stop-color:#efc9a0}
+.scene-wrap[data-season="autumn"][data-tod="dusk"] .sk2{stop-color:#d9a99a}
+.scene-wrap[data-season="autumn"] .h1{fill:#e6dcae}
+.scene-wrap[data-season="autumn"] .h2{fill:#c9c88a}
+.scene-wrap[data-season="autumn"] .h3{fill:#a3ac6c}
+.scene-wrap[data-season="autumn"] .tree:nth-child(2) ellipse{fill:#b9a256}
+.scene-wrap[data-season="autumn"] .sun circle{fill:#f3d68f}
+.fx .leaf{width:12px;height:8px}
+.fx .leaf:nth-child(3n){width:9px;height:6px}
+
+:root{
+  --paper:#f7f4ec;--paper-2:#efeadd;--ink:#1e211b;--ink-2:#55584c;--hair:#d9d3c2;--accent:#45632e;--accent-soft:#e7ead9;
+  --bg:var(--paper);--surface:#fbf9f3;--line:var(--hair);--muted:var(--ink-2);--deep:var(--ink);--hill:var(--accent);--hill-soft:var(--accent-soft);
+  --f-mast:"Secular One","Heebo",sans-serif;--f-head:"Suez One","Frank Ruhl Libre",serif;--f-body:"Heebo","Noto Sans Hebrew",Arial,sans-serif;
+  --gut:20px;color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--paper:#15160f;--paper-2:#1d1f17;--ink:#ecebe2;--ink-2:#a9aa9b;--hair:#34362b;--accent:#a8c084;--accent-soft:#252a1c;--surface:#1b1c15;color-scheme:dark}}
+:root[data-theme="dark"]{--paper:#15160f;--paper-2:#1d1f17;--ink:#ecebe2;--ink-2:#a9aa9b;--hair:#34362b;--accent:#a8c084;--accent-soft:#252a1c;--surface:#1b1c15;color-scheme:dark}
+*{box-sizing:border-box}
+html{direction:rtl;-webkit-text-size-adjust:100%;scroll-padding-top:120px}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 18px/1.65 var(--f-body);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{max-width:100%;display:block}
+a{color:var(--accent);text-decoration:underline;text-decoration-thickness:1.5px;text-underline-offset:3px;font-weight:600}
+a:hover{color:var(--ink)}
+button{font-family:inherit;color:inherit}
+.ltr{direction:ltr;unicode-bidi:isolate;white-space:nowrap}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.wrap{max-width:720px;margin:0 auto;padding-inline:var(--gut)}
+h1,h2,h3,h4{margin:0;font-weight:400}
+p{margin:0 0 .8em}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+
+/* ---------- top bar ---------- */
+.topbar{position:sticky;top:0;z-index:30;background:color-mix(in srgb,var(--paper) 94%,transparent);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-bottom:1px solid var(--hair)}
+.appbar{max-width:1120px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px var(--gut);min-height:60px}
+.mini{all:unset;cursor:pointer;display:grid;line-height:1.1;opacity:0;transform:translateY(4px);transition:opacity .25s,transform .25s;min-width:0}
+.topbar.scrolled .mini{opacity:1;transform:none}
+.mini b{font:400 21px var(--f-mast);color:var(--ink)}.mini i{font-style:normal;color:var(--accent)}
+.mini #mini-n{display:none}
+.cursec{font-size:13px;font-weight:700;color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:42vw}
+.acts{display:flex;gap:6px}
+.act{display:flex;align-items:center;gap:6px;min-height:44px;padding:0 12px;border-radius:999px;border:1.5px solid var(--ink);background:transparent;font:700 15px var(--f-body);cursor:pointer;white-space:nowrap}
+.act svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.act[aria-expanded="true"],#btn-toc{background:var(--ink);color:var(--paper)}
+#btn-toc[aria-expanded="true"]{background:var(--accent);border-color:var(--accent)}
+.panel{max-width:720px;margin:0 auto;padding:6px var(--gut) 18px;max-height:calc(100dvh - 70px);overflow:auto}
+.p-title{display:block;font:800 13px var(--f-body);letter-spacing:.12em;color:var(--ink-2);margin:6px 0 10px}
+.search input{width:100%;font:500 19px var(--f-body);padding:13px 16px;border-radius:12px;border:1.5px solid var(--ink);background:var(--surface);color:var(--ink)}
+.results{list-style:none;margin:10px 0 0;padding:0}
+.results li{border-bottom:1px solid var(--hair)}
+.results button{all:unset;display:block;width:100%;padding:12px 2px;cursor:pointer;font-size:17px}
+.results small{display:block;color:var(--ink-2);font-size:13px;font-weight:700}
+.fsopts{display:flex;gap:8px}
+.fsopts button{flex:1;display:grid;justify-items:center;gap:2px;padding:12px 6px;border-radius:12px;border:1.5px solid var(--hair);background:var(--surface);font:600 15px var(--f-body);cursor:pointer}
+.fsopts button[aria-pressed="true"]{border-color:var(--ink);background:var(--ink);color:var(--paper)}
+/* table of contents */
+.tabs ul{list-style:none;margin:0;padding:0;counter-reset:toc}
+.tabs li{counter-increment:toc;border-top:1px solid var(--hair)}
+.tabs li[hidden]{display:none}
+.tabs a{display:flex;align-items:baseline;gap:14px;min-height:58px;padding:14px 2px;text-decoration:none;color:var(--ink);font:400 22px/1.2 var(--f-head)}
+.tabs a::before{content:counter(toc,decimal-leading-zero);font:400 15px var(--f-head);color:var(--accent);min-width:24px}
+.tabs a.on{color:var(--accent)}
+.tabs a small{display:block;font:500 14px/1.4 var(--f-body);color:var(--ink-2);margin-top:4px}
+
+/* ---------- masthead ---------- */
+.mast-wrap{max-width:1120px}
+.front{text-align:center;padding-top:22px}
+.front .logo{width:min(250px,64vw);height:auto;margin:0 auto}
+.front .word{font:400 clamp(60px,19vw,112px)/.95 var(--f-mast);letter-spacing:-.02em;margin:10px 0 0;color:var(--ink)}
+.front .word .a{color:var(--accent)}
+.dateline{display:flex;justify-content:center;gap:0 14px;margin:14px 0 0;padding:9px 0;border-block:1px solid var(--ink);box-shadow:0 -4px 0 -3px var(--ink),0 4px 0 -3px var(--ink);font:500 clamp(13px,3.8vw,16px) var(--f-body);white-space:nowrap}
+.dateline>span+span::before{content:"·";margin-inline-end:14px;color:var(--ink-2)}
+.dateline b{font-weight:800}
+.dateline .shab{display:none}
+.front .scene-wrap{margin:14px calc(-1*var(--gut)) 0;position:relative;overflow:hidden}
+.front .scene{display:block;width:100%;height:clamp(130px,36vw,230px)}
+@media (min-width:760px){.front .scene-wrap{margin-inline:0;border-radius:4px}}
+
+/* ---------- article frame ---------- */
+main.wrap{padding-bottom:30px}
+.ed{counter-reset:sec}
+.ed[hidden]{display:none!important}
+.old-note{margin:18px 0 0;padding:10px 14px;background:var(--accent-soft);font-weight:700;border-radius:6px}
+.old-note:not(.top){display:none}
+.inshort{display:none}
+
+/* front block: coming up + index */
+.fp{display:grid;gap:26px;margin:26px 0 8px}
+.fp-h{font:800 13px var(--f-body);letter-spacing:.14em;color:var(--ink);padding-bottom:8px;border-bottom:3px solid var(--ink);margin-bottom:2px}
+.soon-list{list-style:none;margin:0;padding:0}
+.soon-list li{display:grid;grid-template-columns:76px 1fr auto;gap:12px;align-items:center;padding:14px 0;border-bottom:1px solid var(--hair)}
+.soon-list .when{display:grid;line-height:1.1}
+.soon-list .when b{font:400 22px var(--f-head);color:var(--accent)}
+.soon-list .when span{white-space:pre-line;font-variant-numeric:tabular-nums;font-size:14px;font-weight:700;color:var(--ink-2);margin-top:3px}
+.soon-list .what b{display:block;font:700 18px/1.3 var(--f-body)}
+.soon-list .what span{display:block;font-size:15px;color:var(--ink-2);line-height:1.4;margin-top:2px}
+.fp-more{display:inline-flex;align-items:center;gap:8px;margin-top:12px;font-size:16px}
+.fp-more::after,.issue-nav::after{content:"";width:8px;height:8px;border-left:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg)}
+.idx{list-style:none;margin:0;padding:0}
+.idx li{border-bottom:1px solid var(--hair)}
+.idx a{display:grid;grid-template-columns:30px 1fr;gap:4px 12px;padding:12px 0;text-decoration:none;color:var(--ink);font-weight:400}
+.idx .n{font:400 16px var(--f-head);color:var(--accent);grid-row:span 2;padding-top:3px}
+.idx .t{font:400 20px/1.25 var(--f-head)}
+.idx .s{font-size:14.5px;color:var(--ink-2);line-height:1.4}
+
+/* ---------- sections ---------- */
+section[data-sec]{counter-increment:sec;position:relative;margin-top:44px;padding-top:12px;border-top:3px solid var(--ink)}
+section[data-sec] > .kicker{display:flex;align-items:baseline;gap:10px;font:800 13px var(--f-body);letter-spacing:.12em;color:var(--ink-2)}
+section[data-sec] > .kicker::before{content:counter(sec,decimal-leading-zero);font:400 15px var(--f-head);letter-spacing:0;color:var(--accent)}
+section[data-sec] > h2{font:400 clamp(30px,8.4vw,42px)/1.12 var(--f-head);margin:8px 0 16px;text-wrap:balance}
+.sec-ill{float:left;width:64px;height:52px;margin:8px 0 0 4px;color:var(--ink);opacity:.85}
+.sec-ill *{stroke-width:1.6}
+.sec-ill [fill^="var"],.sec-ill [fill^="#"]{fill:var(--paper-2)}
+section[data-sec="editor"] .sec-ill{display:none}
+h3{font:400 23px/1.25 var(--f-head);margin:0 0 8px}
+h4{font:800 16px var(--f-body);margin:18px 0 6px}
+.kicker{font:800 13px var(--f-body);letter-spacing:.1em;color:var(--ink-2)}
+
+/* editor */
+.editor{position:relative}
+.editor .lede,.editor > p:first-of-type{font-size:20.5px;line-height:1.6}
+.editor .lede::first-letter{font:400 3.1em/.9 var(--f-head);float:right;margin:4px 0 0 8px;color:var(--accent)}
+details.more{margin-top:4px}
+details.more>summary{list-style:none;cursor:pointer;display:inline-flex;align-items:center;gap:10px;min-height:46px;padding:0 18px;border-radius:999px;border:1.5px solid var(--ink);font:700 16px var(--f-body);margin:6px 0 12px}
+details.more>summary::-webkit-details-marker{display:none}
+details.more>summary::after{content:"";width:8px;height:8px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg);margin-top:-4px}
+details.more[open]>summary{display:none}
+.byline{display:flex;align-items:center;gap:12px;margin-top:18px;padding-top:14px;border-top:1px solid var(--hair)}
+.avs{display:flex}
+.avs img{width:48px;height:48px;border-radius:50%;object-fit:cover;border:2px solid var(--paper)}
+.avs img+img{margin-inline-start:-12px}
+.bl-t b{display:block;font:400 19px var(--f-head)}
+.bl-t small{font-size:14px;color:var(--ink-2)}
+.listen{display:none!important}
+.voice{display:flex;align-items:center;gap:12px;margin:0 0 18px;padding:10px 14px 10px 10px;border:1.5px solid var(--ink);border-radius:999px;max-width:420px}
+.v-play{flex:none;width:46px;height:46px;border-radius:50%;border:none;background:var(--accent);color:#fff;display:grid;place-items:center;cursor:pointer}
+.v-play svg{width:22px;height:22px;fill:currentColor}.v-play .pa{display:none}
+.voice.on .v-play .pl{display:none}.voice.on .v-play .pa{display:inline}
+.v-meta{flex:1;display:grid;gap:6px}
+.v-meta b{font:700 16px var(--f-body)}
+.v-bar{height:4px;border-radius:4px;background:var(--hair);overflow:hidden}.v-bar i{display:block;height:100%;width:0;background:var(--accent)}
+.v-time{font:600 14px var(--f-body);color:var(--ink-2);font-variant-numeric:tabular-nums}
+
+/* week */
+.calhint{display:flex;align-items:center;gap:8px;margin:-6px 0 12px;font-size:15px;color:var(--ink-2)}
+.calhint .ci,.cal{display:inline-grid;place-items:center;flex:none;width:40px;height:40px;border-radius:50%;border:1.5px solid var(--ink);color:var(--ink);background:transparent;text-decoration:none}
+.calhint .ci{width:30px;height:30px}
+.calhint svg,.cal svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
+.cal span{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.agenda2{list-style:none;margin:0;padding:0;display:grid;gap:20px}
+.agenda2 .dh{display:flex;align-items:baseline;gap:10px;padding-bottom:6px;border-bottom:1px solid var(--ink)}
+.agenda2 .dh b{font:400 30px/1 var(--f-head);color:var(--accent)}
+.agenda2 .dh span{font:700 15px var(--f-body);color:var(--ink)}
+.agenda2 .ev{display:grid;grid-template-columns:56px 1fr 40px;gap:12px;align-items:start;padding:12px 0;border-bottom:1px solid var(--hair)}
+.agenda2 .ev:last-child{border-bottom:none}
+.agenda2 .tm{font:800 16px var(--f-body);font-variant-numeric:tabular-nums;padding-top:2px}
+.agenda2 .w b{display:block;font:700 18px/1.3 var(--f-body)}
+.agenda2 .w span{display:block;font-size:15.5px;line-height:1.45;color:var(--ink-2);margin-top:3px}
+.agenda2 .clip,.clip{display:none!important}
+.more-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;min-height:50px;margin-top:14px;border-radius:999px;border:1.5px solid var(--ink);background:transparent;font:700 16px var(--f-body);cursor:pointer}
+.break-note{margin-top:14px;padding:12px 14px;background:var(--paper-2);border-radius:6px}
+
+/* month calendar (older issues) */
+.month-fold{margin-top:16px}
+.month-fold>summary{list-style:none;cursor:pointer;display:inline-flex;align-items:center;min-height:46px;padding:0 18px;border-radius:999px;border:1.5px solid var(--ink);font:700 16px var(--f-body)}
+.month-fold>summary::-webkit-details-marker{display:none}
+.month{margin-top:12px;border-top:1px solid var(--ink);padding-top:12px}
+.m-head{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:8px}.m-head span{font-size:14px;color:var(--ink-2)}
+.m-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center}
+.m-wd{font-size:13px;font-weight:800;color:var(--ink-2)}
+.m-day{display:grid;place-items:center;aspect-ratio:1;font:600 15px var(--f-body);color:var(--ink-2)}
+button.m-day{border:1px solid var(--ink);background:transparent;color:var(--ink);cursor:pointer;border-radius:50%}
+button.m-day.sel{background:var(--ink);color:var(--paper)}
+.m-list{list-style:none;margin:12px 0 0;padding:0}.m-list li{display:grid;grid-template-columns:48px 1fr;gap:10px;padding:7px 0;border-top:1px solid var(--hair);font-size:15px}
+.m-list b{color:var(--accent)}.m-list li.dim{opacity:.35}
+
+/* vaad */
+.tldr{background:var(--paper-2);padding:16px 18px 6px;border-radius:6px;margin-bottom:16px}
+.tldr h3{font:800 13px var(--f-body);letter-spacing:.14em;color:var(--ink-2);margin-bottom:8px}
+.tldr ul{margin:0 0 10px;padding:0 20px 0 0}.tldr li{margin-bottom:6px}
+.tldr li::marker{color:var(--accent)}
+.alert{border-inline-start:4px solid var(--ink);padding:4px 14px;margin:0 0 16px;font-size:17px}
+details.proto{border-top:1px solid var(--ink);border-bottom:1px solid var(--hair)}
+details.proto>summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:10px;min-height:56px;font:400 19px var(--f-head)}
+details.proto>summary::-webkit-details-marker{display:none}
+details.proto>summary::after{content:"";flex:none;width:9px;height:9px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg);margin-top:-5px;transition:transform .2s}
+details.proto[open]>summary::after{transform:rotate(-135deg);margin-top:4px}
+details.proto .body{padding-bottom:14px;font-size:17px}
+.who-line{font-size:15px;color:var(--ink-2);font-weight:600}
+
+/* board */
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.chip{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:0 16px;border-radius:999px;border:1.5px solid var(--ink);background:transparent;font:700 15.5px var(--f-body);cursor:pointer}
+.chip span{font-weight:500;color:var(--ink-2)}
+.chip.on{background:var(--ink);color:var(--paper)}.chip.on span{color:var(--paper);opacity:.75}
+.fstatus{margin:0 0 4px;font-size:14px;font-weight:700;color:var(--ink-2)}.fstatus:empty{display:none}
+.board{display:grid}
+.notice{display:grid;grid-template-columns:96px 1fr;gap:14px;padding:16px 0;border-bottom:1px solid var(--hair)}
+.notice.off{display:none!important}
+.thumb{position:relative;width:96px;height:120px;padding:0;border:none;border-radius:4px;overflow:hidden;background:var(--paper-2);cursor:zoom-in}
+.thumb img{width:100%;height:100%;object-fit:cover}
+.thumb .zi{position:absolute;bottom:6px;left:6px;width:26px;height:26px;padding:4px;border-radius:50%;background:rgba(20,22,16,.7);color:#fff}
+.thumb.ph{display:grid;place-items:center;height:96px;cursor:default;color:var(--ink-2)}
+.thumb.ph svg{width:30px;height:30px}
+.zband{display:none}
+.txt .tag{display:block;font:800 12.5px var(--f-body);letter-spacing:.1em;color:var(--accent);margin-bottom:3px}
+.txt b{display:block;font:400 20px/1.25 var(--f-head);margin-bottom:5px}
+.txt p{font-size:16.5px;line-height:1.55;margin-bottom:6px}
+.who{font-size:14.5px;color:var(--ink-2);font-weight:600}
+a.tel{color:var(--ink);font-weight:800}
+.share{display:inline-flex;align-items:center;gap:6px;margin-top:8px;min-height:38px;padding:0 12px;border-radius:999px;border:1px solid var(--hair);color:var(--ink);font:600 14px var(--f-body);text-decoration:none}
+.share svg{width:16px;height:16px}
+
+/* corners */
+.corners{display:grid}
+.corner{position:relative;display:grid;grid-template-columns:1fr;padding:16px 0;border-bottom:1px solid var(--hair);cursor:pointer}
+.corner .img{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:4px;margin-bottom:12px}
+.corner .label{display:flex;align-items:center;gap:8px;font:800 12.5px var(--f-body);letter-spacing:.1em;color:var(--accent);margin-bottom:4px;padding-inline-end:30px}
+.corner .label svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.corner h3{padding-inline-end:30px}
+.corner::after{content:"";position:absolute;inset-inline-end:4px;top:24px;width:9px;height:9px;border-right:2px solid var(--ink);border-bottom:2px solid var(--ink);transform:rotate(45deg);transition:transform .2s}
+.corner:not(.collapsed)::after{transform:rotate(-135deg);top:28px}
+.corner.collapsed .in > *:not(.label):not(h3){display:none}
+.corner.collapsed .in h3{margin-bottom:0}
+.corner.side.collapsed{grid-template-columns:1fr 84px;gap:14px;align-items:center}
+.corner.side.collapsed .img{grid-column:2;grid-row:1;width:84px;height:84px;aspect-ratio:auto;margin:0}
+.corner.side.collapsed .in{grid-column:1;grid-row:1}
+.corner.side.collapsed::after{inset-inline-end:auto;inset-inline-start:-18px;display:none}
+.corner ul,.corner ol{padding-inline-start:0;padding-inline-end:20px}
+.corner li{margin-bottom:6px}
+blockquote,.verse{margin:10px 0;padding:4px 16px;border-inline-start:3px solid var(--accent);font-size:17px}
+.verse cite{display:block;font-size:14px;color:var(--ink-2);font-style:normal;margin-top:4px}
+.notes{display:grid;gap:12px}
+.sticky{margin:0;padding:14px 16px;background:var(--paper-2);border-radius:4px;font-size:16.5px;line-height:1.55}
+.sticky.alt{background:var(--accent-soft)}
+
+/* mazal */
+.mazal h3{margin-bottom:10px}
+.baby{font:400 30px/1.15 var(--f-head);color:var(--accent);margin-bottom:6px}
+.bdays{list-style:none;margin:0;padding:0}
+.bdays li{display:grid;grid-template-columns:62px 1fr;gap:10px;padding:10px 0;border-bottom:1px solid var(--hair);font-size:17px}
+.bdays .d{font:400 18px var(--f-head);color:var(--accent)}
+.bdays li.today{background:var(--accent-soft);padding-inline:8px;border-radius:4px}
+.bdays li.today .d::after{content:" 🎂"}
+
+/* older issue bits (1803) */
+.memorial{display:grid;gap:14px;margin-top:26px;padding:18px 0;border-block:3px solid var(--ink)}
+.memorial .pics{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.memorial .pics img{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:4px}
+.memorial h2{font:400 30px/1.15 var(--f-head);margin-bottom:8px}
+.holiday,.thanks{display:grid;gap:14px}
+.hand{font:400 30px var(--f-head);color:var(--accent)}
+.pola{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.pola figure,figure.pola{margin:0}
+.pola img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:4px}
+figcaption{font-size:14px;color:var(--ink-2);margin-top:4px}
+.proto-note{font-size:15px;color:var(--ink-2)}
+
+/* previous issue */
+.issue-navs{display:grid;gap:10px;margin:40px 0 0;padding-top:14px;border-top:3px solid var(--ink)}
+.issue-nav{display:flex;align-items:center;gap:12px;min-height:58px;text-decoration:none;color:var(--ink);font:700 17px var(--f-body)}
+.issue-nav b{font:400 22px var(--f-head);color:var(--accent);margin-inline-start:auto}
+.issue-nav::after{order:3}
+
+/* footer */
+footer.wrap{margin-top:30px;padding-block:22px 40px;border-top:3px solid var(--ink)}
+footer > h3,footer > .eds{display:none}
+.write h3{font:400 26px var(--f-head)}
+.eds2{display:grid;gap:12px;margin-top:12px}
+.ed2{display:flex;gap:12px;align-items:center;font-size:15.5px}
+.ed2 img{width:48px;height:48px;border-radius:50%;object-fit:cover}
+.ed2 b{display:block;font-size:17px}
+
+/* lightbox, confetti, hits */
+#lb{max-width:100vw;max-height:100dvh;width:100vw;height:100dvh;margin:0;padding:0;border:none;background:rgba(18,20,14,.95);overflow:auto}
+#lb #lbimg{display:block;width:100%;height:auto;margin:auto;cursor:zoom-in}
+#lb.big #lbimg{width:220%;cursor:zoom-out}
+#lb form{position:fixed;top:12px;inset-inline-start:12px}
+#lb form button{min-height:48px;padding:0 20px;font:700 17px var(--f-body);border-radius:999px;border:none;background:#f7f4ec;color:#1e211b}
+#lb .lb-hint{position:fixed;bottom:14px;inset-inline:0;text-align:center;color:#f7f4ec;font-size:15px}
+main img.zoomable{cursor:zoom-in}
+.confetti{position:fixed;inset:0;pointer-events:none;z-index:50;overflow:hidden}
+.confetti i{position:absolute;top:-12px;width:8px;height:12px;border-radius:2px;animation:fall 2.6s ease-in forwards}
+@keyframes fall{to{transform:translateY(105vh) rotate(540deg);opacity:.8}}
+.hit{animation:hit 1.6s ease-out}
+@keyframes hit{0%{background:var(--accent-soft)}100%{background:transparent}}
+
+/* ---------- desktop ---------- */
+@media (min-width:980px){
+  main.wrap,footer.wrap{max-width:1120px}
+  .ed{display:grid;grid-template-columns:minmax(0,1fr) 330px;column-gap:56px;align-items:start}
+  .ed > *{grid-column:1}
+  .ed > .fp{grid-column:2;grid-row:1 / span 40;position:sticky;top:84px;margin-top:44px}
+  .ed > .old-note,.ed > .issue-navs{grid-column:1 / -1}
+  .notice{grid-template-columns:120px 1fr}.thumb{width:120px;height:150px}
+  .corner.side:not(.collapsed){grid-template-columns:260px 1fr;gap:20px}
+  .corner.side:not(.collapsed) .img{aspect-ratio:4/3}
+}
+@media print{.topbar,.fp,.cal,.filters,.share,.voice{display:none!important}}
+
+/* feedback */
+.fb{margin:0 0 30px;padding:18px;border:1.5px solid var(--ink);border-radius:6px}
+.fb h3{font:400 26px var(--f-head);margin-bottom:12px}
+.fb-rate{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.fb-rate label{cursor:pointer}
+.fb-rate input{position:absolute;opacity:0;pointer-events:none}
+.fb-rate span{display:inline-flex;align-items:center;min-height:46px;padding:0 16px;border-radius:999px;border:1.5px solid var(--ink);font:700 16px var(--f-body)}
+.fb-rate input:checked+span{background:var(--ink);color:var(--paper)}
+.fb-rate input:focus-visible+span{outline:3px solid var(--accent);outline-offset:2px}
+.fb-l{display:block;font:700 15px var(--f-body);margin:8px 0 6px}
+.fb textarea,.fb input[type=text]{width:100%;font:400 17px var(--f-body);padding:12px 14px;border-radius:8px;border:1.5px solid var(--hair);background:var(--surface);color:var(--ink)}
+.fb textarea:focus,.fb input[type=text]:focus{border-color:var(--ink);outline:none}
+.fb-send{margin-top:14px;min-height:50px;padding:0 24px;border-radius:999px;border:none;background:var(--accent);color:#fff;font:700 17px var(--f-body);cursor:pointer}
+.fb-ok{margin:12px 0 0;font-weight:700;color:var(--accent)}
+
+.sec-ill{float:none;position:absolute;top:22px;left:0;margin:0}
+section[data-sec] > h2{padding-left:72px}
+section[data-sec="editor"] > h2{padding-left:0}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .front .logo{content:url(img/logo_ink_dark.png)}}</style>
+
+</head>
+<body>
+<div class="topbar" id="topbar">
+  <div class="appbar">
+    <button type="button" class="mini" id="mini" aria-label="לראש העמוד"><b><i>מיד</i>עצמון</b><span id="mini-n"></span><span class="cursec" id="cursec"></span></button>
+    <div class="acts">
+      <button type="button" class="act" id="btn-toc" aria-expanded="false" aria-controls="p-toc"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h11"/></svg><span>תוכן</span></button>
+      <button type="button" class="act" id="btn-search" aria-expanded="false" aria-controls="p-search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M16.5 16.5 21 21"/></svg><span>חיפוש</span></button>
+      <button type="button" class="act" id="btn-fs" aria-expanded="false" aria-controls="p-fs"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 19 8 6l5 13M4.8 15h6.4M15 19l3.5-9 3.5 9M16 16.5h5"/></svg><span>גודל</span></button>
+    </div>
+  </div>
+  <div class="panel toc" id="p-toc" hidden>
+    <div class="p-title">בגיליון הזה</div>
+    <nav class="tabs" aria-label="פינות הגיליון">
+  <ul>
+    <li><a href="#editor" data-go="editor" class="on">דבר העורכים</a></li>
+    <li><a href="#week" data-go="week">השבוע בעצמון</a></li>
+    <li><a href="#vaad" data-go="vaad">מהוועד</a></li>
+    <li><a href="#board" data-go="board">לוח מודעות</a></li>
+    <li><a href="#thanks" data-go="thanks">רצינו לומר תודה</a></li>
+    <li><a href="#corners" data-go="corners">הפינות</a></li>
+    <li><a href="#mazal" data-go="mazal">מזל טוב</a></li>
+  </ul>
+</nav>
+
+  </div>
+  <div class="panel search" id="p-search" hidden>
+    <label for="q" class="p-title">חיפוש בגיליון</label>
+    <input id="q" type="search" autocomplete="off" placeholder="שם, אירוע, טלפון...">
+    <ul class="results" id="results" aria-live="polite"></ul>
+  </div>
+  <div class="panel" id="p-fs" hidden>
+    <div class="p-title">גודל הטקסט</div>
+    <div class="fsopts" role="group" aria-label="גודל טקסט">
+      <button type="button" data-fs="1" aria-pressed="true"><b style="font-size:20px">א</b>רגיל</button>
+      <button type="button" data-fs="1.25" aria-pressed="false"><b style="font-size:27px">א</b>גדול</button>
+      <button type="button" data-fs="1.5" aria-pressed="false"><b style="font-size:34px">א</b>גדול מאוד</button>
+    </div>
+  </div>
+</div>
+<div class="wrap mast-wrap" id="mastwrap">
+  <header class="front" id="front">
+    <img class="logo" src="img/logo_ink.png" alt="עצמון שגב, יישוב קהילתי בגליל">
+    <h1 class="word" aria-label="מידעצמון"><span class="a">מיד</span>עצמון</h1>
+    <div class="dateline"><span>גיליון <b id="m-n"></b></span><span id="m-date"></span><span id="m-extra" hidden></span></div>
+    <div class="scene-wrap" id="scene"><svg class="scene" viewBox="0 0 800 220" preserveAspectRatio="xMidYMax slice" role="img" aria-label="איור: נוף הגליל בעצמון, משתנה לפי השעה ומזג האוויר">
+  <defs>
+    <linearGradient id="skyg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" class="sk0"/><stop offset=".55" class="sk1"/><stop offset="1" class="sk2"/></linearGradient>
+  </defs>
+  <rect class="sky" x="0" y="0" width="800" height="220" fill="url(#skyg)"/>
+  <g class="stars" fill="#fffdf8"><circle cx="120" cy="30" r="1.6"/><circle cx="190" cy="54" r="1.2"/><circle cx="260" cy="22" r="1.4"/><circle cx="350" cy="44" r="1.1"/><circle cx="420" cy="18" r="1.5"/><circle cx="470" cy="58" r="1.1"/><circle cx="660" cy="28" r="1.4"/><circle cx="720" cy="56" r="1.2"/><circle cx="60" cy="62" r="1.2"/></g>
+  <g class="sun"><circle cx="600" cy="64" r="30" fill="#f1e3b3"/></g>
+  <g class="moon"><path d="M598 34a22 22 0 1 0 22 30 18 18 0 1 1-22-30z" fill="#f4efd9"/></g>
+  <g class="clouds c-light" fill="#fffdf8"><ellipse cx="210" cy="62" rx="34" ry="11"/><ellipse cx="232" cy="54" rx="20" ry="11"/><ellipse cx="680" cy="96" rx="26" ry="8"/><ellipse cx="694" cy="90" rx="14" ry="8"/></g>
+  <g class="clouds c-heavy" fill="#d9ddd6"><ellipse cx="160" cy="46" rx="70" ry="20"/><ellipse cx="210" cy="34" rx="44" ry="20"/><ellipse cx="420" cy="40" rx="80" ry="18"/><ellipse cx="460" cy="28" rx="46" ry="18"/><ellipse cx="660" cy="44" rx="74" ry="20"/><ellipse cx="610" cy="34" rx="40" ry="18"/></g>
+  <g class="terrain">
+    <path class="h1" d="M0 122C90 96 160 92 250 108S420 130 520 102S700 78 800 96V220H0Z"/>
+    <path class="h2" d="M0 152C80 128 170 122 260 138S430 162 540 136S720 118 800 132V220H0Z"/>
+    <g class="cyp">
+      <path d="M470 134c-5-14-4-34 3-46 7 12 8 32 3 46z"/><path d="M486 138c-4-11-3-27 2-37 6 10 7 26 2 37z"/>
+      <path d="M150 130c-4-12-3-29 3-40 6 11 7 28 3 40z"/><path d="M164 134c-3-10-2-22 2-30 5 8 6 20 2 30z"/>
+      <path d="M716 128c-4-12-3-28 3-38 6 10 7 26 3 38z"/>
+    </g>
+    <g class="houses">
+      <path class="wall" d="M500 142v-16l14-10 14 10v16z"/><path class="roof" d="M497 127l17-13 17 13z"/>
+      <path class="wall" d="M536 144v-12l10-8 10 8v12z"/><path class="roof" d="M534 133l12-10 12 10z"/>
+      <path class="wall" d="M564 142v-14l12-9 12 9v14z"/><path class="roof" d="M561 129l15-12 15 12z"/>
+      <rect class="win" x="510" y="130" width="7" height="6" rx="1"/><rect class="win" x="543" y="135" width="6" height="5" rx="1"/><rect class="win" x="573" y="131" width="6" height="6" rx="1"/>
+    </g>
+    <path class="h3" d="M0 180C100 160 210 158 320 172S520 192 640 170S760 162 800 168V220H0Z"/>
+    <g class="olives">
+      <g class="tree"><path class="trunk" d="M94 180v-10"/><ellipse cx="94" cy="160" rx="22" ry="14"/><ellipse cx="112" cy="164" rx="14" ry="10"/></g>
+      <g class="tree"><path class="trunk" d="M312 182v-10"/><ellipse cx="312" cy="162" rx="19" ry="12"/><ellipse cx="330" cy="166" rx="11" ry="8"/></g>
+      <g class="tree"><path class="trunk" d="M690 176v-10"/><ellipse cx="692" cy="157" rx="22" ry="14"/><ellipse cx="672" cy="162" rx="13" ry="9"/></g>
+    </g>
+    <g class="squill"><g class="stem"><path d="M232 196v-30M246 198v-24M560 192v-28M574 194v-22M412 200v-24"/></g>
+      <g class="fl"><ellipse cx="232" cy="164" rx="3.5" ry="9"/><ellipse cx="246" cy="172" rx="3" ry="7"/><ellipse cx="560" cy="162" rx="3.5" ry="9"/><ellipse cx="574" cy="170" rx="3" ry="7"/><ellipse cx="412" cy="174" rx="3" ry="8"/></g></g>
+    <g class="bloom"><circle cx="220" cy="190" r="3"/><circle cx="236" cy="194" r="3"/><circle cx="420" cy="198" r="3"/><circle cx="570" cy="188" r="3"/><circle cx="586" cy="192" r="3"/></g>
+    <path class="h4" d="M0 198C140 186 260 188 400 196S650 206 800 192V220H0Z"/>
+  </g>
+  <rect class="fog" x="0" y="90" width="800" height="130"/>
+</svg><div class="fx" aria-hidden="true"></div></div>
+    <div class="switcher" hidden>
+      <button type="button" class="sw" id="sw-older">גיליון קודם</button>
+      <label class="sw-sel"><select id="sw-sel"></select></label>
+      <button type="button" class="sw" id="sw-newer">גיליון הבא</button>
+    </div>
+    <div class="streak" id="streak" hidden></div>
+  </header>
+</div>
+
+<main class="wrap">
+<article class="ed" id="g1804" data-n="1804" data-date="שישי, 16 באוקטובר 2026" data-extra="פרשת נח" data-season="autumn"><div class="fp"><section class="soon" aria-labelledby="soon-h"><h2 class="fp-h" id="soon-h">בקרוב בעצמון</h2><ol class="soon-list"></ol><a class="fp-more" href="#week" data-jump="week">לכל האירועים</a></section><nav class="index" aria-labelledby="idx-h"><h2 class="fp-h" id="idx-h">בגיליון הזה</h2><ol class="idx"></ol></nav></div>
+
+  <section data-sec="editor">
+    <svg class="sec-ill" viewBox="0 0 80 64" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 34h30v14a10 10 0 0 1-10 10H24a10 10 0 0 1-10-10z" fill="var(--hill-soft)"/><path d="M44 38h4a5 5 0 0 1 0 10h-4M22 28c-2-4 2-6 0-10M30 28c-2-4 2-6 0-10M38 28c-2-4 2-6 0-10M8 58h46"/><path d="M58 20h16v38H58z" fill="var(--surface)"/><path d="M62 28h8M62 34h8M62 40h6M62 46h8"/></svg>
+    <span class="kicker">דברי פתיחה</span>
+    <h2>שבת שלום חברות וחברים, מה היה לנו השבוע?</h2>
+    <article class="editor"><div class="voice"><button type="button" class="v-play" aria-label="השמעה: האזינו לזיגי"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="pl" d="M8 5.5v13l11-6.5z"/><path class="pa" d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg></button><div class="v-meta"><b>האזינו לזיגי</b><span class="v-bar"><i></i></span></div><span class="v-time">0:40</span><audio src="img/zigi.mp3" preload="metadata"></audio></div>
+      <p>אנחנו שבוע וחצי לפני הבחירות, הקמפיינים בעיצומם, הכותרות עסוקות בכל מיני סיפורים – אבל יש נושא אחד שמשום מה לא מצליח להיכנס לכותרות, למרות שהוא מעניין ונוגע בכיס של כל אחד מאיתנו: יוקר המחיה בישראל.</p>
+      <p>יוקר המחיה בישראל כבר לא "קצת יקר" – הוא פשוט רודף אחרינו לכל מקום. בסופר, בתחנת הדלק, בחנות הבגדים, ואפילו בחו"ל כשאתה קונה משהו ופתאום נזכר ומתעצבן כמה יקר זה עולה אצלנו.</p>
+      <details class="more">
+        <summary>להמשך קריאה</summary>
+        <p>רוב המשפחות כבר מרגישות שהמשכורת מגיעה בעיקר כדי לשלם על הדברים שאי אפשר לוותר עליהם, ומה שנשאר בסוף החודש מספיק בעיקר בשביל לנשום עמוק ולקוות ששום דבר לא יישבר. אז בדקנו עבורכם מה מציעים לנו הנבחרים הפוטנציאליים כדי להפוך את החיים לקצת פחות יקרים (או לפחות לקצת פחות כואבים):</p>
+        <h4>ישר! (איזנקוט)</h4>
+        <p><b>דיור ותחבורה:</b> "בוא נבנה מהר יותר במקומות שאנשים באמת רוצים לגור", ניתן עדיפות להתחדשות עירונית עם ממ"דים, ונשפוך כסף על תחבורה ציבורית.</p>
+        <p><b>מזון וחינוך:</b> נפתח את השוק ליבוא מקביל (כי למה שאנחנו נהיה יותר יקרים מאירופה?), נכריח מונופולים להיות שקופים ברווחים, ונסבסד חינוך לגיל הרך – אבל רק להורים שעובדים ומשרתים. כלומר: עובדים? משרתים? מגיע לכם. השאר? תסתדרו.</p>
+        <h4>הדמוקרטים (יאיר גולן)</h4>
+        <p><b>שכר ודיור:</b> נעלה בהדרגה את שכר המינימום, נרחיב את מענק העבודה, נקים רשות ממשלתית לדיור בר-השגה, ונחוקק חוק שכירות הוגנת (כי כרגע השכירות בישראל זה בעיקר "הוגן לבעל הדירה").</p>
+        <p><b>מזון ותחרות:</b> נפרק את התאגידים הגדולים, נכריח אותם למכור חברות-בנות, נעודד הפצה עצמאית, נגדיר בחוק מה זה "מחיר מופרז", ונעשה סדר גם בבנקים ובפנסיה. בקיצור – פחות ענקים, יותר תחרות.</p>
+        <h4>הציונות הדתית</h4>
+        <p><b>שוק חופשי ומונופולים:</b> לא אוהבים פיקוח מחירים מלא, מעדיפים לפרק מונופולים ומותגים גדולים בשוק המזון ולהגביל נתחי שוק (בסגנון הרפורמה בבנקים).</p>
+        <p><b>מה כבר עשינו:</b> בלימת אינפלציה, רפורמת "מה שטוב לאירופה טוב לישראל", והגדלת היצע דיור בפריפריה. כלומר – פחות פיקוח, יותר תחרות, וקצת גאווה על מה שכבר הושג.</p>
+        <h4>ישראל ביתנו (ליברמן)</h4>
+        <p><b>יבוא ותשתיות:</b> עוד יבוא מקביל לפי תקנים בינלאומיים, ביטול מכסים, נסיעה חינם לפנסיונרים והוזלת תחבורה ציבורית.</p>
+        <p><b>דיור ועצמאים:</b> שינוי שיטת שיווק הקרקעות – התחרות תהיה על מי שמסיים מהר יותר ומי שמוכר יותר זול לצרכן. ובנוסף – רשת ביטחון וולונטרית לעצמאים (כי גם הם בני אדם, לא רק עובדים שכירים).</p>
+        <h4>המילואימניקים והכלכלית (הנדל + זליכה)</h4>
+        <p><b>תגמול למשרתים:</b> עדיפות במעונות, דיור, משכנתאות ומכרזי קרקע למי שעושה מילואים.</p>
+        <p><b>יוזמה עסקית:</b> פחות ביורוקרטיה, פחות חסמי יבוא, מסלולים ירוקים להשקעות, ותמיכה בעסקים קטנים ובינוניים + רשת ביטחון חברתית דיפרנציאלית. בקיצור – מי שנושא בנטל, מקבל עדיפות, ומי שרוצה לעשות עסקים – מקבל פחות כאב ראש.</p>
+        <h4>ביחד (בנט)</h4>
+        <p><b>דיור ומילואים:</b> "ואוצ'ר" של מיליון שקל לרכישת דירה למשרתים פעילים שאין להם דירה, ובנוסף בניית 100 אלף דירות להשכרה ארוכת טווח (40% מהן מסובסדות).</p>
+        <p><b>מזון וכשרות:</b> נפרק קטגוריות עודפות אצל יצרנים מונופוליסטיים (לא תוכלו יותר להחזיק כמה מותגים דומיננטיים באותו תחום), ונפתח את שוק הכשרות לתחרות. כי גם כשרות יכולה להיות קצת יותר תחרותית.</p>
+        <h4>ש"ס</h4>
+        <p><b>בריאות וצרכנות:</b> נמשיך להוריד חסמי יבוא במזון ובתמרוקים, ונוודא שההוזלה באמת מגיעה לצרכן (ולא נשארת אצל מישהו באמצע). בנוסף – צמצום כפל ביטוחים והרחבת חופש הבחירה בבריאות.</p>
+        <p><b>שירות לציבור:</b> הקלה ברישוי לעסקים קטנים, יותר סמכויות לרוקחים בקהילה, וקיצור תורים בהתפתחות הילד ובמכון הרפואי לבטיחות בדרכים. כלומר – פחות המתנה, יותר נגישות.</p>
+        <h4>החרדים</h4>
+        <p>כאן הסיפור קצת שונה. לרוב המפלגות החרדיות המסורתיות יוקר המחיה הוא בעיקר "בעיה של אחרים". הן מתמקדות בשמירה על תקציבי ישיבות, קצבאות, דיור למשפחות גדולות ואוטונומיה בחינוך.</p>
+        <h4>המפלגות הערביות</h4>
+        <p>פחות מדברים על "לפרק את המונופולים של תנובה" ויותר על "תנו לנו את החלק שלנו בעוגה".</p>
+        <p><b>בקיצור:</b> כמעט כולם מבטיחים לפרק מונופולים, לפתוח יבוא, לבנות דירות ולעזור למי שמשרת. עכשיו נשאר רק לראות מי באמת יצליח להפוך את זה ממצגת יפה לסופר זול יותר. בקרוב נדע אם מישהו פה באמת התכוון להוריד את יוקר המחיה, או שזה רק דיבורים לקמפיין?</p>
+        <p>מה נגיד? נגמר לנו הכוח. שנהיה בריאים, שנשלם בשקט, ורק שיתנו לנו לחיות בשלום – כי כבר מאסנו במלחמות, ביוקר המחיה, בשקרים והעבודה בעיניים.</p>
+      </details>
+      <div class="byline"><span class="avs"><img src="img/w_nir.jpg" alt="ניר שנק"><img src="img/w_zigi.jpg" alt="זיגי זיגלמן"></span><span class="bl-t"><b>שבת שלום! ניר וזיגי</b><small>ניר שנק ויעקב (זיגי) זיגלמן, עורכי מידעצמון</small></span></div>
+    </article>
+  </section>
+
+  <aside class="inshort" aria-label="בקצרה">
+    <div class="is-head">בקצרה השבוע</div>
+    <ul><li>שבוע וחצי לבחירות: מה המפלגות מבטיחות על יוקר המחיה</li><li>מפגש ועדות פתוח לכולם ב-10.11, ותוכניות עבודה עד 3.11</li><li>הורים על הבר ב-22.10, וערב "חמישה גוונים של ורוד" ב-24.10</li><li>נוער לצוות ההגברה ומתנדבים ליחידת החילוץ</li></ul>
+  </aside>
+
+  <section data-sec="week">
+    <svg class="sec-ill" viewBox="0 0 80 64" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 18h52v40H14z" fill="var(--surface)"/><path d="M14 28h52M26 12v10M54 12v10"/><circle cx="40" cy="43" r="8" fill="#f3e6b8"/><path d="M40 30v3M40 53v3M27 43h3M50 43h3M31 34l2 2M47 50l2 2M49 34l-2 2M33 50l-2 2"/></svg>
+    <span class="kicker">הוספה ליומן</span>
+    <h2>השבוע בעצמון ועוד</h2><p class="calhint"><span class="ci"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4M12 13v5M9.5 15.5h5"/></svg></span>לחיצה על הכפתור מוסיפה את האירוע ליומן גוגל בטלפון</p>
+    <ul class="agenda2"><li class="day"><h3 class="dh"><b>16</b><span>אוק׳ · שישי</span></h3><div class="ev"><span class="tm">08:30</span><div class="w"><b>אשטנגה למתחילים</b><span>בית משפחת קולר, השחף 443 · תרגול אחרון לתקופה הקרובה</span></div><a class="cal" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=%D7%90%D7%A9%D7%98%D7%A0%D7%92%D7%94%20%D7%9C%D7%9E%D7%AA%D7%97%D7%99%D7%9C%D7%99%D7%9D&amp;dates=20261016T083000/20261016T103000&amp;ctz=Asia/Jerusalem&amp;details=%D7%91%D7%99%D7%AA%20%D7%9E%D7%A9%D7%A4%D7%97%D7%AA%20%D7%A7%D7%95%D7%9C%D7%A8%2C%20%D7%94%D7%A9%D7%97%D7%A3%20443%20%C2%B7%20%D7%AA%D7%A8%D7%92%D7%95%D7%9C%20%D7%90%D7%97%D7%A8%D7%95%D7%9F%20%D7%9C%D7%AA%D7%A7%D7%95%D7%A4%D7%94%20%D7%94%D7%A7%D7%A8%D7%95%D7%91%D7%94%0A%D7%9E%D7%AA%D7%95%D7%9A%20%D7%9E%D7%99%D7%93%D7%A2%D7%A6%D7%9E%D7%95%D7%9F" target="_blank" rel="noopener" aria-label="הוספה ליומן גוגל: אשטנגה למתחילים"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4M12 13v5M9.5 15.5h5"/></svg><span>ליומן</span></a></div></li><li class="day"><h3 class="dh"><b>17</b><span>אוק׳ · שבת</span></h3><div class="ev"><span class="tm">20:00</span><div class="w"><b>מוצאי שבת בספרייה</b><span>איציק פוירשטיין על הרכבת הקלה חיפה–נצרת · ועדת גיל נעים</span></div><a class="cal" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=%D7%9E%D7%95%D7%A6%D7%90%D7%99%20%D7%A9%D7%91%D7%AA%20%D7%91%D7%A1%D7%A4%D7%A8%D7%99%D7%99%D7%94&amp;dates=20261017T200000/20261017T220000&amp;ctz=Asia/Jerusalem&amp;details=%D7%90%D7%99%D7%A6%D7%99%D7%A7%20%D7%A4%D7%95%D7%99%D7%A8%D7%A9%D7%98%D7%99%D7%99%D7%9F%20%D7%A2%D7%9C%20%D7%94%D7%A8%D7%9B%D7%91%D7%AA%20%D7%94%D7%A7%D7%9C%D7%94%20%D7%97%D7%99%D7%A4%D7%94%E2%80%93%D7%A0%D7%A6%D7%A8%D7%AA%20%C2%B7%20%D7%95%D7%A2%D7%93%D7%AA%20%D7%92%D7%99%D7%9C%20%D7%A0%D7%A2%D7%99%D7%9D%0A%D7%9E%D7%AA%D7%95%D7%9A%20%D7%9E%D7%99%D7%93%D7%A2%D7%A6%D7%9E%D7%95%D7%9F" target="_blank" rel="noopener" aria-label="הוספה ליומן גוגל: מוצאי שבת בספרייה"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4M12 13v5M9.5 15.5h5"/></svg><span>ליומן</span></a></div></li><li class="day"><h3 class="dh"><b>20</b><span>אוק׳ · שלישי</span></h3><div class="ev"><span class="tm">19:30</span><div class="w"><b>ישיבת ועד</b><span>הישיבה הבאה של ועד היישוב</span></div><a class="cal" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=%D7%99%D7%A9%D7%99%D7%91%D7%AA%20%D7%95%D7%A2%D7%93&amp;dates=20261020T193000/20261020T213000&amp;ctz=Asia/Jerusalem&amp;details=%D7%94%D7%99%D7%A9%D7%99%D7%91%D7%94%20%D7%94%D7%91%D7%90%D7%94%20%D7%A9%D7%9C%20%D7%95%D7%A2%D7%93%20%D7%94%D7%99%D7%99%D7%A9%D7%95%D7%91%0A%D7%9E%D7%AA%D7%95%D7%9A%20%D7%9E%D7%99%D7%93%D7%A2%D7%A6%D7%9E%D7%95%D7%9F" target="_blank" rel="noopener" aria-label="הוספה ליומן גוגל: ישיבת ועד"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4M12 13v5M9.5 15.5h5"/></svg><span>ליומן</span></a></div></li><li class="day"><h3 class="dh"><b>22</b><span>אוק׳ · חמישי</span></h3><div class="ev"><span class="tm">21:00</span><div class="w"><b>הורים על הבר: יחסי אחים</b><span>ד"ר אנאבלה שקד בקונטיינר · ועדת חינוך</span></div><a class="cal" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=%D7%94%D7%95%D7%A8%D7%99%D7%9D%20%D7%A2%D7%9C%20%D7%94%D7%91%D7%A8%3A%20%D7%99%D7%97%D7%A1%D7%99%20%D7%90%D7%97%D7%99%D7%9D&amp;dates=20261022T210000/20261022T230000&amp;ctz=Asia/Jerusalem&amp;details=%D7%93%22%D7%A8%20%D7%90%D7%A0%D7%90%D7%91%D7%9C%D7%94%20%D7%A9%D7%A7%D7%93%20%D7%91%D7%A7%D7%95%D7%A0%D7%98%D7%99%D7%99%D7%A0%D7%A8%20%C2%B7%20%D7%95%D7%A2%D7%93%D7%AA%20%D7%97%D7%99%D7%A0%D7%95%D7%9A%0A%D7%9E%D7%AA%D7%95%D7%9A%20%D7%9E%D7%99%D7%93%D7%A2%D7%A6%D7%9E%D7%95%D7%9F" target="_blank" rel="noopener" aria-label="הוספה ליומן גוגל: הורים על הבר: יחסי אחים"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4M12 13v5M9.5 15.5h5"/></svg><span>ליומן</span></a></div></li><li class="day"><h3 class="dh"><b>24</b><span>אוק׳ · שבת</span></h3><div class="ev"><span class="tm">20:30</span><div class="w"><b>חמישה גוונים של ורוד</b><span>ערב לחודש המודעות לסרטן השד · מוצאי שבת</span></div><a class="cal" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=%D7%97%D7%9E%D7%99%D7%A9%D7%94%20%D7%92%D7%95%D7%95%D7%A0%D7%99%D7%9D%20%D7%A9%D7%9C%20%D7%95%D7%A8%D7%95%D7%93&amp;dates=20261024T203000/20261024T223000&amp;ctz=Asia/Jerusalem&amp;details=%D7%A2%D7%A8%D7%91%20%D7%9C%D7%97%D7%95%D7%93%D7%A9%20%D7%94%D7%9E%D7%95%D7%93%D7%A2%D7%95%D7%AA%20%D7%9C%D7%A1%D7%A8%D7%98%D7%9F%20%D7%94%D7%A9%D7%93%20%C2%B7%20%D7%9E%D7%95%D7%A6%D7%90%D7%99%20%D7%A9%D7%91%D7%AA%0A%D7%9E%D7%AA%D7%95%D7%9A%20%D7%9E%D7%99%D7%93%D7%A2%D7%A6%D7%9E%D7%95%D7%9F" target="_blank" rel="noopener" aria-label="הוספה ליומן גוגל: חמישה גוונים של ורוד"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4M12 13v5M9.5 15.5h5"/></svg><span>ליומן</span></a></div></li><li class="day"><h3 class="dh"><b>28</b><span>אוק׳ · רביעי</span></h3><div class="ev"><span class="tm">16:00–21:00</span><div class="w"><b>התרמת דם במועדון</b><span>מגן דוד אדום · כולם מוזמנים</span></div><a class="cal" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=%D7%94%D7%AA%D7%A8%D7%9E%D7%AA%20%D7%93%D7%9D%20%D7%91%D7%9E%D7%95%D7%A2%D7%93%D7%95%D7%9F&amp;dates=20261028T160000/20261028T210000&amp;ctz=Asia/Jerusalem&amp;details=%D7%9E%D7%92%D7%9F%20%D7%93%D7%95%D7%93%20%D7%90%D7%93%D7%95%D7%9D%20%C2%B7%20%D7%9B%D7%95%D7%9C%D7%9D%20%D7%9E%D7%95%D7%96%D7%9E%D7%A0%D7%99%D7%9D%0A%D7%9E%D7%AA%D7%95%D7%9A%20%D7%9E%D7%99%D7%93%D7%A2%D7%A6%D7%9E%D7%95%D7%9F" target="_blank" rel="noopener" aria-label="הוספה ליומן גוגל: התרמת דם במועדון"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4M12 13v5M9.5 15.5h5"/></svg><span>ליומן</span></a></div></li><li class="day"><h3 class="dh"><b>30</b><span>אוק׳ · שישי</span></h3><div class="ev"><span class="tm"></span><div class="w"><b>ליגת הפטאנק של משגב</b><span>מפגש הליגה הראשון · קבוצת עצמון מחפשת שחקנים</span></div><a class="cal" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=%D7%9C%D7%99%D7%92%D7%AA%20%D7%94%D7%A4%D7%98%D7%90%D7%A0%D7%A7%20%D7%A9%D7%9C%20%D7%9E%D7%A9%D7%92%D7%91&amp;dates=20261030/20261031&amp;ctz=Asia/Jerusalem&amp;details=%D7%9E%D7%A4%D7%92%D7%A9%20%D7%94%D7%9C%D7%99%D7%92%D7%94%20%D7%94%D7%A8%D7%90%D7%A9%D7%95%D7%9F%20%C2%B7%20%D7%A7%D7%91%D7%95%D7%A6%D7%AA%20%D7%A2%D7%A6%D7%9E%D7%95%D7%9F%20%D7%9E%D7%97%D7%A4%D7%A9%D7%AA%20%D7%A9%D7%97%D7%A7%D7%A0%D7%99%D7%9D%0A%D7%9E%D7%AA%D7%95%D7%9A%20%D7%9E%D7%99%D7%93%D7%A2%D7%A6%D7%9E%D7%95%D7%9F" target="_blank" rel="noopener" aria-label="הוספה ליומן גוגל: ליגת הפטאנק של משגב"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4M12 13v5M9.5 15.5h5"/></svg><span>ליומן</span></a></div></li><li class="day"><h3 class="dh"><b>3</b><span>נוב׳ · שלישי</span></h3><div class="ev"><span class="tm">17:45–18:30</span><div class="w"><b>חיסוני כלבת</b><span>בחדר הדואר, בתיאום תור מראש</span></div><a class="cal" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=%D7%97%D7%99%D7%A1%D7%95%D7%A0%D7%99%20%D7%9B%D7%9C%D7%91%D7%AA&amp;dates=20261103T174500/20261103T183000&amp;ctz=Asia/Jerusalem&amp;details=%D7%91%D7%97%D7%93%D7%A8%20%D7%94%D7%93%D7%95%D7%90%D7%A8%2C%20%D7%91%D7%AA%D7%99%D7%90%D7%95%D7%9D%20%D7%AA%D7%95%D7%A8%20%D7%9E%D7%A8%D7%90%D7%A9%0A%D7%9E%D7%AA%D7%95%D7%9A%20%D7%9E%D7%99%D7%93%D7%A2%D7%A6%D7%9E%D7%95%D7%9F" target="_blank" rel="noopener" aria-label="הוספה ליומן גוגל: חיסוני כלבת"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4M12 13v5M9.5 15.5h5"/></svg><span>ליומן</span></a></div></li><li class="day"><h3 class="dh"><b>6</b><span>נוב׳ · שישי</span></h3><div class="ev"><span class="tm">09:00</span><div class="w"><b>"מעגלי שכנים": סיור בגילון</b><span>עד 12:00 · בהרשמה מראש</span></div><a class="cal" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=%22%D7%9E%D7%A2%D7%92%D7%9C%D7%99%20%D7%A9%D7%9B%D7%A0%D7%99%D7%9D%22%3A%20%D7%A1%D7%99%D7%95%D7%A8%20%D7%91%D7%92%D7%99%D7%9C%D7%95%D7%9F&amp;dates=20261106T090000/20261106T110000&amp;ctz=Asia/Jerusalem&amp;details=%D7%A2%D7%93%2012%3A00%20%C2%B7%20%D7%91%D7%94%D7%A8%D7%A9%D7%9E%D7%94%20%D7%9E%D7%A8%D7%90%D7%A9%0A%D7%9E%D7%AA%D7%95%D7%9A%20%D7%9E%D7%99%D7%93%D7%A2%D7%A6%D7%9E%D7%95%D7%9F" target="_blank" rel="noopener" aria-label="הוספה ליומן גוגל: "מעגלי שכנים": סיור בגילון"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4M12 13v5M9.5 15.5h5"/></svg><span>ליומן</span></a></div></li><li class="day"><h3 class="dh"><b>10</b><span>נוב׳ · שלישי</span></h3><div class="ev"><span class="tm">08:00</span><div class="w"><b>סיור טבע, היסטוריה ואמנות</b><span>עין עירון, שדות ים וקיסריה · ועדת גיל נעים</span></div><a class="cal" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=%D7%A1%D7%99%D7%95%D7%A8%20%D7%98%D7%91%D7%A2%2C%20%D7%94%D7%99%D7%A1%D7%98%D7%95%D7%A8%D7%99%D7%94%20%D7%95%D7%90%D7%9E%D7%A0%D7%95%D7%AA&amp;dates=20261110T080000/20261110T100000&amp;ctz=Asia/Jerusalem&amp;details=%D7%A2%D7%99%D7%9F%20%D7%A2%D7%99%D7%A8%D7%95%D7%9F%2C%20%D7%A9%D7%93%D7%95%D7%AA%20%D7%99%D7%9D%20%D7%95%D7%A7%D7%99%D7%A1%D7%A8%D7%99%D7%94%20%C2%B7%20%D7%95%D7%A2%D7%93%D7%AA%20%D7%92%D7%99%D7%9C%20%D7%A0%D7%A2%D7%99%D7%9D%0A%D7%9E%D7%AA%D7%95%D7%9A%20%D7%9E%D7%99%D7%93%D7%A2%D7%A6%D7%9E%D7%95%D7%9F" target="_blank" rel="noopener" aria-label="הוספה ליומן גוגל: סיור טבע, היסטוריה ואמנות"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4M12 13v5M9.5 15.5h5"/></svg><span>ליומן</span></a></div><div class="ev"><span class="tm">19:30</span><div class="w"><b>מפגש ועדות</b><span>הוועדות מציגות תוכניות עבודה ותקציב 2027 · מועדון היישוב</span></div><a class="cal" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=%D7%9E%D7%A4%D7%92%D7%A9%20%D7%95%D7%A2%D7%93%D7%95%D7%AA&amp;dates=20261110T193000/20261110T213000&amp;ctz=Asia/Jerusalem&amp;details=%D7%94%D7%95%D7%95%D7%A2%D7%93%D7%95%D7%AA%20%D7%9E%D7%A6%D7%99%D7%92%D7%95%D7%AA%20%D7%AA%D7%95%D7%9B%D7%A0%D7%99%D7%95%D7%AA%20%D7%A2%D7%91%D7%95%D7%93%D7%94%20%D7%95%D7%AA%D7%A7%D7%A6%D7%99%D7%91%202027%20%C2%B7%20%D7%9E%D7%95%D7%A2%D7%93%D7%95%D7%9F%20%D7%94%D7%99%D7%99%D7%A9%D7%95%D7%91%0A%D7%9E%D7%AA%D7%95%D7%9A%20%D7%9E%D7%99%D7%93%D7%A2%D7%A6%D7%9E%D7%95%D7%9F" target="_blank" rel="noopener" aria-label="הוספה ליומן גוגל: מפגש ועדות"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4M12 13v5M9.5 15.5h5"/></svg><span>ליומן</span></a></div></li><li class="day"><h3 class="dh"><b>27</b><span>נוב׳ · שישי</span></h3><div class="ev"><span class="tm"></span><div class="w"><b>שלבים מארחים מס' 2</b><span>שמרו את התאריך · פרטים בהמשך</span></div><a class="cal" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=%D7%A9%D7%9C%D7%91%D7%99%D7%9D%20%D7%9E%D7%90%D7%A8%D7%97%D7%99%D7%9D%20%D7%9E%D7%A1%27%202&amp;dates=20261127/20261128&amp;ctz=Asia/Jerusalem&amp;details=%D7%A9%D7%9E%D7%A8%D7%95%20%D7%90%D7%AA%20%D7%94%D7%AA%D7%90%D7%A8%D7%99%D7%9A%20%C2%B7%20%D7%A4%D7%A8%D7%98%D7%99%D7%9D%20%D7%91%D7%94%D7%9E%D7%A9%D7%9A%0A%D7%9E%D7%AA%D7%95%D7%9A%20%D7%9E%D7%99%D7%93%D7%A2%D7%A6%D7%9E%D7%95%D7%9F" target="_blank" rel="noopener" aria-label="הוספה ליומן גוגל: שלבים מארחים מס' 2"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4M12 13v5M9.5 15.5h5"/></svg><span>ליומן</span></a></div></li></ul>
+  </section>
+
+
+  <section data-sec="vaad">
+    <svg class="sec-ill" viewBox="0 0 80 64" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 58h60"/><path d="M18 58V38l16-12 16 12v20z" fill="var(--surface)"/><path d="M14 40l20-16 20 16" fill="#c9a072"/><path d="M29 58V46h10v12"/><path d="M62 58V46"/><path d="M52 40c0-8 8-12 14-8 6-2 12 4 8 10-2 4-18 6-22-2z" fill="var(--hill-soft)"/></svg>
+    <span class="kicker">פרוטוקול הוועד</span>
+    <h2>מהוועד</h2>
+    <div class="tldr">
+      <h3>בקיצור</h3>
+      <ul>
+        <li>הוגשה תביעה נגד היישוב בסך 450,000 ₪ בגין נפילה באחד השבילים. <b>התביעה מטופלת על ידי חברת הביטוח.</b></li>
+        <li>הוועדות מגישות הצעת תקציב ותוכנית עבודה ל-2027 עד <b>3.11</b>, ומציגות אותן במפגש פתוח לכל התושבים ב-<b>10.11</b>.</li>
+        <li>לקראת הפגישה עם רמ"י ב-19.10 הוחלט אילו נושאים לקדם בשלב י"ב.</li>
+        <li>הישיבה הבאה: <b>יום שלישי 20.10, 19:30</b>.</li>
+      </ul>
+    </div>
+
+    <details class="proto">
+      <summary>פרוטוקול מס' 28 · 13.10.2026</summary>
+      <div class="body">
+        <p><b>משתתפים:</b> אסנת פולק, יורם קוסטינר, אוה שניידר, טמי באומר, שלומי אקריש.</p>
+        <h4>תביעה נגד היישוב – פגיעה גופנית</h4>
+        <p>הוגשה נגד היישוב תביעה בגין נפילה באחד משבילי היישוב, בסך של 450,000 ₪. <b>התביעה מטופלת על ידי חברת הביטוח.</b> הובהר כי לתביעה עשויות להיות השלכות כספיות על היישוב, לרבות תשלום השתתפות עצמית ועלייה משמעותית בפרמיית הביטוח בשנים הבאות.</p>
+        <h4>משפחת ליבנה – שימוש בשטח ציבורי</h4>
+        <p>השתתפו: אילון ורומי מרינברג ליבנה. בהמשך לבקשת המשפחה לעשות שימוש בשטח ציבורי, הוחלט לאפשר למשפחה להשתמש ברצועת שטח ברוחב של 2–3 מטרים, לצורכי גינון בלבד. הרוחב המדויק ייקבע בתיאום עם המשפחה, לאחר סיור משותף בשטח עם ועדת משק.</p>
+        <h4>הכנת תקציב ותוכניות עבודה לשנת 2027</h4>
+        <p>הוועדות מתבקשות להגיש למזכירות הצעת תקציב ותוכנית עבודה לשנת 2027 עד 3.11.2026. ביום שלישי, 10.11.2026, יציגו הוועדות את בקשות התקציב שלהן במפגש משותף של כלל חברי הוועדות, שיתקיים במועדון היישוב. המפגש יהיה פתוח לכלל חברי היישוב, במטרה לאפשר שקיפות, להציג את תוכניות העבודה ובקשות התקציב ולשתף את הציבור בתהליך. יובהר כי המפגש נועד להצגת התוכניות ולשיח פתוח בלבד, ולא לקבלת החלטות בנוגע לתקציב.</p>
+        <h4>הקפאת חיוב בעת היעדרות מהצהרון</h4>
+        <p>התקבלה פנייה של משפחה בבקשה לקבל פטור מתשלום עבור הצהרון בתקופת היעדרות. בהתאם לתקנון ועדת חינוך, לא ניתן לאשר פטור מתשלום במקרה זה. ועד היישוב מגבה את החלטת ועדת חינוך.</p>
+        <h4>שלב י"ב – היערכות לפגישה עם רמ"י</h4>
+        <p>התקיים דיון לקראת הפגישה עם רשות מקרקעי ישראל, המתוכננת ליום 19.10.2026. הוחלט להעלות בפני רמ"י נושאים ובקשות לקידום הפרויקט:</p>
+        <ul>
+          <li>קידום הליך השמאות למגרשים.</li>
+          <li>הרחבת הגדרת המונח "בן היישוב" ו"בן המקום" (סעיפים 4.5.9 (3+4) בקובץ החלטות מועצת מקרקעי ישראל).</li>
+          <li>כנס משתכנים: קביעת מועד הכנס במסגרת תהליך הקליטה והגדרת חובת נוכחות לנרשמים, לצורך היכרות עם היישוב, אופיו ואופן התנהלותו.</li>
+          <li>קבלת רשימת המתנה לנרשמים נוספים.</li>
+          <li>מועד פרסום המכרז לאחר קבלת היתרים לתוכנית פיתוח התשתיות ותוכנית הדגמים.</li>
+          <li>נושאים נוספים שיידרשו לקידום שלב י"ב.</li>
+        </ul>
+        <h4>תביעת משפחת סבג גור והיידי – שלב י'</h4>
+        <p>אושרה הצעת המחיר של עו"ד גיורא מיכאלי, אשר יטפל בתביעה שהגישה משפחת סבג גור והיידי נגד היישוב.</p>
+        <h4>מועד הישיבה הבאה</h4>
+        <p>הישיבה הבאה תתקיים ביום שלישי, 20.10.26, בשעה 19:30.</p>
+      </div>
+    </details>
+  </section>
+
+  <section data-sec="board">
+    <svg class="sec-ill" viewBox="0 0 80 64" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 14h60v42H10z" fill="#e8d9b8"/><path d="M16 20h20v16H16z" fill="var(--surface)" transform="rotate(-4 26 28)"/><path d="M42 18h22v14H42z" fill="var(--hill-soft)" transform="rotate(3 53 25)"/><path d="M30 38h24v14H30z" fill="var(--surface)" transform="rotate(-2 42 45)"/><circle cx="26" cy="20" r="2" fill="currentColor"/><circle cx="53" cy="18" r="2" fill="currentColor"/><circle cx="42" cy="38" r="2" fill="currentColor"/><path d="M20 26h12M20 30h8M46 24h14M34 44h16M34 48h10"/></svg>
+    <span class="kicker">מידע והודעות</span>
+    <h2>לוח מודעות</h2>
+    <div class="filters" role="group" aria-label="סינון מודעות">
+<button type="button" class="chip on" data-f="all" aria-pressed="true">הכל <span>22</span></button>
+<button type="button" class="chip" data-f="event" aria-pressed="false">אירועים <span>8</span></button>
+<button type="button" class="chip" data-f="class" aria-pressed="false">חוגים וספורט <span>5</span></button>
+<button type="button" class="chip" data-f="info" aria-pressed="false">מהמזכירות והמועצה <span>2</span></button>
+<button type="button" class="chip" data-f="ask" aria-pressed="false">בקשות ועזרה <span>2</span></button>
+<button type="button" class="chip" data-f="local" aria-pressed="false">עסקים של תושבים <span>5</span></button>
+</div><p class="fstatus" aria-live="polite"></p><div class="board">
+<article class="notice" data-cat="event"><button type="button" class="thumb" data-poster="img/e_library.jpg" data-alt="מוצאי שבת בספרייה" aria-label="הגדלת המודעה: מוצאי שבת בספרייה"><img src="img/e_library.jpg" alt="" loading="lazy"><span class="zband"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.6"/><path d="M15.5 15.5 21 21M10.5 7.5v6M7.5 10.5h6" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg>הגדלה</span></button><div class="txt"><span class="tag">17.10 · 20:00</span><b>מוצאי שבת בספרייה</b><p>איציק פוירשטיין על פרויקט הרכבת הקלה חיפה–נצרת, מגה-פרויקט של הסעת המונים. כולם מוזמנים!</p><div class="who">ועדת גיל נעים</div></div></article>
+<article class="notice" data-cat="event"><button type="button" class="thumb" data-poster="img/e_parents.jpg" data-alt="הורים על הבר: יחסי אחים" aria-label="הגדלת המודעה: הורים על הבר: יחסי אחים"><img src="img/e_parents.jpg" alt="" loading="lazy"><span class="zband"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.6"/><path d="M15.5 15.5 21 21M10.5 7.5v6M7.5 10.5h6" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg>הגדלה</span></button><div class="txt"><span class="tag">22.10 · 21:00</span><b>הורים על הבר: יחסי אחים</b><p>ד"ר אנאבלה שקד על תחרות, יריבות וקנאה, וכמות המריבות. מה מעצים ומה מכשיל בין אחים ואחיות. בקונטיינר.</p><div class="who">ועדת חינוך</div></div></article>
+<article class="notice" data-cat="event"><button type="button" class="thumb" data-poster="img/e_pink.jpg" data-alt="חמישה גוונים של ורוד" aria-label="הגדלת המודעה: חמישה גוונים של ורוד"><img src="img/e_pink.jpg" alt="" loading="lazy"><span class="zband"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.6"/><path d="M15.5 15.5 21 21M10.5 7.5v6M7.5 10.5h6" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg>הגדלה</span></button><div class="txt"><span class="tag">24.10 · 20:30</span><b>חמישה גוונים של ורוד</b><p>אוקטובר, חודש המודעות לסרטן השד. חמישה אנשים שעברו מסע אישי של התמודדות והחלמה יפתחו בפנינו את הלב, ויספרו על כוחות, תקווה והחיים שאחרי. ערב של הקשבה, חיבור והשראה, כולו של הקהילה. במוצאי שבת.</p></div></article>
+<article class="notice" data-cat="event"><button type="button" class="thumb" data-poster="img/e_blood.jpg" data-alt="התרמת דם במועדון" aria-label="הגדלת המודעה: התרמת דם במועדון"><img src="img/e_blood.jpg" alt="" loading="lazy"><span class="zband"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.6"/><path d="M15.5 15.5 21 21M10.5 7.5v6M7.5 10.5h6" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg>הגדלה</span></button><div class="txt"><span class="tag">28.10 · 16:00</span><b>התרמת דם במועדון</b><p>16:00–21:00. בני 17 באישור אחד ההורים, בני 18–65 לפי הקריטריונים של בנק הדם, ומעל 65 עם אישור מרופא המשפחה. כולם מוזמנים!</p><div class="who">מגן דוד אדום</div></div></article>
+<article class="notice" data-cat="event"><button type="button" class="thumb" data-poster="img/e_gilon.jpg" data-alt=""מעגלי שכנים": סיור בגילון" aria-label="הגדלת המודעה: "מעגלי שכנים": סיור בגילון"><img src="img/e_gilon.jpg" alt="" loading="lazy"><span class="zband"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.6"/><path d="M15.5 15.5 21 21M10.5 7.5v6M7.5 10.5h6" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg>הגדלה</span></button><div class="txt"><span class="tag">6.11 · 09:00</span><b>"מעגלי שכנים": סיור בגילון</b><p>סדרת מפגשי היכרות עם יישובי משגב. בכל מפגש מכירים יישוב דרך סיפורים, סיורים, טעימות ומפגשים אישיים. הפעם בגילון, "בעקבות ראשונים", 09:00–12:00. <a href="https://forms.gle/tzWfS9uL8pdHwR8P8" target="_blank" rel="noopener">להרשמה</a></p><div class="who">לה מנדלבאום · <span class="ltr"><a class="tel" href="tel:0523732195">052-3732195</a></span></div></div></article>
+<article class="notice" data-cat="event"><button type="button" class="thumb" data-poster="img/e_tour.jpg" data-alt="סיור טבע, היסטוריה ואמנות" aria-label="הגדלת המודעה: סיור טבע, היסטוריה ואמנות"><img src="img/e_tour.jpg" alt="" loading="lazy"><span class="zband"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.6"/><path d="M15.5 15.5 21 21M10.5 7.5v6M7.5 10.5h6" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg>הגדלה</span></button><div class="txt"><span class="tag">10.11 · 08:00</span><b>סיור טבע, היסטוריה ואמנות</b><p>יציאה מעצמון ב-08:00: איש האפרסמון בעין עירון, בית חנה סנש בשדות ים, ארוחת צהריים ומוזיאון ראלי בקיסריה. חזרה משוערת 16:30.</p><div class="who">ועדת גיל נעים</div></div></article>
+<article class="notice" data-cat="event"><button type="button" class="thumb" data-poster="img/e_vaadot.jpg" data-alt="מפגש ועדות" aria-label="הגדלת המודעה: מפגש ועדות"><img src="img/e_vaadot.jpg" alt="" loading="lazy"><span class="zband"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.6"/><path d="M15.5 15.5 21 21M10.5 7.5v6M7.5 10.5h6" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg>הגדלה</span></button><div class="txt"><span class="tag">10.11 · 19:30</span><b>מפגש ועדות</b><p>כולם מוזמנים להשתתף ולהכיר את תוכניות העבודה של הוועדות לשנה הקרובה. במועדון היישוב. נשמח לראותכם!</p><div class="who">ועד היישוב</div></div></article>
+<article class="notice" data-cat="event"><div class="thumb ph"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M3.5 10h17M8 3v4M16 3v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div><div class="txt"><span class="tag">27.11</span><b>שלבים מארחים מס' 2</b><p>יוצא לדרך! תשמרו ביומן. פרטים יבואו בהמשך.</p></div></article>
+<article class="notice" data-cat="class"><button type="button" class="thumb" data-poster="img/e_yoga.jpg" data-alt="אשטנגה למתחילים" aria-label="הגדלת המודעה: אשטנגה למתחילים"><img src="img/e_yoga.jpg" alt="" loading="lazy"><span class="zband"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.6"/><path d="M15.5 15.5 21 21M10.5 7.5v6M7.5 10.5h6" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg>הגדלה</span></button><div class="txt"><span class="tag">שישי 16.10 · 08:30</span><b>אשטנגה למתחילים</b><p>תרגול אחרון לתקופה הקרובה! מתאים לכל הרמות והגילאים, בלי ניסיון. 08:30–10:00 בבית משפחת קולר, השחף 443. 50 ₪. להביא מזרון אישי ומגבת קטנה.</p><div class="who">יעל · <span class="ltr"><a class="tel" href="tel:0525330708">052-5330708</a></span></div></div></article>
+<article class="notice" data-cat="class"><button type="button" class="thumb" data-poster="img/e_english.jpg" data-alt="חוג אנגלית חוויתי" aria-label="הגדלת המודעה: חוג אנגלית חוויתי"><img src="img/e_english.jpg" alt="" loading="lazy"><span class="zband"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.6"/><path d="M15.5 15.5 21 21M10.5 7.5v6M7.5 10.5h6" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg>הגדלה</span></button><div class="txt"><span class="tag">חדש בעצמון</span><b>חוג אנגלית חוויתי</b><p>לגילאי 6–9, בשיטת הלן דורון: באים להכיר חברים חדשים, לשחק, לשיר וליהנות.</p><div class="who">כרמית בן דור · <span class="ltr"><a class="tel" href="tel:0543081140">054-3081140</a></span></div></div></article>
+<article class="notice" data-cat="class"><div class="thumb ph"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 7v5l3 2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div><div class="txt"><span class="tag">ליגת הפטאנק</span><b>בונים קבוצה של עצמון</b><p>גם מי שלא שיחק מעולם מוזמן בחום! נלמד, נתאמן וניהנה, באימונים בגמישות ובהתאם למשתתפים. ארבעה מפגשי ליגה השנה: 30.10, 25.12, 12.3 ו-7.5. רוצים להצטרף? כתבו לי בפרטי.</p><div class="who">חמי</div></div></article>
+<article class="notice" data-cat="class"><div class="thumb ph"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 7v5l3 2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div><div class="txt"><span class="tag">גילאי 55–85</span><b>סדנת הפיסול באורנים מחפשת משתתפים</b><p>קובי קלקה לומד ומפסל בסדנה כבר 14 שנה. השנה רשומים 10, והסדנה תיפתח רק אם יהיו 15. בימי שלישי 8:00–14:00, יצירה בברזל, אבן, עץ, קרמיקה ובטון. האווירה נעימה מאוד, לימודית ומפרגנת. מכירים מישהו שיתעניין? שתפו!</p><div class="who">קובי קלקה · <span class="ltr"><a class="tel" href="tel:0522205177">052-2205177</a></span></div></div></article>
+<article class="notice" data-cat="class"><button type="button" class="thumb" data-poster="img/e_pilates.jpg" data-alt="השינוי מתחיל בתנועה" aria-label="הגדלת המודעה: השינוי מתחיל בתנועה"><img src="img/e_pilates.jpg" alt="" loading="lazy"><span class="zband"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.6"/><path d="M15.5 15.5 21 21M10.5 7.5v6M7.5 10.5h6" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg>הגדלה</span></button><div class="txt"><span class="tag">פילאטיס מכשירים</span><b>השינוי מתחיל בתנועה</b><p>הסטודיו של אלונה זאבי במשגב: חיבור גוף ונפש, עבודה בגוף חכם וחיזוק מבפנים. לכל גיל ובכל שלב.</p><div class="who">אלונה זאבי · <span class="ltr"><a class="tel" href="tel:0545669981">054-5669981</a></span></div></div></article>
+<article class="notice" data-cat="ask"><button type="button" class="thumb" data-poster="img/e_sound.jpg" data-alt="צוות ההגברה והתאורה מרחיב שורות" aria-label="הגדלת המודעה: צוות ההגברה והתאורה מרחיב שורות"><img src="img/e_sound.jpg" alt="" loading="lazy"><span class="zband"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.6"/><path d="M15.5 15.5 21 21M10.5 7.5v6M7.5 10.5h6" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg>הגדלה</span></button><div class="txt"><span class="tag">נוער 13–18</span><b>צוות ההגברה והתאורה מרחיב שורות</b><p>נוער מגיל 13 ומעלה שמוזיקה זורמת לו בוורידים: בואו לעבוד בצוות, לתרום לקהילה, לרכוש ידע מעשי בבמה ובסאונד, ולשריין מקום בשורה הראשונה בכל ההופעות.</p><div class="who">אסף ברייטברט · <span class="ltr"><a class="tel" href="tel:0549996373">054-9996373</a></span></div></div></article>
+<article class="notice" data-cat="ask"><button type="button" class="thumb" data-poster="img/e_rescue.jpg" data-alt="מצטרפים ליחידת החילוץ" aria-label="הגדלת המודעה: מצטרפים ליחידת החילוץ"><img src="img/e_rescue.jpg" alt="" loading="lazy"><span class="zband"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.6"/><path d="M15.5 15.5 21 21M10.5 7.5v6M7.5 10.5h6" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg>הגדלה</span></button><div class="txt"><span class="tag">2–4.11</span><b>מצטרפים ליחידת החילוץ</b><p>יחידת החילוץ ההתנדבותית של משגב פותחת קורס מחלץ 02 עם פיקוד העורף: עזרה ראשונה, חילוץ מהריסות וניהול זירת הרס. <a href="https://www.misgav.org.il/242" target="_blank" rel="noopener">להרשמה ולפרטים</a></p><div class="who">מועצה אזורית משגב</div></div></article>
+<article class="notice" data-cat="info"><button type="button" class="thumb" data-poster="img/e_vaccine.jpg" data-alt="חיסוני כלבת" aria-label="הגדלת המודעה: חיסוני כלבת"><img src="img/e_vaccine.jpg" alt="" loading="lazy"><span class="zband"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.6"/><path d="M15.5 15.5 21 21M10.5 7.5v6M7.5 10.5h6" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg>הגדלה</span></button><div class="txt"><span class="tag">נובמבר</span><b>חיסוני כלבת</b><p>בעצמון: יום שלישי 3.11, 17:45–18:30 בחדר הדואר, בתיאום תור מראש. שימו לב: החיסונים במועצה עברו למרכז הווטרינרי החדש, במבנה של קופת חולים מכבי לשעבר, סמוך למועדון הכפרי.</p></div></article>
+<article class="notice" data-cat="info"><button type="button" class="thumb" data-poster="img/e_danger.jpg" data-alt="מראה שונה, סכנה זהה!" aria-label="הגדלת המודעה: מראה שונה, סכנה זהה!"><img src="img/e_danger.jpg" alt="" loading="lazy"><span class="zband"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.6"/><path d="M15.5 15.5 21 21M10.5 7.5v6M7.5 10.5h6" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg>הגדלה</span></button><div class="txt"><span class="tag">פיקוד העורף</span><b>מראה שונה, סכנה זהה!</b><p>רואים רסיס או שארית של נפל? לא מתקרבים, לא נוגעים, מתרחקים ומתקשרים למוקד 100. נפלים מסכנים חיים!</p></div></article>
+<article class="notice" data-cat="local"><button type="button" class="thumb" data-poster="img/e_tzitzu.jpg" data-alt="ערב פיצה ודרינק בצ'צ'ו" aria-label="הגדלת המודעה: ערב פיצה ודרינק בצ'צ'ו"><img src="img/e_tzitzu.jpg" alt="" loading="lazy"><span class="zband"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.6"/><path d="M15.5 15.5 21 21M10.5 7.5v6M7.5 10.5h6" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg>הגדלה</span></button><div class="txt"><span class="tag">חמישי בערב</span><b>ערב פיצה ודרינק בצ'צ'ו</b><p>קפה טוב, זמן לעצמך. כל חמישי בערב.</p><div class="who">קפה צ'צ'ו</div></div></article>
+<article class="notice" data-cat="local"><button type="button" class="thumb" data-poster="img/e_tzabars.jpg" data-alt="צבר'ס, מסעדה באווירה אחרת" aria-label="הגדלת המודעה: צבר'ס, מסעדה באווירה אחרת"><img src="img/e_tzabars.jpg" alt="" loading="lazy"><span class="zband"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.6"/><path d="M15.5 15.5 21 21M10.5 7.5v6M7.5 10.5h6" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg>הגדלה</span></button><div class="txt"><span class="tag">בית קפה</span><b>צבר'ס, מסעדה באווירה אחרת</b><p>טעים כאן!</p><div class="who"><span class="ltr"><a class="tel" href="tel:048336336">04-8336336</a></span></div></div></article>
+<article class="notice" data-cat="local"><button type="button" class="thumb" data-poster="img/e_bali.jpg" data-alt="מוצרי ריפוי טבעי מבאלי" aria-label="הגדלת המודעה: מוצרי ריפוי טבעי מבאלי"><img src="img/e_bali.jpg" alt="" loading="lazy"><span class="zband"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.6"/><path d="M15.5 15.5 21 21M10.5 7.5v6M7.5 10.5h6" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg>הגדלה</span></button><div class="txt"><span class="tag">למכירה</span><b>מוצרי ריפוי טבעי מבאלי</b><p>נשארו כמה מוצרים בודדים במחירים מוזלים: קרם פנים Bali Moon (59 ₪), תמצית N'Care לכאבי ראש (32 ₪) ושמן Perutu לבטן (32 ₪).</p><div class="who">יעל · <span class="ltr"><a class="tel" href="tel:0525330708">052-5330708</a></span></div></div></article>
+<article class="notice" data-cat="local"><button type="button" class="thumb" data-poster="img/e_instinct.jpg" data-alt="העוזר האישי שלכם" aria-label="הגדלת המודעה: העוזר האישי שלכם"><img src="img/e_instinct.jpg" alt="" loading="lazy"><span class="zband"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.6"/><path d="M15.5 15.5 21 21M10.5 7.5v6M7.5 10.5h6" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg>הגדלה</span></button><div class="txt"><span class="tag">וובינר · 18.10</span><b>העוזר האישי שלכם</b><p>שרון מרגולין מציג את Instinct ואיך הוא משמש לו כעוזר אישי. ראשון 18.10, 20:00–21:00 בזום. 50 ₪ בביט ל-<span class="ltr"><a class="tel" href="tel:0526673667">052-6673667</a></span>, וצילום מסך למייל <span class="ltr">woki2004@gmail.com</span>.</p><div class="who">שרון מרגולין</div></div></article>
+<article class="notice" data-cat="local"><div class="thumb ph"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10l8-6 8 6v10H4z M10 20v-6h4v6" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></div><div class="txt"><span class="tag">כל שבוע</span><b>פירות וירקות בעונה</b><p>החל מהיום ועד סוף השבוע, ובכל שבוע: פירות וירקות במגוון רחב, ובעיקר במחירים מפתיעים. בואו להתרשם ולהתרשם.</p><div class="who">מנשה</div></div></article>
+</div>
+  </section>
+
+  <section data-sec="corners">
+    <svg class="sec-ill" viewBox="0 0 80 64" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M40 22c-8-6-20-8-30-6v38c10-2 22 0 30 6 8-6 20-8 30-6V16c-10-2-22 0-30 6z" fill="var(--surface)"/><path d="M40 22v38M16 26c6-1 12 0 18 2M16 33c6-1 12 0 18 2M46 28c6-2 12-3 18-2M46 35c6-2 12-3 18-2"/><path d="M50 50c4-6 10-10 18-12M58 46c-1-3 0-5 3-6M63 43c2 1 4 1 5-1"/></svg>
+    <span class="kicker">הפינות הקבועות</span>
+    <h2>הפינות</h2>
+    <div class="corners">
+
+      <article class="corner side">
+        <img class="img" src="img/e_noah.jpg" alt="איור של תיבת נח" loading="lazy">
+        <div class="in">
+          <div class="label"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h6a2 2 0 0 1 2 2v13a2 2 0 0 0-2-2H4zM20 5h-6a2 2 0 0 0-2 2v13a2 2 0 0 1 2-2h6z"/></svg><span>פרשת השבוע</span></div>
+          <h3>פרשת נח</h3>
+          <p>"אלה תולדות נח – נח איש צדיק תמים היה בדורותיו". שלוש עשרה מילים פותחות את הפרשה, ושלוש פעמים חוזר בהן השם נח. האם אין כאן נח אחד מיותר?</p>
+          <details class="more"><summary>להמשך</summary>
+            <p>כל הדמויות הגדולות בתורה קיבלו את שמן מסיבה: אדם מן האדמה, אברהם כי היה אב המון גויים, יצחק כי אימו צחקה, יעקב כי אחז בעקב אחיו, משה כי נמשה מן המים. ונח? דמות כל כך מרכזית, שהציל את האנושות מכיליון, ואין לשמו נימוק? הנימוק מתחבא במשפט המיותר לכאורה: "את האלוהים התהלך נח". לא נאמר עליו שהיה צדיק אלא שעשה רק מה שנצטווה, ולכן הוא צדיק "בדורותיו", נחשב צדיק ביחס לדורו.</p>
+            <p>פרשת נח היא השנייה בתורה: המבול, נח ומשפחתו בתיבה, ומגדל בבל שבו האנושות ניסתה להגיע לשמיים. פרשנינו מסבירים שבגן עדן, במבול ובמגדל נכשלה התוכנית הגלובלית לאנושות, ולכן בשבוע הבא יעלה על הבמה אברהם אבינו, וילמד אותנו לפעול מתוך מסגרת של עם.</p>
+            <p>"ויאמר ה' לנח: בא אתה וכל ביתך אל התיבה". לפעמים, כשיש מבול, צריך להתכנס פנימה, אל תוך תיבה. פרשנינו מסבירים שזו קריאה לכל אחד מאיתנו: מהי תיבת נח שלך? בעידן של חרדות, טרדות והסחות דעת, מה נותן לנו עוגן וחוסן? וגם: "צא מן התיבה" – צריך לדעת מתי להיכנס, וגם מתי לצאת אל העולם.</p>
+            <p>ובשבע מצוות בני נח, שהן המינימום המוסרי של כל אדם: לא לעבוד עבודה זרה, לא לקלל את האלוהים, לא לרצוח, לא לגזול, לא לגלות עריות, לא לאכול אבר מן החי, ולשפוט לפי החוק.</p>
+          </details>
+        </div>
+      </article>
+
+      <article class="corner">
+        <div class="in">
+          <div class="label">קטע קריאה או ספר שאהבתי</div>
+          <h3>לזכרו של יהודה אטלס</h3>
+          <p>המשורר והסופר יהודה אטלס, שכתב לדורות של ילדים ישראלים את "כשאני יהיה גדול" ו"ככה זה כשאתה גדול", הלך החודש לעולמו. בגיליון בחרו העורכים שלושה משיריו לזכרו: "איפה היו השכנים?", שיר על רגע של קרבה בין אב לבת, ושיר על אישה שבאה הביתה עם ריחות מעיר אחרת. שווה להוריד מהמדף ולקרוא שוב, הפעם בקול, עם הנכדים.</p>
+        </div>
+      </article>
+
+      <article class="corner side">
+        <img class="img" src="img/e_jordan.jpg" alt="כלב על גדת נהר הירדן" loading="lazy">
+        <div class="in">
+          <div class="label"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 19l6-9 4 5 3-3 7 7zM17 5.5a2 2 0 1 0 0 .01"/></svg><span>טיול לשבת</span></div>
+          <h3>טיילת עמי ומפגש מקורות הירדן</h3>
+          <p>מסלול הליכה קצר ויפהפה בצפון, בין כפר בלום לשדה נחמיה, עם נוף לנהר הירדן ולמפגש הנחלים שניר, דן וחרמון. לאורך הטיילת מפל קטן ופינת ישיבה מוצלת לפיקניק או קפה בשטח. הטיילת, כ-1.5 ק"מ, מוקדשת לזכרו של הנער עמי פלד.</p>
+          <details class="more"><summary>להמשך</summary>
+            <p>הטיילת מתחילה בגשר הירוק (גשר יוסף) מעל הירדן, בכביש 9779, המחבר את קריית שמונה עם צומת אנפה. מדרגות אבן יורדות אל נקודה מוצלת סמוך למים, ובימי הקיץ מי הנהר מדלגים מעל הסלעים בזרם מעודן. בחורף הזרם שוצף, וקשה לנהל שיחה בגלל רעש המים.</p>
+            <p><b>נקודה שווה לקפה:</b> כמה מדרגות יורדות אל המפל, שם, תחת עץ, ממתינה פינת ישיבה קסומה. על משטח הטיילת מוטבעים פסוקים, הלקוחים מהתנ"ך ובהם מוזכר הירדן.</p>
+            <p><b>מתי לבוא:</b> כל השנה. בחורפים גשומים פני הירדן עולים, המים מטפסים על הגדות, והמפל כמעט נעלם. מומלץ להימנע משימוש בכלים חד-פעמיים, בהתאם לחוקי המועצה האזורית.</p>
+          </details>
+        </div>
+      </article>
+
+      <article class="corner side">
+        <img class="img" src="img/e_autumn1.jpg" alt="עץ בשלכת" loading="lazy">
+        <div class="in">
+          <div class="label"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z"/></svg><span>אולי יעניין אתכם לדעת</span></div>
+          <h3>הגינה בסתיו: מה עושים עכשיו</h3>
+          <ul>
+            <li><b>קרקע:</b> מאווררים ומדשנים בקומפוסט, בערך דלי לכל שני מטר רבוע. זהירות עם שורשי הצמח.</li>
+            <li><b>גיזום:</b> מרחיקים ענפים סדוקים ופצועים לפני רוחות החורף, ושימו לב לקווי חשמל וטלפון. צמחים שפורחים באביב לא גוזמים עכשיו.</li>
+            <li><b>שתילה:</b> עונה מצוינת לשתילת פרחים, שיחים ועצים, כי האוויר קריר והשקיה נדרשת פחות.</li>
+            <li><b>השקיה:</b> הגשמים עוד לא מספיקים, אז ממשיכים להשקות, אבל מגדילים את המרווחים.</li>
+            <li><b>מדשאה:</b> לפני הגשמים הראשונים מגביהים את הכיסוח ל-7–10 ס"מ, כדי שלא תיחשף לקור.</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="corner side">
+        <img class="img" src="img/e_sport.jpg" alt="אוהדי הפועל חיפה" loading="lazy">
+        <div class="in">
+          <div class="label"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7.5l3.5 2.5-1.3 4h-4.4L8.5 10zM12 3v4.5M21 10.5l-5.5-.5M17.5 19.5l-3.3-5.5M6.5 19.5l3.3-5.5M3 10.5l5.5-.5"/></svg><span>פינת הספורט</span></div>
+          <h3>הפועל חיפה חגגה בתוספת הזמן</h3>
+          <p>הצדק נעשה: הפועל חיפה ניצחה 2:1 את מכבי פתח תקווה, עם שער של סאלי פחימה בתוספת הזמן, וטיפסה למקום החמישי עם 9 נקודות מ-18. בתחילת המשחק נערך טקס לזכרו של סרן אליאב חיים צפלמוס, שנפל בדרום לבנון, ולזכרם של אוהדי הפועל חיפה שנרצחו ב-7 באוקטובר.</p>
+          <details class="more"><summary>להמשך</summary>
+            <p><b>במכבי חיפה:</b> אלי דסה חתם לשנתיים, חיזוק משמעותי לירוקים לפני שזומן לחלון האחרון. הוא מצטרף מיד לסגל של ברק בכר.</p>
+            <p><b>הברק חזר?</b> ארבעה ניצחונות ברציפות, כולל 1:4 על הפועל ירושלים בטדי. זו הפתיחה הטובה ביותר של בכר מאז עונת האליפות השלישית שלו, עם 15 נקודות בשישה מחזורים. ההתקפה מביאה ניצחונות, אבל ההגנה עוד לא מספקת את הסחורה. אולי דסה יביא את השינוי.</p>
+          </details>
+        </div>
+      </article>
+
+      <article class="corner">
+        <div class="in">
+          <div class="label"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 7H6v5h3c0 2-1 3-3 3v2c3 0 5-2 5-5V7zM19 7h-4v5h3c0 2-1 3-3 3v2c3 0 5-2 5-5V7z"/></svg><span>האקדמיה ללשון עברית</span></div>
+          <h3>כֵּן, ולא "כֵּנֶה"</h3>
+          <p>אדם גלוי וישר אינו "כֵּנֶה" אלא כֵּן. המילה שייכת לשורשי ע"ו, כמו עָר, עֵד ומֵת, ונטייתה: כֵּנָה, כֵּנִים, כֵּנוֹת. הצורה "כֵּנֶה" נוצרה בהשפעת צורות כמו גֵּאֶה, זֵהֶה וכֵּהֶה. הפיצו לכל מי שצריכים לדעת: הכי נכון לומר לה כן!</p>
+        </div>
+      </article>
+
+      <article class="corner">
+        <div class="in">
+          <div class="label"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19C5 11 11 5 19 5c0 8-6 14-14 14zM5 19l7.5-7.5"/></svg><span>תרופות סבתא</span></div>
+          <h3>שיעול בלי תרופות</h3>
+          <ul>
+            <li><b>לשאוף אדים:</b> מזרימים מים חמים במקלחת, סוגרים את הדלת ויושבים כ-20 דקות בחדר המלא אדים.</li>
+            <li><b>לשתות הרבה:</b> משקאות חמים וקרים מדללים את הליחה. כפית דבש בתה חם עוזרת במיוחד.</li>
+            <li><b>לישון בתנוחה נכונה:</b> כרית נוספת מתחת לראש מקלה על הנשימה.</li>
+            <li><b>מכשיר אדים קרים:</b> בחדר השינה, ואפשר להוסיף כמה טיפות שמן אקליפטוס.</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="corner side">
+        <img class="img" src="img/e_ai.jpg" alt="איור של מרעיון לתמונה" loading="lazy">
+        <div class="in">
+          <div class="label"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 3l1.8 5.2L18 10l-5.2 1.8L11 17l-1.8-5.2L4 10l5.2-1.8zM18.5 15l.8 2.2 2.2.8-2.2.8-.8 2.2-.8-2.2-2.2-.8 2.2-.8z"/></svg><span>פינת ה-AI · מאמר מס' 57 · מגיש שמוליק נוי</span></div>
+          <h3>איך ליצור תמונות AI מדויקות יותר</h3>
+          <p>ביקשתם תמונה ולא קיבלתם בדיוק מה שרציתם? במקום לנסח בכל פעם בקשה מאפס, אפשר לעבוד עם תבנית פרומפט קבועה בארבעה חלקים:</p>
+          <ol>
+            <li><b>הרעיון המרכזי:</b> מה יוצרים ולשם מה. "תמונה מדהימה" לא מספיק; "איור למאמר על מעבר מעומס לסדר" נותן כיוון.</li>
+            <li><b>תמונות ייחוס:</b> אם מצרפים תמונות, כתבו מה לקחת מכל אחת, למשל דמות מאחת וסגנון מאחרת.</li>
+            <li><b>הפרטים החזותיים:</b> מה נמצא איפה, הרקע, הסגנון, הצבעים והתאורה, ומה אסור שיופיע.</li>
+            <li><b>התוצר והגימור:</b> יחס רוחב לגובה, איזה טקסט יופיע (כולל עברית), ומה תוסיפו בעצמכם.</li>
+          </ol>
+          <details class="more"><summary>איך לנסות ולשפר</summary>
+            <p>בחרו כלי שיש לכם גישה אליו (למשל ChatGPT או Google AI), הדביקו את הפרומפט המלא, ובדקו את התמונה מול הבקשה. במקום להתחיל מחדש, בקשו תיקון ממוקד אחד בכל פעם, למשל "הרחיבו את השטח הפנוי בצד שמאל", ושמרו את התבנית שעבדה לפעם הבאה.</p>
+          </details>
+        </div>
+      </article>
+
+      <article class="corner side">
+        <img class="img" src="img/e_rest.jpg" alt="סלטים במסעדת הלחם והדגים" loading="lazy">
+        <div class="in">
+          <div class="label"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3v18M4.5 3v5a2.5 2.5 0 0 0 5 0V3M17 21V3c-2.5 1.5-3.5 4.5-3.5 8H17"/></svg><span>המלצה על מסעדה</span></div>
+          <h3>הלחם והדגים, עכו</h3>
+          <p>מאז 1962 פועלת בעכו מסעדת "הלחם והדגים" של משפחת חנא, ומגישה דגים, פירות ים, בשרים ותוספות משובחות. ב-1995 שופצה ונפתחה מחדש בטיילת עכו החדשה, מול הים, עם יצירות אמנות על הקירות ותריסים צבעוניים. הארוחה מתחילה בסלטים בדרך המסורתית: חומוס, טחינה, חצילים, טבולה, סלט טורקי ועוד.</p>
+          <p><b>כתובת:</b> ההגנה 30, עכו, הטיילת · <b>שעות:</b> א'–שבת 12:30–01:00 · <b>טלפון:</b> <span class="ltr">04-9819023</span> · נגיש לנכים</p>
+        </div>
+      </article>
+
+      <article class="corner">
+        <div class="in">
+          <div class="label"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 4C12 4 7 9 6 18M6 18c5 0 10-3 12-9M6 18l-2 2.5"/></svg><span>סיפור לשבת</span></div>
+          <h3>הצרצר ברחוב הסואן</h3>
+          <p>שני חברים טיילו בצהריים ברחוב הומה. פתאום עצר אחד מהם, התכופף והוציא מתחת לגדר צרצר קטן. "איך שמעת אותו בתוך כל הרעש הזה?" שאל חברו. "אין לי שום יכולת מיוחדת", ענה. "בוא נבדוק". הוא הוציא מטבע מכיסו והשליך אותו על המדרכה, ומיד עצרו כל האנשים מסביב והתחילו לחפש. "לכולנו יש כישרון הקשבה", אמר, "השאלה רק מה מעניין אותנו לשמוע".</p>
+          <p><b>והנמשל:</b> כל המילים שילדינו אומרים, כל הצלילים המופלאים שבטבע, נעלמים בתוך אין קשב. רגע להבחין, לבחור לשמוע, לדעת.</p>
+        </div>
+      </article>
+
+      <div class="corner humor">
+        <div class="in">
+          <div class="label">פינת הבדיחות</div>
+          <h3>שלוש בדיחות לשבת</h3>
+          <div class="notes">
+            <p class="sticky" style="--r:-2deg">אישה ניגשה לזקן במרפסת: "מה הסוד לחיים ארוכים ומאושרים?" "שלוש חפיסות ביום, שישה ליטר בירה, אוכל שמן, ואף פעם לא מתעמל!" "מדהים! בן כמה אתה?" "בן עשרים ושש".</p>
+            <p class="sticky alt" style="--r:1.5deg">חיים ומשה בבית קפה. פתאום נשמע קול צפירה של מכבי אש. "סלח לי", אומר חיים, "אני חייב לרוץ". "לא ידעתי שאתה כבאי". "אני לא. בעלה של השכנה שלי כן".</p>
+            <p class="sticky" style="--r:1deg">סבתא לנכדה: "אתה אוהב סרטים מצוירים?" "מאוד! אבל אבא ואמא מפחדים מזה". "למה?" "כל פעם שהם שמים לי סרט מצויר, הם רצים לחדר השינה ומתחבאים מתחת לשמיכה".</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section data-sec="mazal">
+    <svg class="sec-ill" viewBox="0 0 80 64" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 40h48v18H16z" fill="var(--hill-soft)"/><path d="M20 30h40v10H20z" fill="var(--surface)"/><path d="M16 48c6 4 10-4 16 0s10-4 16 0 10-4 16 0"/><path d="M30 30v-8M40 30v-8M50 30v-8"/><path d="M30 18c-2-2 0-5 0-5s2 3 0 5zM40 18c-2-2 0-5 0-5s2 3 0 5zM50 18c-2-2 0-5 0-5s2 3 0 5z" fill="#f3e6b8"/><path d="M4 10l12 6 12-4 12 6 12-4 12 6 12-4"/></svg>
+    <span class="kicker">ונסיים בחיבוק גדול</span>
+    <h2>מזל טוב</h2>
+    <div class="mazal">
+      <h3>לחוגגי יום ההולדת בשבוע הקרוב</h3>
+      <ul class="bdays">
+        <li><span class="d">16.10</span><span>אורית דלומי, עינת (נוי) בן עזרא, נטע הופמן, גל פוירשטיין</span></li>
+        <li><span class="d">17.10</span><span>מיכל פרידמן, מיטל ויינסטאוב, רותי מרגלית, נגה בן אברהם, אסף ברוטברט</span></li>
+        <li><span class="d">18.10</span><span>יואב מוזיקנט, רועי מנדלוביץ</span></li>
+        <li><span class="d">19.10</span><span>יריב דביר, שריג שנער, אסף נשיב</span></li>
+        <li><span class="d">20.10</span><span>אושרת מרגולין, נועם רוט</span></li>
+        <li><span class="d">21.10</span><span>יוכי וינשטיין, רומי מרינברג, איה שטיינר, אינה פולסקי</span></li>
+        <li><span class="d">22.10</span><span>יצחק זרצקי, יובל אריאלי, יוגב צרפתי</span></li>
+      </ul>
+    </div>
+  </section>
+
+<nav class="issue-navs" aria-label="גיליונות"><a class="issue-nav" href="#g1803"><span>לגיליון הקודם</span><b>1803</b></a></nav>
+</article>
+<article class="ed" id="g1803" data-n="1803" data-date="שישי, 9 באוקטובר 2026" data-extra="פרשת בראשית" data-season="autumn"><p class="old-note top">גיליון קודם · <a href="#g1804">לגיליון החדש</a></p><div class="fp"><section class="soon" aria-labelledby="soon-h"><h2 class="fp-h" id="soon-h">בקרוב בעצמון</h2><ol class="soon-list"></ol><a class="fp-more" href="#week" data-jump="week">לכל האירועים</a></section><nav class="index" aria-labelledby="idx-h"><h2 class="fp-h" id="idx-h">בגיליון הזה</h2><ol class="idx"></ol></nav></div>
+
+
+
+  <div class="memorial">
+    <div class="pics">
+      <img src="img/sagav.jpg" alt="שגב ישראל קיז'נר ז״ל">
+      <img src="img/ayelet.jpg" alt="איילת ארנין ז״ל">
+    </div>
+    <div>
+      <h2>שלוש שנים לאחר מתקפת 7 באוקטובר</h2>
+      <p>יום הזיכרון נקבע בחוק לכ"ד בתשרי, יומיים לאחר שמחת תורה, ולכן השנה חל ב-5 באוקטובר. במהלך היום הורדו הדגלים לחצי התורן, והשידורים ברדיו ובטלוויזיה הותאמו לאופיו של היום.</p>
+      <p><b style="color:var(--ink)">בית עצמון עומד לצד משפחות ארנין וקיז'נר וימשיך לחבק ולשמר את זכרם של יקיריהן.</b></p>
+    </div>
+  </div>
+
+  <section data-sec="editor">
+    <svg class="sec-ill" viewBox="0 0 80 64" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 34h30v14a10 10 0 0 1-10 10H24a10 10 0 0 1-10-10z" fill="var(--hill-soft)"/><path d="M44 38h4a5 5 0 0 1 0 10h-4M22 28c-2-4 2-6 0-10M30 28c-2-4 2-6 0-10M38 28c-2-4 2-6 0-10M8 58h46"/><path d="M58 20h16v38H58z" fill="var(--surface)"/><path d="M62 28h8M62 34h8M62 40h6M62 46h8"/></svg>
+    <span class="kicker">דברי פתיחה</span>
+    <h2>שבת שלום חברות וחברים, מה היה לנו השבוע?</h2>
+    <article class="editor">
+      <p>שלוש שנים עברו מאז ה־7 באוקטובר 2023. אמרתי זאת אז, ואני כותב זאת גם היום: יקרה מה שיקרה — אבל בערך על בנימין נתניהו בוויקיפדיה ייכתב גם המשפט הזה: "בימיו כראש ממשלת ישראל אירע הטבח הגדול והנורא ביותר ביהודים מאז תום מלחמת העולם השנייה".</p>
+      <p>שלוש שנים. ובזמן הזה אנחנו ממשיכים לשמוע קללות, גידופים וצווחות על כל דבר קטן שאינו מתאים למישהו — דווקא מפי אלה שנמצאים בדיוק במקום שבו היו אז. רעש גדול, זיכרון קטן. כי יש מי שמנסה לשכוח. למחוק. להתלבש מחדש בשגרה כאילו לא היה דבר.</p>
+      <details class="more">
+        <summary>להמשך קריאה</summary>
+        <p><b>ובמעבר לא פשוט לנושאים הרגילים:</b> עם סיומם של החגים, ימי החופש, הפינוקים והגשרים, אנו שבים לשגרת היומיום, אבל עם עין אחת על השעון וספירה לאחור לקראת ה-27 באוקטובר!</p>
+        <p>הסקרים כבר בעיצומם. יש מי שיושב ערב-ערב דבוק למסך כמו מכור לטלנובלה, מחכה לתוצאות הדרמטיות. איזה סקר? תבחרו ערוץ, יש לפחות ארבעה.</p>
+        <p>ושכל אחד יעשה חשבון נפש קטן: ככל שאתה בודק, ההכרה המצמררת חודרת למוח – עד עכשיו, אף סוקר טרם הרים אלי טלפון לשאול לדעתי. וככל שמעמיקים לחשוב, מבינים את האמת המרה: גם לא יתקשרו. הם לא יתקשרו, למרות שיש להם את כל האמצעים בעולם. עובדה: בכל ערב מוקרן סקר חדש בערוצי השידור הראשיים.</p>
+        <p>אם בכל סקר הם דוגמים לפחות 600 איש, מדובר על משרה מלאה של סוקרים עייפים שמתקשרים ביום ל-2,400 בני אדם. ואם נחשב את זה על פני כ-30 ימי סקרים מצטברים, נגיע לכ-72,000 איש. תוסיפו לזה את אלה שסיננו, ואת כל הסקרים ה"סודיים" של המפלגות שמתנהלים במחשכים – ותגיעו בקלות ל-100,000 אזרחים שגמגמו בטלפון את התשובות הנדרשות: למי תצביע? מי לדעתך הכי מתאים? מי המועדף עליך?</p>
+        <p>אבל אלי? אלי מעולם לא התקשרו. ואני מצביע כבר שנים רבות – עוד מהימים שבגין, שמיר, פרס ורבין היו הולכים מכות בקלפי. אז גם הם נבחרו בקפידה, מבלי שהטלפון הנייד שלי אפילו ירטוט פעם אחת.</p>
+        <p>ואולי בכל זאת יתקשרו מחר? בצאת השבת?</p>
+        <p>"שלום", יגיד הקול מעבר לקו, "שמענו שאתה מתלונן שלא מתקשרים אליך, אז הנה: אנחנו מתקשרים. לא רצינו שתרגיש בודד. אתה מבין, אין לנו באמת סיבה להתקשר אליך, כי אנחנו יודעים עליך הכול. כמה ילדים יש לך, מה מצב הנכדים, באילו מדינות ביקרת לאחרונה, מתי התור הבא שלך לשיננית, ואיזה קבוצת כדורגל אתה אוהד. (חיפה... עוד קבוצה...)</p>
+        <p>דרך אגב, אהבנו את הפוסט האחרון שלך בפייסבוק. יש לנו גם הקלטות של כל השיחות שלך בוואטסאפ – כרגע זה לא בשימוש, אבל אל תדאג, הכול מגובה בענן. ולא רק אצלנו, גם אצל הלקוחות המצוינים שלנו: המפלגות, חברות הביטוח, הבנקים וקופת חולים. אנחנו יודעים ששיפצת את הבית, שאתה לובש סווצ'ר פלנל בחורף, וטי-שירט שחור עם סנדלי שורש בקיץ.</p>
+        <p>אנחנו יודעים כמה הוצאת היו לאשתך בקניון וכמה לך ב'עלי-אקספרס'. אתה שקוף כמו ויטרינה. אנחנו יודעים באיזו חלקה קבורים ההורים שלך, מה היה המספר האישי שלך בצבא, אבל", הם יחתמו את השיחה באנחה, "בהנחה ששוב יהיה תיקו בבחירות האלה, אל תאבד תקווה: יום אחד מישהו עוד ירים אליך טלפון וישאל: 'למי אתה הולך להצביע?'."</p>
+        <p>"ואתה", הם יזהירו, "תטרוק את הטלפון כי מה פתאום שתענה על שטויות כאלה. ואז מיד תקבל הודעת וואטסאפ מאיימת: 'חשבת שאתה גאון וטרקת? מי אתה בכלל?! עכשיו אנחנו מכניסים אותך בכוח לקטגוריית המתלבטים. כל תוצאה שתקום אליה בבוקר תהיה אך ורק על הראש שלך! ושלא תעז להתלונן שוב שאף אחד לא מתקשר!'" "כן", הם יגידו בסלחנות מלאכותית, "ושיהיה לך שבת שלום. אתה יכול להעביר את הברכה גם לחברים שלך. אנחנו יכולים לספר לך עליהם דברים שהאוזניים שלך יעמדו."</p>
+        <p>"אז אני מעביר. בעיקר מהפחד."</p>
+        <p>ואי אפשר שלא לסיים בנושא טיסת פליי דובאי לתל אביב שהותירה את כולנו במתח שיא מול מחדל בטחוני ובטיחותי חסר תקדים שעשה דרכו לאסון. למרות הרשלנות המזעזעת הזו שזועקת לחקירה עמוקה ונוקבת, המטוס נחת בסופו של דבר בשלום הודות לנס של ממש ששמר על הנוסעים.</p>
+        <p>בשורה התחתונה סוף טוב הכול טוב, אבל המחשבה על מה שיכול היה להתרחש פה צריכה להעביר רעד עמוק בעמוד השדרה אצל כל אלו המעורבים כאן בביטחון ובכלל אצל כל מי שממשיך לעלות על מטוס.</p>
+        <p>הלוואי ונשמע רק בשורות טובות...</p>
+      </details>
+      <div class="byline"><span class="avs"><img src="img/w_nir.jpg" alt="ניר שנק"><img src="img/w_zigi.jpg" alt="זיגי זיגלמן"></span><span class="bl-t"><b>שבת שלום! ניר וזיגי</b><small>ניר שנק ויעקב (זיגי) זיגלמן, עורכי מידעצמון</small></span></div>
+    </article>
+  </section>
+
+  <aside class="inshort" aria-label="בקצרה">
+    <div class="is-head">בקצרה השבוע</div>
+    <ul><li>שלוש שנים ל-7 באוקטובר: עצמון זוכרת את שגב קיז'נר ואיילת ארנין ז"ל</li><li>ועד חדש בראשות אסנת פולק, ונפתח צוות "50 לעצמון"</li><li>התרמת דם במועדון ב-28.10</li><li>חזירי בר חזרו ליישוב</li></ul>
+  </aside>
+
+  <section data-sec="week">
+    <svg class="sec-ill" viewBox="0 0 80 64" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 18h52v40H14z" fill="var(--surface)"/><path d="M14 28h52M26 12v10M54 12v10"/><circle cx="40" cy="43" r="8" fill="#f3e6b8"/><path d="M40 30v3M40 53v3M27 43h3M50 43h3M31 34l2 2M47 50l2 2M49 34l-2 2M33 50l-2 2"/></svg>
+    <span class="kicker">הוספה ליומן</span>
+    <h2>השבוע בעצמון ועוד</h2><p class="calhint"><span class="ci"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4M12 13v5M9.5 15.5h5"/></svg></span>לחיצה על הכפתור מוסיפה את האירוע ליומן גוגל בטלפון</p>
+    <ul class="agenda2"><li class="day"><h3 class="dh"><b>10</b><span>אוק׳ · שבת</span></h3><div class="ev"><span class="tm">17:30</span><div class="w"><b>מוזמנים לרמי קוב</b><span>בספריית עצמון שגב · הדרכה למתחילים · ועדת גיל נעים</span></div><a class="cal" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=%D7%9E%D7%95%D7%96%D7%9E%D7%A0%D7%99%D7%9D%20%D7%9C%D7%A8%D7%9E%D7%99%20%D7%A7%D7%95%D7%91&amp;dates=20261010T173000/20261010T193000&amp;ctz=Asia/Jerusalem&amp;details=%D7%91%D7%A1%D7%A4%D7%A8%D7%99%D7%99%D7%AA%20%D7%A2%D7%A6%D7%9E%D7%95%D7%9F%20%D7%A9%D7%92%D7%91%20%C2%B7%20%D7%94%D7%93%D7%A8%D7%9B%D7%94%20%D7%9C%D7%9E%D7%AA%D7%97%D7%99%D7%9C%D7%99%D7%9D%20%C2%B7%20%D7%95%D7%A2%D7%93%D7%AA%20%D7%92%D7%99%D7%9C%20%D7%A0%D7%A2%D7%99%D7%9D%0A%D7%9E%D7%AA%D7%95%D7%9A%20%D7%9E%D7%99%D7%93%D7%A2%D7%A6%D7%9E%D7%95%D7%9F" target="_blank" rel="noopener" aria-label="הוספה ליומן גוגל: מוזמנים לרמי קוב"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4M12 13v5M9.5 15.5h5"/></svg><span>ליומן</span></a></div></li><li class="day"><h3 class="dh"><b>11</b><span>אוק׳ · ראשון</span></h3><div class="ev"><span class="tm">20:45</span><div class="w"><b>כתיבת אמנה בנושא הכלבים</b><span>במועדון · דיון פתוח ומכבד · צוות האמנה</span></div><a class="cal" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=%D7%9B%D7%AA%D7%99%D7%91%D7%AA%20%D7%90%D7%9E%D7%A0%D7%94%20%D7%91%D7%A0%D7%95%D7%A9%D7%90%20%D7%94%D7%9B%D7%9C%D7%91%D7%99%D7%9D&amp;dates=20261011T204500/20261011T224500&amp;ctz=Asia/Jerusalem&amp;details=%D7%91%D7%9E%D7%95%D7%A2%D7%93%D7%95%D7%9F%20%C2%B7%20%D7%93%D7%99%D7%95%D7%9F%20%D7%A4%D7%AA%D7%95%D7%97%20%D7%95%D7%9E%D7%9B%D7%91%D7%93%20%C2%B7%20%D7%A6%D7%95%D7%95%D7%AA%20%D7%94%D7%90%D7%9E%D7%A0%D7%94%0A%D7%9E%D7%AA%D7%95%D7%9A%20%D7%9E%D7%99%D7%93%D7%A2%D7%A6%D7%9E%D7%95%D7%9F" target="_blank" rel="noopener" aria-label="הוספה ליומן גוגל: כתיבת אמנה בנושא הכלבים"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4M12 13v5M9.5 15.5h5"/></svg><span>ליומן</span></a></div></li><li class="day"><h3 class="dh"><b>13</b><span>אוק׳ · שלישי</span></h3><div class="ev"><span class="tm">10:00</span><div class="w"><b>מועדון קפה בוקר</b><span>בספרייה · מיכל גולן, תושבת עצמון לשעבר: "על מסע הכתיבה האישית"</span></div><a class="cal" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=%D7%9E%D7%95%D7%A2%D7%93%D7%95%D7%9F%20%D7%A7%D7%A4%D7%94%20%D7%91%D7%95%D7%A7%D7%A8&amp;dates=20261013T100000/20261013T120000&amp;ctz=Asia/Jerusalem&amp;details=%D7%91%D7%A1%D7%A4%D7%A8%D7%99%D7%99%D7%94%20%C2%B7%20%D7%9E%D7%99%D7%9B%D7%9C%20%D7%92%D7%95%D7%9C%D7%9F%2C%20%D7%AA%D7%95%D7%A9%D7%91%D7%AA%20%D7%A2%D7%A6%D7%9E%D7%95%D7%9F%20%D7%9C%D7%A9%D7%A2%D7%91%D7%A8%3A%20%22%D7%A2%D7%9C%20%D7%9E%D7%A1%D7%A2%20%D7%94%D7%9B%D7%AA%D7%99%D7%91%D7%94%20%D7%94%D7%90%D7%99%D7%A9%D7%99%D7%AA%22%0A%D7%9E%D7%AA%D7%95%D7%9A%20%D7%9E%D7%99%D7%93%D7%A2%D7%A6%D7%9E%D7%95%D7%9F" target="_blank" rel="noopener" aria-label="הוספה ליומן גוגל: מועדון קפה בוקר"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4M12 13v5M9.5 15.5h5"/></svg><span>ליומן</span></a></div><div class="ev"><span class="tm">19:30</span><div class="w"><b>ישיבת ועד</b><span>מוזמנים: משפחת ליבנה</span></div><a class="cal" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=%D7%99%D7%A9%D7%99%D7%91%D7%AA%20%D7%95%D7%A2%D7%93&amp;dates=20261013T193000/20261013T213000&amp;ctz=Asia/Jerusalem&amp;details=%D7%9E%D7%95%D7%96%D7%9E%D7%A0%D7%99%D7%9D%3A%20%D7%9E%D7%A9%D7%A4%D7%97%D7%AA%20%D7%9C%D7%99%D7%91%D7%A0%D7%94%0A%D7%9E%D7%AA%D7%95%D7%9A%20%D7%9E%D7%99%D7%93%D7%A2%D7%A6%D7%9E%D7%95%D7%9F" target="_blank" rel="noopener" aria-label="הוספה ליומן גוגל: ישיבת ועד"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4M12 13v5M9.5 15.5h5"/></svg><span>ליומן</span></a></div></li><li class="day"><h3 class="dh"><b>16</b><span>אוק׳ · שישי</span></h3><div class="ev"><span class="tm">11:00</span><div class="w"><b>אזכרה לעירית</b><span>בבית העלמין, ואחר כך קפה ועוגה בכחל 9 · גלית ניר</span></div><a class="cal" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=%D7%90%D7%96%D7%9B%D7%A8%D7%94%20%D7%9C%D7%A2%D7%99%D7%A8%D7%99%D7%AA&amp;dates=20261016T110000/20261016T130000&amp;ctz=Asia/Jerusalem&amp;details=%D7%91%D7%91%D7%99%D7%AA%20%D7%94%D7%A2%D7%9C%D7%9E%D7%99%D7%9F%2C%20%D7%95%D7%90%D7%97%D7%A8%20%D7%9B%D7%9A%20%D7%A7%D7%A4%D7%94%20%D7%95%D7%A2%D7%95%D7%92%D7%94%20%D7%91%D7%9B%D7%97%D7%9C%209%20%C2%B7%20%D7%92%D7%9C%D7%99%D7%AA%20%D7%A0%D7%99%D7%A8%0A%D7%9E%D7%AA%D7%95%D7%9A%20%D7%9E%D7%99%D7%93%D7%A2%D7%A6%D7%9E%D7%95%D7%9F" target="_blank" rel="noopener" aria-label="הוספה ליומן גוגל: אזכרה לעירית"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4M12 13v5M9.5 15.5h5"/></svg><span>ליומן</span></a></div></li><li class="day"><h3 class="dh"><b>17</b><span>אוק׳ · שבת</span></h3><div class="ev"><span class="tm">20:00</span><div class="w"><b>מוצאי שבת בספרייה</b><span>איציק פוירשטיין: פרויקט הרכבת הקלה חיפה–נצרת · ועדת גיל נעים</span></div><a class="cal" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=%D7%9E%D7%95%D7%A6%D7%90%D7%99%20%D7%A9%D7%91%D7%AA%20%D7%91%D7%A1%D7%A4%D7%A8%D7%99%D7%99%D7%94&amp;dates=20261017T200000/20261017T220000&amp;ctz=Asia/Jerusalem&amp;details=%D7%90%D7%99%D7%A6%D7%99%D7%A7%20%D7%A4%D7%95%D7%99%D7%A8%D7%A9%D7%98%D7%99%D7%99%D7%9F%3A%20%D7%A4%D7%A8%D7%95%D7%99%D7%A7%D7%98%20%D7%94%D7%A8%D7%9B%D7%91%D7%AA%20%D7%94%D7%A7%D7%9C%D7%94%20%D7%97%D7%99%D7%A4%D7%94%E2%80%93%D7%A0%D7%A6%D7%A8%D7%AA%20%C2%B7%20%D7%95%D7%A2%D7%93%D7%AA%20%D7%92%D7%99%D7%9C%20%D7%A0%D7%A2%D7%99%D7%9D%0A%D7%9E%D7%AA%D7%95%D7%9A%20%D7%9E%D7%99%D7%93%D7%A2%D7%A6%D7%9E%D7%95%D7%9F" target="_blank" rel="noopener" aria-label="הוספה ליומן גוגל: מוצאי שבת בספרייה"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4M12 13v5M9.5 15.5h5"/></svg><span>ליומן</span></a></div></li><li class="day"><h3 class="dh"><b>21</b><span>אוק׳ · רביעי</span></h3><div class="ev"><span class="tm">9:00</span><div class="w"><b>מפגש היכרות עם כיתת הוותיקים</b><span>בקמפוס משגב, בחדר המדגים ליד הספרייה</span></div><a class="cal" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=%D7%9E%D7%A4%D7%92%D7%A9%20%D7%94%D7%99%D7%9B%D7%A8%D7%95%D7%AA%20%D7%A2%D7%9D%20%D7%9B%D7%99%D7%AA%D7%AA%20%D7%94%D7%95%D7%95%D7%AA%D7%99%D7%A7%D7%99%D7%9D&amp;dates=20261021T090000/20261021T110000&amp;ctz=Asia/Jerusalem&amp;details=%D7%91%D7%A7%D7%9E%D7%A4%D7%95%D7%A1%20%D7%9E%D7%A9%D7%92%D7%91%2C%20%D7%91%D7%97%D7%93%D7%A8%20%D7%94%D7%9E%D7%93%D7%92%D7%99%D7%9D%20%D7%9C%D7%99%D7%93%20%D7%94%D7%A1%D7%A4%D7%A8%D7%99%D7%99%D7%94%0A%D7%9E%D7%AA%D7%95%D7%9A%20%D7%9E%D7%99%D7%93%D7%A2%D7%A6%D7%9E%D7%95%D7%9F" target="_blank" rel="noopener" aria-label="הוספה ליומן גוגל: מפגש היכרות עם כיתת הוותיקים"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4M12 13v5M9.5 15.5h5"/></svg><span>ליומן</span></a></div></li><li class="day"><h3 class="dh"><b>22</b><span>אוק׳ · חמישי</span></h3><div class="ev"><span class="tm">21:00</span><div class="w"><b>הורים על הבר</b><span>ד"ר אנאבלה שקד מגיעה לעצמון · ועדת חינוך</span></div><a class="cal" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=%D7%94%D7%95%D7%A8%D7%99%D7%9D%20%D7%A2%D7%9C%20%D7%94%D7%91%D7%A8&amp;dates=20261022T210000/20261022T230000&amp;ctz=Asia/Jerusalem&amp;details=%D7%93%22%D7%A8%20%D7%90%D7%A0%D7%90%D7%91%D7%9C%D7%94%20%D7%A9%D7%A7%D7%93%20%D7%9E%D7%92%D7%99%D7%A2%D7%94%20%D7%9C%D7%A2%D7%A6%D7%9E%D7%95%D7%9F%20%C2%B7%20%D7%95%D7%A2%D7%93%D7%AA%20%D7%97%D7%99%D7%A0%D7%95%D7%9A%0A%D7%9E%D7%AA%D7%95%D7%9A%20%D7%9E%D7%99%D7%93%D7%A2%D7%A6%D7%9E%D7%95%D7%9F" target="_blank" rel="noopener" aria-label="הוספה ליומן גוגל: הורים על הבר"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4M12 13v5M9.5 15.5h5"/></svg><span>ליומן</span></a></div></li><li class="day"><h3 class="dh"><b>28</b><span>אוק׳ · רביעי</span></h3><div class="ev"><span class="tm">16:00–21:00</span><div class="w"><b>התרמת דם במועדון</b><span>מגן דוד אדום · בני 17–18 באישור הורה, מעל 65 עם אישור רופא</span></div><a class="cal" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=%D7%94%D7%AA%D7%A8%D7%9E%D7%AA%20%D7%93%D7%9D%20%D7%91%D7%9E%D7%95%D7%A2%D7%93%D7%95%D7%9F&amp;dates=20261028T160000/20261028T210000&amp;ctz=Asia/Jerusalem&amp;details=%D7%9E%D7%92%D7%9F%20%D7%93%D7%95%D7%93%20%D7%90%D7%93%D7%95%D7%9D%20%C2%B7%20%D7%91%D7%A0%D7%99%2017%E2%80%9318%20%D7%91%D7%90%D7%99%D7%A9%D7%95%D7%A8%20%D7%94%D7%95%D7%A8%D7%94%2C%20%D7%9E%D7%A2%D7%9C%2065%20%D7%A2%D7%9D%20%D7%90%D7%99%D7%A9%D7%95%D7%A8%20%D7%A8%D7%95%D7%A4%D7%90%0A%D7%9E%D7%AA%D7%95%D7%9A%20%D7%9E%D7%99%D7%93%D7%A2%D7%A6%D7%9E%D7%95%D7%9F" target="_blank" rel="noopener" aria-label="הוספה ליומן גוגל: התרמת דם במועדון"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4M12 13v5M9.5 15.5h5"/></svg><span>ליומן</span></a></div></li><li class="day"><h3 class="dh"><b>31</b><span>אוק׳ · שבת</span></h3><div class="ev"><span class="tm"></span><div class="w"><b>שוק קח-תן, 16:00 · ו"ממתק או ברדק" בערב</b><span>מביאים בגדים, ספרים ומשחקים במצב טוב</span></div><a class="cal" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=%D7%A9%D7%95%D7%A7%20%D7%A7%D7%97-%D7%AA%D7%9F%20%C2%B7%20%D7%95%22%D7%9E%D7%9E%D7%AA%D7%A7%20%D7%90%D7%95%20%D7%91%D7%A8%D7%93%D7%A7%22%20%D7%91%D7%A2%D7%A8%D7%91&amp;dates=20261031T160000/20261031T180000&amp;ctz=Asia/Jerusalem&amp;details=%D7%9E%D7%91%D7%99%D7%90%D7%99%D7%9D%20%D7%91%D7%92%D7%93%D7%99%D7%9D%2C%20%D7%A1%D7%A4%D7%A8%D7%99%D7%9D%20%D7%95%D7%9E%D7%A9%D7%97%D7%A7%D7%99%D7%9D%20%D7%91%D7%9E%D7%A6%D7%91%20%D7%98%D7%95%D7%91%0A%D7%9E%D7%AA%D7%95%D7%9A%20%D7%9E%D7%99%D7%93%D7%A2%D7%A6%D7%9E%D7%95%D7%9F" target="_blank" rel="noopener" aria-label="הוספה ליומן גוגל: שוק קח-תן · ו"ממתק או ברדק" בערב"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4M12 13v5M9.5 15.5h5"/></svg><span>ליומן</span></a></div></li><li class="day"><h3 class="dh"><b>3</b><span>נוב׳ · שלישי</span></h3><div class="ev"><span class="tm"></span><div class="w"><b>הגשת תוכניות העבודה של הוועדות</b><span>למזכירות היישוב</span></div><a class="cal" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=%D7%94%D7%92%D7%A9%D7%AA%20%D7%AA%D7%95%D7%9B%D7%A0%D7%99%D7%95%D7%AA%20%D7%94%D7%A2%D7%91%D7%95%D7%93%D7%94%20%D7%A9%D7%9C%20%D7%94%D7%95%D7%95%D7%A2%D7%93%D7%95%D7%AA&amp;dates=20261103/20261104&amp;ctz=Asia/Jerusalem&amp;details=%D7%9C%D7%9E%D7%96%D7%9B%D7%99%D7%A8%D7%95%D7%AA%20%D7%94%D7%99%D7%99%D7%A9%D7%95%D7%91%0A%D7%9E%D7%AA%D7%95%D7%9A%20%D7%9E%D7%99%D7%93%D7%A2%D7%A6%D7%9E%D7%95%D7%9F" target="_blank" rel="noopener" aria-label="הוספה ליומן גוגל: הגשת תוכניות העבודה של הוועדות"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4M12 13v5M9.5 15.5h5"/></svg><span>ליומן</span></a></div></li><li class="day"><h3 class="dh"><b>10</b><span>נוב׳ · שלישי</span></h3><div class="ev"><span class="tm"></span><div class="w"><b>מפגש ועדות: תוכנית עבודה ותקציב 2027</b><span>הזמנה לכל חברי הוועדות</span></div><a class="cal" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=%D7%9E%D7%A4%D7%92%D7%A9%20%D7%95%D7%A2%D7%93%D7%95%D7%AA%3A%20%D7%AA%D7%95%D7%9B%D7%A0%D7%99%D7%AA%20%D7%A2%D7%91%D7%95%D7%93%D7%94%20%D7%95%D7%AA%D7%A7%D7%A6%D7%99%D7%91%202027&amp;dates=20261110/20261111&amp;ctz=Asia/Jerusalem&amp;details=%D7%94%D7%96%D7%9E%D7%A0%D7%94%20%D7%9C%D7%9B%D7%9C%20%D7%97%D7%91%D7%A8%D7%99%20%D7%94%D7%95%D7%95%D7%A2%D7%93%D7%95%D7%AA%0A%D7%9E%D7%AA%D7%95%D7%9A%20%D7%9E%D7%99%D7%93%D7%A2%D7%A6%D7%9E%D7%95%D7%9F" target="_blank" rel="noopener" aria-label="הוספה ליומן גוגל: מפגש ועדות: תוכנית עבודה ותקציב 2027"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4M12 13v5M9.5 15.5h5"/></svg><span>ליומן</span></a></div></li><li class="day"><h3 class="dh"><b>27</b><span>נוב׳ · שישי</span></h3><div class="ev"><span class="tm"></span><div class="w"><b>שלבים מארחים מס' 2</b><span>פרטים יבואו בהמשך</span></div><a class="cal" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=%D7%A9%D7%9C%D7%91%D7%99%D7%9D%20%D7%9E%D7%90%D7%A8%D7%97%D7%99%D7%9D%20%D7%9E%D7%A1%27%202&amp;dates=20261127/20261128&amp;ctz=Asia/Jerusalem&amp;details=%D7%A4%D7%A8%D7%98%D7%99%D7%9D%20%D7%99%D7%91%D7%95%D7%90%D7%95%20%D7%91%D7%94%D7%9E%D7%A9%D7%9A%0A%D7%9E%D7%AA%D7%95%D7%9A%20%D7%9E%D7%99%D7%93%D7%A2%D7%A6%D7%9E%D7%95%D7%9F" target="_blank" rel="noopener" aria-label="הוספה ליומן גוגל: שלבים מארחים מס' 2"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4M12 13v5M9.5 15.5h5"/></svg><span>ליומן</span></a></div></li></ul>
+    <details class="month-fold"><summary><span>לוח החודש המלא</span></summary><div class="month"><div class="m-head"><h3>אוקטובר בעצמון</h3><span>כל אירועי החודש. לחצו על יום מסומן.</span></div><div class="m-grid"><span class="m-wd">א</span><span class="m-wd">ב</span><span class="m-wd">ג</span><span class="m-wd">ד</span><span class="m-wd">ה</span><span class="m-wd">ו</span><span class="m-wd">ש</span><span class="m-empty"></span><span class="m-empty"></span><span class="m-empty"></span><span class="m-empty"></span><button type="button" class="m-day has" data-d="1" aria-label="1 באוקטובר: פתיחת התערוכה "זה הכל בשבילך" במועדון · מופע של "ועדת כישוף" בקונטיינר">1</button><span class="m-day">2</span><span class="m-day">3</span><span class="m-day">4</span><span class="m-day">5</span><button type="button" class="m-day has" data-d="6" aria-label="6 באוקטובר: הרצאה של דורון מזרחי, ניצול נובה, בקונטיינר">6</button><button type="button" class="m-day has" data-d="7" aria-label="7 באוקטובר: טקס הזיכרון הלאומי של המשפחות, בקונטיינר">7</button><button type="button" class="m-day has" data-d="8" aria-label="8 באוקטובר: נסיעה לאולפני הרצליה, גיל נעים">8</button><button type="button" class="m-day has" data-d="9" aria-label="9 באוקטובר: סגירת התערוכה ושיח גלריה">9</button><span class="m-day">10</span><button type="button" class="m-day has" data-d="11" aria-label="11 באוקטובר: כתיבת אמנה בנושא הכלבים, במועדון">11</button><span class="m-day">12</span><span class="m-day">13</span><span class="m-day">14</span><button type="button" class="m-day has" data-d="15" aria-label="15 באוקטובר: להקת ריטלין בקונטיינר">15</button><span class="m-day">16</span><button type="button" class="m-day has" data-d="17" aria-label="17 באוקטובר: הרצאה של איציק פוירשטיין בספרייה">17</button><span class="m-day">18</span><span class="m-day">19</span><span class="m-day">20</span><span class="m-day">21</span><button type="button" class="m-day has" data-d="22" aria-label="22 באוקטובר: הורים על הבר">22</button><span class="m-day">23</span><button type="button" class="m-day has" data-d="24" aria-label="24 באוקטובר: 5 גוונים של ורוד: חודש המודעות לסרטן השד">24</button><span class="m-day">25</span><span class="m-day">26</span><span class="m-day">27</span><span class="m-day">28</span><span class="m-day">29</span><span class="m-day">30</span><button type="button" class="m-day has" data-d="31" aria-label="31 באוקטובר: עצמונפסט">31</button></div><ul class="m-list"><li data-d="1"><b>1.10</b><span>פתיחת התערוכה "זה הכל בשבילך" במועדון</span></li><li data-d="1"><b>1.10</b><span>מופע של "ועדת כישוף" בקונטיינר</span></li><li data-d="6"><b>6.10</b><span>הרצאה של דורון מזרחי, ניצול נובה, בקונטיינר</span></li><li data-d="7"><b>7.10</b><span>טקס הזיכרון הלאומי של המשפחות, בקונטיינר</span></li><li data-d="8"><b>8.10</b><span>נסיעה לאולפני הרצליה, גיל נעים</span></li><li data-d="9"><b>9.10</b><span>סגירת התערוכה ושיח גלריה</span></li><li data-d="11"><b>11.10</b><span>כתיבת אמנה בנושא הכלבים, במועדון</span></li><li data-d="15"><b>15.10</b><span>להקת ריטלין בקונטיינר</span></li><li data-d="17"><b>17.10</b><span>הרצאה של איציק פוירשטיין בספרייה</span></li><li data-d="22"><b>22.10</b><span>הורים על הבר</span></li><li data-d="24"><b>24.10</b><span>5 גוונים של ורוד: חודש המודעות לסרטן השד</span></li><li data-d="31"><b>31.10</b><span>עצמונפסט</span></li></ul></div></details>
+  </section>
+
+
+  <section data-sec="vaad">
+    <svg class="sec-ill" viewBox="0 0 80 64" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 58h60"/><path d="M18 58V38l16-12 16 12v20z" fill="var(--surface)"/><path d="M14 40l20-16 20 16" fill="#c9a072"/><path d="M29 58V46h10v12"/><path d="M62 58V46"/><path d="M52 40c0-8 8-12 14-8 6-2 12 4 8 10-2 4-18 6-22-2z" fill="var(--hill-soft)"/></svg>
+    <span class="kicker">פרוטוקול הוועד</span>
+    <h2>מהוועד</h2>
+    <div class="alert"><b>אירוע חריג ביום הכיפורים.</b> שלושה אזרחים מהמגזר נכנסו ליישוב ושוחחו עם בני נוער. תושבים פנו לצח"י ולמשטרת משגב, ומג"ב הורה להם להתפנות. ליישוב אין סמכות חוקית למנוע כניסה לשטחים ציבוריים. בכל חשש יש לדווח מיד למוקד 100.</div>
+    <div class="tldr">
+      <h3>בקיצור</h3>
+      <ul>
+        <li>ועד חדש נכנס לתפקידו. <b>אסנת פולק</b> נבחרה ליו"ר, וטמי באומר ועובד מיטב הצטרפו.</li>
+        <li>תקציב הוועד המקומי ל-2027 אושר, ומאזן 2025 נמצא תקין ועם עודפים.</li>
+        <li>הוקם צוות מוביל לחגיגות <b>"50 לעצמון"</b>. מי שרוצה להצטרף פונה למזכירות.</li>
+        <li>חזירי בר חזרו להיכנס ליישוב. הנושא עבר לוועדת ביטחון בתיאום עם רט"ג.</li>
+        <li>ישיבות הוועד יתקיימו בימי שלישי ב-19:30.</li>
+      </ul>
+    </div>
+
+    <details class="proto">
+      <summary>פרוטוקול מס' 26 · 29.09.2026</summary>
+      <div class="body">
+        <p><b>משתתפים.</b> חברי הוועד היוצא: עופר כספי, אסף זהבי. חברי הוועד הנכנס: טמי באומר, עובד מיטב, אסנת פולק, יורם קוסטינר, אוה שניידר, שלומי אקריש.</p>
+        <h4>סיכום הקדנציה</h4>
+        <p>הוועד מודה לחברי הוועד היוצא: עופר כספי על ארבע השנים האחרונות, ואסף זהבי על השנתיים האחרונות. כמו כן תודה לכל חברי הוועדות שסיימו את תפקידם, וברכה לממשיכים ולמצטרפים.</p>
+        <h4>חלוקת תפקידים ורפרנטים לוועדות</h4>
+        <ul>
+          <li><b>אסנת פולק</b> (יו"ר): נוער, חינוך, צוות היגוי י"ב, צוות ישוב חכם</li>
+          <li><b>טמי באומר</b>: משק, צוות סביבה, גיל נעים, צוות "50 לעצמון"</li>
+          <li><b>אוה שניידר</b>: ספורט, חיילים, ביטחון</li>
+          <li><b>יורם קוסטינר</b>: תרבות, קהילה, מועדון, כיבוד וארגון, צוות פיתוח קהילתי</li>
+          <li><b>עובד מיטב</b>: ול"ן, קליטה, צוות "50 לעצמון"</li>
+        </ul>
+        <h4>עבודת הוועדות לקראת 2027</h4>
+        <ul>
+          <li>הוועדות מתבקשות לנצל את יתרות התקציב עד סוף השנה לפי התוכנית שאושרה.</li>
+          <li>תוכניות העבודה יועברו למזכירות עד יום שלישי 03.11.2026.</li>
+          <li>מפגש ועדות להצגת התוכניות והתקציב: יום שלישי 10.11.2026.</li>
+        </ul>
+        <h4>מורשי חתימה</h4>
+        <p>טמי באומר, אסנת פולק ושלומי אקריש. חתימת שניים מהם בצירוף חותמת האגודה מחייבת את האגודה.</p>
+        <h4>תקציבים</h4>
+        <ul>
+          <li><b>תקציב הוועד המקומי 2027</b> הוצג ואושר. עיקרו מיועד לגינון.</li>
+          <li><b>תקציב שוטף 2026</b> נמצא מאוזן אחרי שמונה חודשים.</li>
+          <li><b>תקציב השקעות 2026</b>: הוצג סטטוס הפרויקטים שנדרש להשלים עד סוף השנה.</li>
+        </ul>
+        <h4>ועדת תרבות</h4>
+        <p>אושרה הצעת מחיר למופע בפברואר, 14,000 ₪ + מע"מ.</p>
+        <h4>תודות לצוות חגי תשרי</h4>
+        <p>תודה לנילי פוירשטיין וענת שי נהרות על הארגון וההפקה של אירועי החגים: התפילות, הסוכה הקהילתית, האושפיזין והפעילויות. תודה לאבי ערוסי על הובלת תפילות יום כיפור, ולבחורים הצעירים שהצטרפו: יצחק אנגלמן והאחים ישראל ואלישע שיטרית.</p>
+      </div>
+    </details>
+
+    <details class="proto">
+      <summary>פרוטוקול מס' 27 · 05.10.2026</summary>
+      <div class="body">
+        <p><b>משתתפים.</b> עובד מיטב, אסנת פולק, יורם קוסטינר, אוה שניידר, שלומי אקריש.</p>
+        <h4>מאזן האגודה לשנת 2025</h4>
+        <p>הוצג על ידי רו"ח שרון אוחנה. המאזן תקין וכולל עודפים, שישמשו לתקציבי 2027. יוצג לאישור באסיפה הקרובה.</p>
+        <h4>חזירי בר</h4>
+        <p>בשנה החולפת תוקנה הגדר ההיקפית ובוצעה פעילות עם רט"ג, אך החזירים חזרו להיכנס. ועדת ביטחון תפעל מול רט"ג ותבדוק אם יש חזירים כלואים בתוך היישוב.</p>
+        <h4>יעדי הוועד לשנה הקרובה</h4>
+        <ul>
+          <li>ליווי הוועדות והצוותים ויצירת שיתופי פעולה</li>
+          <li>היערכות לקליטת שלב י"ב</li>
+          <li>צוות מוביל לחגיגות "50 לעצמון", מוזמנים להצטרף דרך המזכירות</li>
+          <li>בחינת המבנה הארגוני ועדכון תקנון היישוב</li>
+          <li>הטמעת מערכת "יישוב חכם" המשודרגת</li>
+          <li>עדכון רשימת חברי האגודה</li>
+        </ul>
+        <h4>פרויקטים</h4>
+        <ul>
+          <li>השלמת מספור הבתים</li>
+          <li>שדרוג מתחם השער והבוטקה</li>
+          <li>לוחות חשמל במרכז היישוב לאירועים גדולים</li>
+          <li>פאנלים סולריים שלב ב': קירוי המגרש הגדול</li>
+        </ul>
+        <h4>עבודה עם מפוח ביישוב</h4>
+        <p>התקבלה פנייה להפסיק את השימוש במפוח ליד בית משפחה. השימוש מותר בחוק וחיוני לניקיון השבילים, אך יש להימנע ככל האפשר מרעש ומטרד באזורי מגורים.</p>
+      </div>
+    </details>
+  </section>
+
+  <section data-sec="board">
+    <svg class="sec-ill" viewBox="0 0 80 64" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 14h60v42H10z" fill="#e8d9b8"/><path d="M16 20h20v16H16z" fill="var(--surface)" transform="rotate(-4 26 28)"/><path d="M42 18h22v14H42z" fill="var(--hill-soft)" transform="rotate(3 53 25)"/><path d="M30 38h24v14H30z" fill="var(--surface)" transform="rotate(-2 42 45)"/><circle cx="26" cy="20" r="2" fill="currentColor"/><circle cx="53" cy="18" r="2" fill="currentColor"/><circle cx="42" cy="38" r="2" fill="currentColor"/><path d="M20 26h12M20 30h8M46 24h14M34 44h16M34 48h10"/></svg>
+    <span class="kicker">מידע והודעות</span>
+    <h2>לוח מודעות</h2>
+    <div class="filters" role="group" aria-label="סינון מודעות">
+<button type="button" class="chip on" data-f="all" aria-pressed="true">הכל <span>19</span></button>
+<button type="button" class="chip" data-f="event" aria-pressed="false">אירועים <span>9</span></button>
+<button type="button" class="chip" data-f="class" aria-pressed="false">חוגים וספורט <span>4</span></button>
+<button type="button" class="chip" data-f="ask" aria-pressed="false">בקשות ועזרה <span>2</span></button>
+<button type="button" class="chip" data-f="local" aria-pressed="false">עסקים של תושבים <span>4</span></button>
+</div><p class="fstatus" aria-live="polite"></p><div class="board">
+<article class="notice" data-cat="event"><button type="button" class="thumb" data-poster="img/blood.jpg" data-alt="התרמת דם במועדון" aria-label="הגדלת המודעה: התרמת דם במועדון"><img src="img/blood.jpg" alt="" loading="lazy"><span class="zband"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.6"/><path d="M15.5 15.5 21 21M10.5 7.5v6M7.5 10.5h6" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg>הגדלה</span></button><div class="txt"><span class="tag">28.10</span><b>התרמת דם במועדון</b><p>16:00–21:00. בני 17–18 באישור הורה, מעל 65 עם אישור רופא. כולם מוזמנים!</p></div></article>
+<article class="notice" data-cat="event"><button type="button" class="thumb" data-poster="img/swap.jpg" data-alt="שוק קח-תן" aria-label="הגדלת המודעה: שוק קח-תן"><img src="img/swap.jpg" alt="" loading="lazy"><span class="zband"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.6"/><path d="M15.5 15.5 21 21M10.5 7.5v6M7.5 10.5h6" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg>הגדלה</span></button><div class="txt"><span class="tag">31.10 · 16:00</span><b>שוק קח-תן</b><p>מביאים בגדים, ספרים, משחקים וכלי בית במצב טוב. טוב לקהילה, טוב לכיס, טוב לסביבה.</p></div></article>
+<article class="notice" data-cat="event"><div class="thumb ph"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M3.5 10h17M8 3v4M16 3v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div><div class="txt"><span class="tag">31.10</span><b>רוחות ושדים בעצמון</b><p>"ממתק או ברדק" לילדי היישוב בליל האלווין: קבוצות ילדים בליווי מבוגר, ומי שרוצה מקשט את הבית ומכין ממתקים. כדאי להזמין קישוטים ותחפושות כבר עכשיו.</p><div class="who"><a href="https://chat.whatsapp.com/Dpk5xL2ZoZZ6LL9RtblHAJ" target="_blank" rel="noopener">לקבוצת הוואטסאפ</a></div></div></article>
+<article class="notice" data-cat="event"><button type="button" class="thumb" data-poster="img/parents.jpg" data-alt="הורים על הבר" aria-label="הגדלת המודעה: הורים על הבר"><img src="img/parents.jpg" alt="" loading="lazy"><span class="zband"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.6"/><path d="M15.5 15.5 21 21M10.5 7.5v6M7.5 10.5h6" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg>הגדלה</span></button><div class="txt"><span class="tag">22.10 · 21:00</span><b>הורים על הבר</b><p>ועדת חינוך מזמינה לערב עם ד"ר אנאבלה שקד.</p></div></article>
+<article class="notice" data-cat="event"><button type="button" class="thumb" data-poster="img/gilnaim.jpg" data-alt="מוצאי שבת בספרייה" aria-label="הגדלת המודעה: מוצאי שבת בספרייה"><img src="img/gilnaim.jpg" alt="" loading="lazy"><span class="zband"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.6"/><path d="M15.5 15.5 21 21M10.5 7.5v6M7.5 10.5h6" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg>הגדלה</span></button><div class="txt"><span class="tag">17.10 · 20:00</span><b>מוצאי שבת בספרייה</b><p>איציק פוירשטיין על פרויקט הרכבת הקלה חיפה–נצרת.</p><div class="who">ועדת גיל נעים</div></div></article>
+<article class="notice" data-cat="event"><button type="button" class="thumb" data-poster="img/coffee.jpg" data-alt="מועדון קפה בוקר" aria-label="הגדלת המודעה: מועדון קפה בוקר"><img src="img/coffee.jpg" alt="" loading="lazy"><span class="zband"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.6"/><path d="M15.5 15.5 21 21M10.5 7.5v6M7.5 10.5h6" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg>הגדלה</span></button><div class="txt"><span class="tag">13.10 · 10:00</span><b>מועדון קפה בוקר</b><p>מיכל גולן, תושבת עצמון לשעבר: "על מסע הכתיבה האישית".</p><div class="who">ועדת גיל נעים</div></div></article>
+<article class="notice" data-cat="event"><button type="button" class="thumb" data-poster="img/rummy.jpg" data-alt="רמי קוב בשבת אחה"צ" aria-label="הגדלת המודעה: רמי קוב בשבת אחה"צ"><img src="img/rummy.jpg" alt="" loading="lazy"><span class="zband"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.6"/><path d="M15.5 15.5 21 21M10.5 7.5v6M7.5 10.5h6" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg>הגדלה</span></button><div class="txt"><span class="tag">10.10 · 17:30</span><b>רמי קוב בשבת אחה"צ</b><p>בספרייה, עם הדרכה למתחילים וכיבוד קל.</p></div></article>
+<article class="notice" data-cat="event"><button type="button" class="thumb" data-poster="img/art.jpg" data-alt="אמנה בנושא הכלבים" aria-label="הגדלת המודעה: אמנה בנושא הכלבים"><img src="img/art.jpg" alt="" loading="lazy"><span class="zband"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.6"/><path d="M15.5 15.5 21 21M10.5 7.5v6M7.5 10.5h6" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg>הגדלה</span></button><div class="txt"><span class="tag">11.10 · 20:45</span><b>אמנה בנושא הכלבים</b><p>מפגש פתוח לכתיבת אמנה להסדרת ההתנהלות עם הכלבים ביישוב.</p><div class="who">צוות האמנה</div></div></article>
+<article class="notice" data-cat="event"><button type="button" class="thumb" data-poster="img/vatikim.jpg" data-alt="כיתת הוותיקים בקמפוס משגב" aria-label="הגדלת המודעה: כיתת הוותיקים בקמפוס משגב"><img src="img/vatikim.jpg" alt="" loading="lazy"><span class="zband"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.6"/><path d="M15.5 15.5 21 21M10.5 7.5v6M7.5 10.5h6" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg>הגדלה</span></button><div class="txt"><span class="tag">21.10 · 9:00</span><b>כיתת הוותיקים בקמפוס משגב</b><p>מפגש היכרות לוותיקים ולמתנדבים.</p></div></article>
+<article class="notice" data-cat="class"><button type="button" class="thumb" data-poster="img/craft.jpg" data-alt="חוג יצירה משלב חימר" aria-label="הגדלת המודעה: חוג יצירה משלב חימר"><img src="img/craft.jpg" alt="" loading="lazy"><span class="zband"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.6"/><path d="M15.5 15.5 21 21M10.5 7.5v6M7.5 10.5h6" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg>הגדלה</span></button><div class="txt"><span class="tag">כל רביעי</span><b>חוג יצירה משלב חימר</b><p>16:45–18:15 במועדון, לגנים עד כיתה ב'. פימו, קרמיקה, פסיפס, מקרמה, עבודות עץ ועוד. מפגש ניסיון בעלות מפגש.</p><div class="who">ליאת טל חביה · <span class="ltr"><a class="tel" href="tel:0545930500">054-5930500</a></span></div></div></article>
+<article class="notice" data-cat="class"><button type="button" class="thumb" data-poster="img/yoga.jpg" data-alt="תרגול אשטנגה מסורתי" aria-label="הגדלת המודעה: תרגול אשטנגה מסורתי"><img src="img/yoga.jpg" alt="" loading="lazy"><span class="zband"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.6"/><path d="M15.5 15.5 21 21M10.5 7.5v6M7.5 10.5h6" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg>הגדלה</span></button><div class="txt"><span class="tag">שישי 9.10</span><b>תרגול אשטנגה מסורתי</b><p>08:30–10:00, בית משפחת קולר, השחף 443. 50 ₪. להביא מזרון ומגבת.</p><div class="who">יעל · <span class="ltr"><a class="tel" href="tel:0525330708">052-5330708</a></span></div></div></article>
+<article class="notice" data-cat="class"><button type="button" class="thumb" data-poster="img/run.jpg" data-alt="כושר עם שחר" aria-label="הגדלת המודעה: כושר עם שחר"><img src="img/run.jpg" alt="" loading="lazy"><span class="zband"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.6"/><path d="M15.5 15.5 21 21M10.5 7.5v6M7.5 10.5h6" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg>הגדלה</span></button><div class="txt"><span class="tag">שני ורביעי</span><b>כושר עם שחר</b><p>קבוצת כוח, פונקציונלי וריצה. שני 06:00, רביעי 19:00.</p><div class="who"><span class="ltr"><a class="tel" href="tel:0524291154">052-4291154</a></span></div></div></article>
+<article class="notice" data-cat="class"><button type="button" class="thumb" data-poster="img/football.jpg" data-alt="האקדמיה לכדורגל בעצמון" aria-label="הגדלת המודעה: האקדמיה לכדורגל בעצמון"><img src="img/football.jpg" alt="" loading="lazy"><span class="zband"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.6"/><path d="M15.5 15.5 21 21M10.5 7.5v6M7.5 10.5h6" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg>הגדלה</span></button><div class="txt"><span class="tag">חוג</span><b>האקדמיה לכדורגל בעצמון</b><p>אימוני כדורגל מקצועיים לילדים, בימי שני ורביעי.</p></div></article>
+<article class="notice" data-cat="ask"><div class="thumb ph"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></div><div class="txt"><span class="tag">מחפשים</span><b>עגלת תינוק וכיסא בטיחות</b><p>הבת שלי מגיעה עם התינוקת (3.5 חודשים) בין 21–29.10. נשמח לשאול עגלה וכיסא בטיחות לרכב.</p><div class="who">נתן רגב</div></div></article>
+<article class="notice" data-cat="ask"><div class="thumb ph"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></div><div class="txt"><span class="tag">מחפש עבודה</span><b>משרת סטודנט בהנדסת מכונות</b><p>שלו לויט, סטודנט שנה רביעית באפקה ומנהל קבוצת הרכב הסולארי. מחפש משרת סטודנט בפיתוח ותכן מכני. אשמח לחיבורים!</p><div class="who"><span class="ltr"><a class="tel" href="tel:0524664239">052-4664239</a></span></div></div></article>
+<article class="notice" data-cat="local"><button type="button" class="thumb" data-poster="img/arak.jpg" data-alt="משקאות ערק ביתיים" aria-label="הגדלת המודעה: משקאות ערק ביתיים"><img src="img/arak.jpg" alt="" loading="lazy"><span class="zband"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.6"/><path d="M15.5 15.5 21 21M10.5 7.5v6M7.5 10.5h6" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg>הגדלה</span></button><div class="txt"><span class="tag">מתושבים</span><b>משקאות ערק ביתיים</b><p>ערק במיץ פרימור, 35 ₪ לליטר. ערק באשכוליות אדומות סחוט, 50 ₪ לבקבוק. לפנות בפרטי.</p><div class="who">נתן רגב</div></div></article>
+<article class="notice" data-cat="local"><button type="button" class="thumb" data-poster="img/insoles.jpg" data-alt="מדרסים בהתאמה אישית" aria-label="הגדלת המודעה: מדרסים בהתאמה אישית"><img src="img/insoles.jpg" alt="" loading="lazy"><span class="zband"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.6"/><path d="M15.5 15.5 21 21M10.5 7.5v6M7.5 10.5h6" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg>הגדלה</span></button><div class="txt"><span class="tag">מתושבים</span><b>מדרסים בהתאמה אישית</b><p>60 שנות ניסיון, כאן בעצמון.</p><div class="who">שלומי · <span class="ltr"><a class="tel" href="tel:0523988025">052-3988025</a></span></div></div></article>
+<article class="notice" data-cat="local"><button type="button" class="thumb" data-poster="img/pergola.jpg" data-alt="הנגריה של אבא" aria-label="הגדלת המודעה: הנגריה של אבא"><img src="img/pergola.jpg" alt="" loading="lazy"><span class="zband"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.6"/><path d="M15.5 15.5 21 21M10.5 7.5v6M7.5 10.5h6" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg>הגדלה</span></button><div class="txt"><span class="tag">מתושבים</span><b>הנגריה של אבא</b><p>פרגולות ודקים, עיצוב והתאמה אישית.</p><div class="who"><span class="ltr"><a class="tel" href="tel:0543021682">054-3021682</a></span></div></div></article>
+<article class="notice" data-cat="local"><button type="button" class="thumb" data-poster="img/wolt.jpg" data-alt="צבר'ס עכשיו גם בוולט" aria-label="הגדלת המודעה: צבר'ס עכשיו גם בוולט"><img src="img/wolt.jpg" alt="" loading="lazy"><span class="zband"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.6"/><path d="M15.5 15.5 21 21M10.5 7.5v6M7.5 10.5h6" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg>הגדלה</span></button><div class="txt"><span class="tag">מתושבים</span><b>צבר'ס עכשיו גם בוולט</b><p>בית קפה ומסעדה באווירה אחרת.</p></div></article>
+</div>
+  </section>
+
+  <section data-sec="thanks">
+    <svg class="sec-ill" viewBox="0 0 80 64" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M26 36h28l-4 22H30z" fill="var(--hill-soft)"/><path d="M40 36V20M34 36c-4-8-10-10-14-14M46 36c4-8 10-12 14-14M40 22c-6-2-6-10 0-12 6 2 6 10 0 12z"/><circle cx="20" cy="20" r="5" fill="#f3e6b8"/><circle cx="62" cy="20" r="5" fill="#f3e6b8"/><path d="M28 30c-4 0-6-4-4-6M52 30c4 0 6-4 4-6"/></svg>
+    <span class="kicker">רצינו לומר תודה...</span>
+    <h2>תודות</h2>
+    <div class="thanks">
+      <blockquote>בהכרת התודה בגיליון הקודם לצוות החגים שכחנו להודות לנתן וזאב. אז נתן רגב וזאב לוי היקרים, בשם הוועדה ובשם כל עצמון, תודה על העזרה בסידור המועדון לקראת תפילת יום כיפור. יישר כוח!<cite>תודה לנילי פוירשטיין שהעירה</cite></blockquote>
+      <blockquote>תודה גדולה לאיתי גור אריה ולכל מי שעזר בהפעלת הקרנת הטקס הלאומי המרגש והכואב של ה-7.10, ולצוות הקונטיינר המסור שהיה שם לכל דבר. שנדע ימים טובים במהרה.</blockquote>
+    </div>
+  </section>
+
+  <section data-sec="corners">
+    <svg class="sec-ill" viewBox="0 0 80 64" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M40 22c-8-6-20-8-30-6v38c10-2 22 0 30 6 8-6 20-8 30-6V16c-10-2-22 0-30 6z" fill="var(--surface)"/><path d="M40 22v38M16 26c6-1 12 0 18 2M16 33c6-1 12 0 18 2M46 28c6-2 12-3 18-2M46 35c6-2 12-3 18-2"/><path d="M50 50c4-6 10-10 18-12M58 46c-1-3 0-5 3-6M63 43c2 1 4 1 5-1"/></svg>
+    <span class="kicker">הפינות הקבועות</span>
+    <h2>הפינות</h2>
+    <div class="corners">
+
+      <article class="corner side">
+        <img class="img" src="img/bereshit.jpg" alt="איור בריאת העולם" loading="lazy">
+        <div class="in">
+          <div class="label"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h6a2 2 0 0 1 2 2v13a2 2 0 0 0-2-2H4zM20 5h-6a2 2 0 0 0-2 2v13a2 2 0 0 1 2-2h6z"/></svg><span>קריאת פרשת השבוע</span></div>
+          <h3>בראשית</h3>
+          <p>רש"י שואל: מדוע מתחילה התורה בפסוק זה? רצתה התורה ראשית לכול להציג את הבעל-בית של העולם.</p>
+          <details class="more"><summary>להמשך</summary>
+            <p>בפרשה אחת קצרה העולם נברא מאפס, והאנושות מספיקה לחוות את רגעי השיא שלה וגם להתרסק אל השפל: בריאת העולם בשישה ימים והשבת, אדם וחווה בגן עדן, החטא והגירוש, הרצח הראשון של קין והבל, ועשרה דורות של הידרדרות עד שנמצא צדיק אחד, נח.</p>
+            <p>זהו סיפור על בחירה חופשית, סקרנות, יצר לב האדם והמחיר של האחריות. ב"שבת בראשית" מתחילים לקרוא את התורה מחדש. זוהי תזכורת: העולם נברא, יש לו תכלית, הכאוס לא שולט בו, והאור ינצח לבסוף את החושך.</p>
+          </details>
+        </div>
+      </article>
+
+      <article class="corner side">
+        <img class="img" src="img/zachor.jpg" alt="נזכור, האקדמיה ללשון העברית" loading="lazy">
+        <div class="in">
+          <div class="label"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 7H6v5h3c0 2-1 3-3 3v2c3 0 5-2 5-5V7zM19 7h-4v5h3c0 2-1 3-3 3v2c3 0 5-2 5-5V7z"/></svg><span>האקדמיה ללשון</span></div>
+          <h3>זיכרון</h3>
+          <p>המונח זיכרון מלווה אותנו משחר ימינו כעם. במקרא מצוות רבות שתכליתן לשמר זיכרון, כמו חג הפסח או האבנים שנלקחו מן הירדן. בטקסים הממלכתיים נאמר נוסח מיוחד של "יזכור", שיסודו בהספד שחיבר ברל כצנלסון על הרוגי תל חי.</p>
+        </div>
+      </article>
+
+      <article class="corner side">
+        <img class="img" src="img/shak.jpg" alt="שקשוקה" loading="lazy">
+        <div class="in">
+          <div class="label"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10h16v3a6 6 0 0 1-6 6h-4a6 6 0 0 1-6-6zM2 10h20M9 3c1 1.5-1 2.5 0 4.5M13 3c1 1.5-1 2.5 0 4.5"/></svg><span>מתכון לשבת</span></div>
+          <h3>שקשוקה קלאסית, בגרסת אייל שני</h3>
+          <p>בלי בצל מטוגן ובלי ערימת תבלינים: רק עגבניות טובות, שום, פלפל חריף, שמן זית וביצים. עשרים דקות עבודה, לשתי מנות.</p>
+          <details class="more"><summary>למצרכים ולהכנה</summary>
+            <ul><li>300–400 גרם עגבניות מכמה סוגים</li><li>2 כפות שמן זית</li><li>½ פלפל ירוק חריף בטבעות</li><li>3 שיני שום פרוסות</li><li>מלח ים</li><li>4 ביצים</li></ul>
+            <ol><li>חולטים את העגבניות לרגע, מקלפים וקוצצים.</li><li>מטגנים בשמן זית את הפלפל, ואחריו השום והעגבניות עם מלח. מבשלים כ-7 דקות.</li><li>מביאים לרתיחה חזקה, ולפני שהנוזלים מתאדים שוברים פנימה את הביצים. לא מכסים.</li><li>מוכן כשהחלבון מתקרש והחלמון בדיוק כמו שאתם אוהבים.</li></ol>
+            <h4 style="margin:14px 0 4px">וגם: ירקות בתנור לאנטיפסטי</h4><p>חותכים לחתיכות בגודל אחיד, מערבבים בקערה עם שמן ומלח, ומחלקים לתבניות לפי זמן הבישול (קשים, בינוניים, רכים). אופים מכוסה ב-170–180 מעלות עד שמתרככים, ואז מסירים את הנייר ומשחימים ב-230 מעלות בטורבו.</p>
+          </details>
+        </div>
+      </article>
+
+      <article class="corner side">
+        <img class="img" src="img/tishreen.jpg" alt="עראיס" loading="lazy">
+        <div class="in">
+          <div class="label"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3v18M4.5 3v5a2.5 2.5 0 0 0 5 0V3M17 21V3c-2.5 1.5-3.5 4.5-3.5 8H17"/></svg><span>המלצה על מסעדה</span></div>
+          <h3>תשרין, נצרת</h3>
+          <p>מסעדת שף ותיקה במבנה אבן משנת 1868 בעיר העתיקה, ששילבה אוכל ערבי-גלילי עם נגיעות אירופאיות. מהטאבון: מוחמר, שישברק וקבב תשרין. מהראשונות: עראיס טלה וחציל תשרין.</p>
+          <details class="more"><summary>ומה עוד בנצרת</summary>
+            <p>לקינוח, שתי דקות הליכה לכנאפה או קטאיף עם תה מרווה. לפני הארוחה אפשר לצאת לסיור: מעיין מרים וכנסיית גבריאל הקדוש, רחוב אל-בישארה, השוק העתיק, המסגד הלבן וכנסיית הבשורה.</p>
+          </details>
+        </div>
+      </article>
+
+      <article class="corner side">
+        <img class="img" src="img/birds.jpg" alt="ציפורים באגמון החולה" loading="lazy">
+        <div class="in">
+          <div class="label"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 19l6-9 4 5 3-3 7 7zM17 5.5a2 2 0 1 0 0 .01"/></svg><span>טיול לשבת</span></div>
+          <h3>אגמון החולה בתחילת אוקטובר</h3>
+          <p>שיא נדידת הסתיו: להקות חסידות, שקנאים, העגורים הראשונים ועופות דורסים. מסלול אספלט מישורי של כ-8.5 ק"מ, ברגל, באופניים, ברכב גולף או בעגלת המסתור.</p>
+          <p><b>טיפ:</b> להגיע עם הפתיחה או אחר הצהריים המאוחרים, כשהציפורים הכי פעילות והאור הכי יפה.</p>
+        </div>
+      </article>
+
+      <article class="corner">
+        <div class="in">
+          <div class="label"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7.5l3.5 2.5-1.3 4h-4.4L8.5 10zM12 3v4.5M21 10.5l-5.5-.5M17.5 19.5l-3.3-5.5M6.5 19.5l3.3-5.5M3 10.5l5.5-.5"/></svg><span>פינת הספורט</span></div>
+          <h3>פתיחה מאכזבת לנבחרות</h3>
+          <p>הנבחרת הבוגרת של רן בן שמעון השיגה 2 נקודות בלבד מ-12 בדרג ב' של ליגת האומות, ונמצאת במקום האחרון בבית:</p>
+          <ul><li>אוסטריה – ישראל 3:1</li><li>ישראל – אירלנד 3:0</li><li>ישראל – קוסובו 0:0</li><li>אירלנד – ישראל 1:1</li></ul>
+          <p>הנבחרת הצעירה של גיא לוזון סיימה בתיקו 1:1 בנורבגיה ונשארה מחוץ לפלייאוף מוקדמות היורו.</p>
+        </div>
+      </article>
+
+      <article class="corner">
+        <div class="in">
+          <div class="label"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 15.5a4 4 0 1 1 .9-7.9A5 5 0 0 1 17.6 9a3.3 3.3 0 0 1-.6 6.5zM8.5 18.5l-1 2.5M12.5 18.5l-1 2.5M16.5 18.5l-1 2.5"/></svg><span>פינת הגשם</span></div>
+          <h3>6 מ"מ פותחים את העונה</h3>
+          <p>ידידנו איש הגשם, אורי שנער: 4 מ"מ שירדו אתמול מצטרפים ל-2 מ"מ מלפני כמה ימים. "הנסיבות מורכבות, אך נראה שצפוי לנו חורף גשום מן הממוצע. נחייה ונראה!"</p>
+        </div>
+      </article>
+
+      <article class="corner side">
+        <img class="img" src="img/celery.jpg" alt="סלרי" loading="lazy">
+        <div class="in">
+          <div class="label"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19C5 11 11 5 19 5c0 8-6 14-14 14zM5 19l7.5-7.5"/></svg><span>תרופות סבתא</span></div>
+          <h3>סלרי, ה"ויאגרה הטבעית"?</h3>
+          <p>סבתא אומרת שסלרי בריא לזוגיות. ובלי קשר לגיל הקוראים, הוא ידוע גם כמסייע לוויסות לחץ הדם, וזרעיו נחשבים טובים לעור. סבתא אומרת, סבתא יודעת...</p>
+        </div>
+      </article>
+
+      <article class="corner side">
+        <img class="img" src="img/book.jpg" alt="עטיפת הספר יש ממי ללמוד" loading="lazy">
+        <div class="in">
+          <div class="label"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5.5A2.5 2.5 0 0 1 7.5 3H19v15H7.5A2.5 2.5 0 0 0 5 20.5zM5 20.5A2.5 2.5 0 0 0 7.5 23H19v-5"/></svg><span>טיפ לספר</span></div>
+          <h3>יש ממי ללמוד, אייל דורון</h3>
+          <p>שמונה שיעורים משני חיים, בהשראת ריד הופמן, מיסטר ביסט, אופרה וינפרי, ג'וני אייב, ג'סינדה ארדרן, ריד הייסטינגס ועוד. כל פרק הוא קורס קטן בדרך חשיבה.</p>
+        </div>
+      </article>
+
+      <article class="corner">
+        <div class="in">
+          <div class="label"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 3l1.8 5.2L18 10l-5.2 1.8L11 17l-1.8-5.2L4 10l5.2-1.8zM18.5 15l.8 2.2 2.2.8-2.2.8-.8 2.2-.8-2.2-2.2-.8 2.2-.8z"/></svg><span>פינת ה-AI · מאמר מס' 56 · מגיש שמוליק נוי</span></div>
+          <h3>איך לכתוב קורות חיים בעידן ה-AI</h3>
+          <p>רוב החברות מסננות היום מועמדים במערכות אוטומטיות לפני שמגייס קורא. בקיצור:</p>
+          <ul>
+            <li>שמרו על קובץ פשוט שאפשר לסמן ולהעתיק ממנו טקסט.</li>
+            <li>התאימו את קורות החיים לכל משרה. בינה מלאכותית עוזרת לזהות מה חשוב.</li>
+            <li>כתבו את העובדות בעצמכם, ותנו ל-AI רק לשפר ניסוח. המספרים צריכים להגיע מכם.</li>
+            <li>החליפו "הייתי אחראי על" בתוצאה שאפשר למדוד.</li>
+            <li>אם AI הוא מיומנות שלכם, הראו מה עשיתם איתו ולא רק את שם הכלי.</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="corner side">
+        <img class="img" src="img/plane.jpg" alt="מטוס" loading="lazy">
+        <div class="in">
+          <div class="label"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8.5 14.5a4.2 4.2 0 0 0 7 0M9 9.5v.5M15 9.5v.5"/></svg><span>פינת ההומור</span></div>
+          <h3>אחרי טיסת פליי-דובאי</h3>
+          <p>זוג מבוגרים טס להוואי לחגוג 50 שנות נישואים. המנועים מתקלקלים, והמטוס נוחת בשלום על אי בודד. הבעל שואל: "שילמת את הלוואת הרכב? את חשבון החשמל? את בית החולים?" "לא, לא ולא." הוא קופץ מאושר ומחבק אותה: "אל תדאגי מתוקה, עם כל החובות האלה, הם בטוח ימצאו אותנו!"</p>
+          <p class="sticky alt" style="margin-top:12px">משל הנמלה: עובדת חרוצה שעבדה מצוין בלי מנהל. החברה מינתה לה מפקח, ואז מזכירה, אנליסט ומנהל מחלקה. היא כתבה דוחות במקום לעבוד, התפוקה ירדה, והיועץ שהובא המליץ לצמצם... ופיטרו את הנמלה.</p>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <section data-sec="mazal">
+    <svg class="sec-ill" viewBox="0 0 80 64" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 40h48v18H16z" fill="var(--hill-soft)"/><path d="M20 30h40v10H20z" fill="var(--surface)"/><path d="M16 48c6 4 10-4 16 0s10-4 16 0 10-4 16 0"/><path d="M30 30v-8M40 30v-8M50 30v-8"/><path d="M30 18c-2-2 0-5 0-5s2 3 0 5zM40 18c-2-2 0-5 0-5s2 3 0 5zM50 18c-2-2 0-5 0-5s2 3 0 5z" fill="#f3e6b8"/><path d="M4 10l12 6 12-4 12 6 12-4 12 6 12-4"/></svg>
+    <span class="kicker">חיבוק גדול ואיחולים חמים</span>
+    <h2>מזל טוב</h2>
+    <div class="mazal">
+      <div class="baby">להולדת הנכדה</div>
+      <p>לאילן ומירי בורשטיין, בת למעיין ומיכאל אינסלר. איחולים, חיבוקים והרבה אהבה מכל בית עצמון.</p>
+      <h3 style="margin-top:18px">ימי הולדת בשבוע הקרוב</h3>
+      <ul class="bdays">
+        <li><span class="d">9.10</span><span>טלי רימר</span></li>
+        <li><span class="d">10.10</span><span>עודד וינגרטן, גרטה שולט, שני דורון, טובה כרמי</span></li>
+        <li><span class="d">11.10</span><span>חמי רגב, איילת זאבי, דן צלביץ, יאיר דולדנר</span></li>
+        <li><span class="d">12.10</span><span>רפי קמחי, איתן בינשטיין, עוז אייזנמאיר, איתן אברהם, אמיתי כהן, אליהו שטיין</span></li>
+        <li><span class="d">13.10</span><span>אלי קולטון, יובל זיסלין, ענבר שכטר</span></li>
+        <li><span class="d">14.10</span><span>כרמלה גונן, גיל לוקץ, גל יאנובסקי, יצחק נומהאוזר, עירית שכטר, נדב כהן מלכה</span></li>
+        <li><span class="d">15.10</span><span>יעל ניב, שלי נחמני, יובל גילרי, דפנה ברוטברט, מאיה כהן, נטע כהן, נועם לוין, יניב פליקשטיין</span></li>
+      </ul>
+    </div>
+  </section>
+
+
+<p class="old-note">את/ה קורא/ת גיליון קודם. <a href="#g1804">לגיליון החדש</a></p><nav class="issue-navs" aria-label="גיליונות"><a class="issue-nav back" href="#g1804"><span>חזרה לגיליון החדש</span><b>1804</b></a></nav>
+</article>
+</main>
+
+<footer class="wrap">
+  <form class="fb" name="feedback" method="POST" data-netlify="true" netlify-honeypot="bot-field" id="fb">
+    <input type="hidden" name="form-name" value="feedback"><input type="hidden" name="issue" id="fb-issue" value="">
+    <p hidden><label>לא למילוי <input name="bot-field"></label></p>
+    <h3>איך היה הגיליון?</h3>
+    <div class="fb-rate" role="radiogroup" aria-label="דירוג הגיליון">
+      <label><input type="radio" name="rating" value="אהבתי מאוד"><span>אהבתי מאוד</span></label>
+      <label><input type="radio" name="rating" value="נחמד"><span>נחמד</span></label>
+      <label><input type="radio" name="rating" value="יש מה לשפר"><span>יש מה לשפר</span></label>
+    </div>
+    <label class="fb-l" for="fb-msg">רוצים לכתוב משהו לניר ולזיגי?</label>
+    <textarea id="fb-msg" name="message" rows="3" placeholder="מחמאה, הערה, רעיון לפינה..."></textarea>
+    <label class="fb-l" for="fb-name">שם (לא חובה)</label>
+    <input id="fb-name" name="name" type="text" autocomplete="name">
+    <button type="submit" class="fb-send">שליחה לעורכים</button>
+    <p class="fb-ok" hidden>תודה! ההודעה הגיעה לעורכים.</p>
+  </form>
+<div class="write">
+    <h3>יש לכם מה לספר?</h3>
+    <p>מכתב למערכת, תמונה מהיישוב, מודעה או ברכה. שלחו לנו עד יום רביעי, ונכניס לגיליון.</p>
+    <div class="eds2">
+      <div class="ed2"><img src="img/w_zigi.jpg" alt=""><div><b>יעקב (זיגי) זיגלמן</b><span class="ltr">052-5611812</span> · <span class="ltr">yacovzig@outlook.com</span></div></div>
+      <div class="ed2"><img src="img/w_nir.jpg" alt=""><div><b>ניר שנק</b><span class="ltr">054-8001606</span> · <span class="ltr">nshnek@hotmail.com</span></div></div>
+    </div>
+  </div>
+
+  <h3>דרכי התקשרות עם העורכים</h3>
+  <div class="eds">
+    <div><b>יעקב זיגלמן</b> · <span class="ltr">052-5611812</span> · <span class="ltr">yacovzig@outlook.com</span></div>
+    <div><b>ניר שנק</b> · <span class="ltr">054-8001606</span> · <span class="ltr">nshnek@hotmail.com</span></div>
+  </div>
+  <p class="proto-note">מידעצמון, העיתון השבועי של עצמון. גרסת אתר ניסיונית.</p>
+</footer>
+
+<dialog id="lb"><img id="lbimg" alt=""><form method="dialog"><button>סגירה</button></form></dialog>
+<script>
+(function(){
+  var eds=[].slice.call(document.querySelectorAll('.ed'));
+  var cur=null, io=null, lock=0;
+  var topbar=document.getElementById('topbar');
+  var strip=document.querySelector('.tabs');
+  var links=[].slice.call(document.querySelectorAll('.tabs a'));
+  function headH(){ return topbar.getBoundingClientRect().height + 10; }
+  function goTo(el,smooth){
+    if(!el) return;
+    var y=el.getBoundingClientRect().top + window.pageYOffset - headH();
+    lock=Date.now();
+    try{ window.scrollTo({top:y,behavior:smooth?'smooth':'auto'}); }catch(_){ window.scrollTo(0,y); }
+  }
+  function centerTab(a){
+    if(!a||!strip) return;
+    var r=a.getBoundingClientRect(), s=strip.getBoundingClientRect();
+    try{ strip.scrollBy({left:(r.left+r.width/2)-(s.left+s.width/2),behavior:'smooth'}); }catch(_){ strip.scrollLeft+=(r.left+r.width/2)-(s.left+s.width/2); }
+  }
+  function mark(k){
+    var on=null; links.forEach(function(l){var t=l.getAttribute('data-go')===k; l.classList.toggle('on',t); if(t) on=l;});
+    centerTab(on);
+  }
+  function secOf(k){ return k==='archive'?document.getElementById('archive'):cur.querySelector('[data-sec="'+k+'"]'); }
+  function spy(){
+    if(io) io.disconnect();
+    if(!('IntersectionObserver' in window)) return;
+    io=new IntersectionObserver(function(ents){ents.forEach(function(en){ if(!en.isIntersecting) return;
+      if(Date.now()-lock<900) return; mark(en.target.getAttribute('data-sec'));
+    })},{rootMargin:'-35% 0px -60% 0px'});
+    links.forEach(function(l){var s=secOf(l.getAttribute('data-go')); if(s) io.observe(s)});
+  }
+  function show(n,jump){
+    var e=document.getElementById('g'+n)||eds[0];
+    eds.forEach(function(x){x.hidden=(x!==e)}); cur=e;
+    var nn=e.getAttribute('data-n'), num=Number(nn);
+    document.getElementById('m-n').textContent=nn;
+    document.getElementById('mini-n').textContent='גיליון '+nn;
+    document.getElementById('m-date').textContent=e.getAttribute('data-date');
+    document.getElementById('m-extra').textContent=e.getAttribute('data-extra');
+    document.getElementById('streak').textContent='שבוע אחרי שבוע, '+num.toLocaleString('en-US')+' גיליונות ברציפות';
+    document.getElementById('mastwrap').style.setProperty('--season','var(--'+e.getAttribute('data-season')+')');
+    document.querySelectorAll('.arch a').forEach(function(a){a.classList.toggle('cur',a.getAttribute('data-n')===nn)});
+    document.title='מידעצמון '+nn;
+    links.forEach(function(l){l.parentNode.hidden=!secOf(l.getAttribute('data-go'))});
+    spy(); if(jump) window.scrollTo(0,0);
+  }
+  links.forEach(function(l){l.addEventListener('click',function(ev){
+    ev.preventDefault(); var k=l.getAttribute('data-go'); mark(k); goTo(secOf(k),true);
+  })});
+  document.querySelectorAll('.arch a').forEach(function(a){a.addEventListener('click',function(ev){
+    ev.preventDefault(); var n=a.getAttribute('data-n'); try{history.replaceState(null,'','#g'+n)}catch(_){} show(n,true);
+  })});
+  window.addEventListener('hashchange',function(){var m=location.hash.match(/^#g(\d+)$/); if(m) show(m[1],true)});
+  var sel=document.getElementById('sw-sel'), bo=document.getElementById('sw-older'), bn=document.getElementById('sw-newer');
+  eds.forEach(function(e){ var o=document.createElement('option'); o.value=e.getAttribute('data-n'); o.textContent='גיליון '+e.getAttribute('data-n')+' · '+e.getAttribute('data-date').replace(/^שישי, /,''); sel.appendChild(o); });
+  function go(n){ try{history.replaceState(null,'','#g'+n)}catch(_){} show(n,true); }
+  sel.addEventListener('change',function(){ go(sel.value); });
+  bo.addEventListener('click',function(){ var i=eds.indexOf(cur); if(i<eds.length-1) go(eds[i+1].getAttribute('data-n')); });
+  bn.addEventListener('click',function(){ var i=eds.indexOf(cur); if(i>0) go(eds[i-1].getAttribute('data-n')); });
+  var _show=show; show=function(n,j){ _show(n,j); var i=eds.indexOf(cur); sel.value=cur.getAttribute('data-n'); bo.disabled=(i>=eds.length-1); bn.disabled=(i<=0); };
+  var m0=location.hash.match(/^#g(\d+)$/); show(m0?m0[1]:eds[0].getAttribute('data-n'),false);
+  document.getElementById('mini').addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'})});
+  var front=document.getElementById('front');
+  if('IntersectionObserver' in window){ new IntersectionObserver(function(es){ topbar.classList.toggle('scrolled',!es[0].isIntersecting); },{rootMargin:'-60px 0px 0px 0px'}).observe(front.querySelector('.dateline')); }
+
+  function setFilter(ed,f){
+    ed.querySelectorAll('.chip').forEach(function(x){var t=x.getAttribute('data-f')===f; x.classList.toggle('on',t); x.setAttribute('aria-pressed',t)});
+    var cnt=0; ed.querySelectorAll('.notice').forEach(function(n){var ok=(f==='all'||n.getAttribute('data-cat')===f); n.classList.toggle('off',!ok); n.hidden=false; if(ok) cnt++;}); var st=ed.querySelector('.fstatus'); if(st){ var ch=ed.querySelector('.chip[data-f="'+f+'"]'); st.textContent = f==='all' ? '' : 'מוצגות '+cnt+' מודעות: '+(ch?ch.firstChild.textContent.trim():''); }
+  }
+  eds.forEach(function(ed){ ed.querySelectorAll('.chip').forEach(function(c){c.addEventListener('click',function(){setFilter(ed,c.getAttribute('data-f'))})}); });
+
+  /* panels */
+  function panel(btnId,pId,onOpen){
+    var b=document.getElementById(btnId), p=document.getElementById(pId);
+    b.addEventListener('click',function(){
+      var open=p.hidden;
+      document.querySelectorAll('.panel').forEach(function(x){x.hidden=true});
+      document.querySelectorAll('.act').forEach(function(x){x.setAttribute('aria-expanded','false')});
+      p.hidden=!open; b.setAttribute('aria-expanded',open); if(open&&onOpen) onOpen();
+    });
+  }
+  function closePanels(){ document.querySelectorAll('.panel').forEach(function(x){x.hidden=true}); document.querySelectorAll('.act').forEach(function(x){x.setAttribute('aria-expanded','false')}); }
+  panel('btn-fs','p-fs');
+  panel('btn-search','p-search',function(){ setTimeout(function(){document.getElementById('q').focus()},30); });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') closePanels(); });
+
+  /* text size */
+  var fsb=[].slice.call(document.querySelectorAll('[data-fs]'));
+  function setFs(v){ document.querySelector('main').style.zoom=v; fsb.forEach(function(b){b.setAttribute('aria-pressed',b.getAttribute('data-fs')===String(v))}); try{localStorage.setItem('mz-fs',v)}catch(_){} }
+  fsb.forEach(function(b){b.addEventListener('click',function(){setFs(b.getAttribute('data-fs'))})});
+  var sv='1'; try{sv=localStorage.getItem('mz-fs')||'1'}catch(_){} setFs(sv);
+
+  /* search index across all issues */
+  var SEL='.editor, .agenda li, .tldr, .proto, .notice, .thanks blockquote, .corner, .bdays li, .mazal>p, .condolence, .holiday, .archive-band';
+  var idx=[];
+  eds.forEach(function(ed){
+    ed.querySelectorAll(SEL).forEach(function(el,i){
+      var sec=el.closest('section'), h2=sec?sec.querySelector('h2'):null;
+      var t=el.querySelector('summary, h3, b, .label span, .c-name');
+      var title=(el.classList.contains('editor')?'דברי פתיחה':(t?t.textContent:'')).trim();
+      if(el.matches('.bdays li')) title='יום הולדת '+el.querySelector('.d').textContent;
+      idx.push({n:ed.getAttribute('data-n'),el:el,sec:h2?h2.textContent.trim():'',title:title,text:el.textContent.replace(/\s+/g,' ').trim()});
+    });
+  });
+  function esc(s){return s.replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+  var q=document.getElementById('q'), out=document.getElementById('results');
+  q.addEventListener('input',function(){
+    var v=q.value.trim(); out.innerHTML='';
+    if(v.length<2) return;
+    var hits=idx.filter(function(r){return r.text.indexOf(v)>-1}).slice(0,40);
+    if(!hits.length){ out.innerHTML='<li class="r-empty">לא נמצא "'+esc(v)+'". נסו מילה אחרת או חלק משם.</li>'; return; }
+    hits.forEach(function(r,i){
+      var p=r.text.indexOf(v), a=Math.max(0,p-40), snip=(a?'…':'')+r.text.slice(a,p+v.length+60)+'…';
+      var html=esc(snip).split(esc(v)).join('<mark>'+esc(v)+'</mark>');
+      var li=document.createElement('li');
+      li.innerHTML='<button type="button"><span class="r-meta">גיליון '+r.n+(r.sec?' · '+esc(r.sec):'')+'</span><span class="r-title">'+esc(r.title.slice(0,80))+'</span><span class="r-snip">'+html+'</span></button>';
+      li.firstChild.addEventListener('click',function(){
+        if(cur.getAttribute('data-n')!==r.n) show(r.n,false);
+        var ed=r.el.closest('.ed'); if(r.el.matches('.notice')) setFilter(ed,'all');
+        var d=r.el.closest('details'); while(d){ d.open=true; d=d.parentElement&&d.parentElement.closest('details'); }
+        r.el.querySelectorAll('details').forEach(function(x){ if(x.textContent.indexOf(v)>-1) x.open=true; });
+        closePanels();
+        var cc=r.el.closest('.corner'); if(cc) cc.classList.remove('collapsed'); r.el.classList.remove('clip'); var pc=r.el.closest('.clip'); if(pc) pc.classList.remove('clip'); var bl=r.el.closest('.bdays'); if(bl) bl.querySelectorAll('.clip').forEach(function(x){x.classList.remove('clip')});
+        setTimeout(function(){ goTo(r.el,false); r.el.classList.remove('hit'); void r.el.offsetWidth; r.el.classList.add('hit'); },40);
+      });
+      out.appendChild(li);
+    });
+  });
+
+  window.addEventListener('beforeprint',function(){document.querySelectorAll('details').forEach(function(d){d.open=true})});
+  var lb=document.getElementById('lb'),img=document.getElementById('lbimg');
+  document.addEventListener('click',function(e){
+    var b=e.target.closest('[data-poster]'); if(!b) return;
+    img.src=b.getAttribute('data-poster'); img.alt=b.getAttribute('data-alt')||'';
+    if(lb.showModal) lb.showModal();
+  });
+  lb.addEventListener('click',function(e){ if(e.target===lb) lb.close(); });
+})();
+</script>
+<script>
+(function(){
+  /* corners: collapse, tap to toggle */
+  document.querySelectorAll('.corner').forEach(function(c){
+    if(!c.querySelector('.img')) c.classList.add('noimg');
+    c.classList.add('collapsed');
+    c.setAttribute('role','button'); c.setAttribute('tabindex','0'); c.setAttribute('aria-expanded','false');
+    function t(e){ if(e.target.closest('a,button,details,summary')) return; var open=c.classList.toggle('collapsed'); c.setAttribute('aria-expanded',!open); }
+    c.addEventListener('click',t);
+    c.addEventListener('keydown',function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); t(e);} });
+  });
+  /* generic show-more */
+  function clip(list,items,keep,label){
+    if(items.length<=keep) return;
+    items.slice(keep).forEach(function(x){x.classList.add('clip')});
+    var b=document.createElement('button'); b.type='button'; b.className='more-btn';
+    b.textContent=label.replace('{n}',items.length-keep);
+    b.addEventListener('click',function(){ items.forEach(function(x){x.classList.remove('clip')}); b.remove(); });
+    list.after(b); return b;
+  }
+  document.querySelectorAll('.ed').forEach(function(ed){
+    var ag=ed.querySelector('.agenda2'); if(ag) clip(ag,[].slice.call(ag.children),4,'עוד {n} ימים עם אירועים');
+    var bd=ed.querySelector('.board');
+    if(bd){
+      var b=clip(bd,[].slice.call(bd.querySelectorAll('.notice')),6,'הצגת עוד {n} מודעות');
+      ed.querySelectorAll('.chip').forEach(function(ch){ ch.addEventListener('click',function(){ bd.querySelectorAll('.clip').forEach(function(x){x.classList.remove('clip')}); if(b) b.remove(); }); });
+    }
+    var bl=ed.querySelector('.bdays'); if(bl) clip(bl,[].slice.call(bl.children),3,'עוד {n} ימים של חוגגים');
+  });
+  /* search + print open everything that hides the hit */
+  document.addEventListener('click',function(e){
+    if(!e.target.closest('#results button')) return;
+    setTimeout(function(){ document.querySelectorAll('.hit').forEach(function(h){
+      var c=h.closest('.corner'); if(c) c.classList.remove('collapsed'); if(h.classList.contains('corner')) h.classList.remove('collapsed');
+      h.classList.remove('clip'); var p=h.parentElement; if(p&&p.classList.contains('clip')) p.classList.remove('clip');
+    }); },60);
+  },true);
+  window.addEventListener('beforeprint',function(){ document.querySelectorAll('.collapsed').forEach(function(c){c.classList.remove('collapsed')}); document.querySelectorAll('.clip').forEach(function(c){c.classList.remove('clip')}); });
+  var tab=document.querySelector('.tabs a[data-go="editor"]'); if(tab) tab.textContent='דברי פתיחה';
+})();
+</script>
+<script>
+(function(){
+  /* opening words: keep only the first paragraph visible, fold the rest into "להמשך קריאה" */
+  document.querySelectorAll('.ed [data-sec="editor"] .editor').forEach(function(ed){
+    var d=ed.querySelector('details.more'); if(!d) return;
+    var sum=d.querySelector('summary');
+    var first=ed.querySelector(':scope > p'); if(first) first.classList.add('lede');
+    var move=[].slice.call(ed.children).filter(function(c){ return c!==first && c!==d && !c.classList.contains('byline') && !c.classList.contains('voice'); });
+    move.reverse().forEach(function(c){ sum.after(c); });
+  });
+})();
+</script>
+<script>
+(function(){
+  document.querySelectorAll('.agenda').forEach(function(ag){
+    var prev=''; [].slice.call(ag.children).forEach(function(li){ var d=li.querySelector('.date b'); var k=d?d.textContent+(li.querySelector('.date span')||{}).textContent:''; if(k&&k===prev) li.classList.add('same'); prev=k; });
+  });
+  document.querySelectorAll('.month').forEach(function(m){
+    var btns=[].slice.call(m.querySelectorAll('button.m-day')), rows=[].slice.call(m.querySelectorAll('.m-list li'));
+    btns.forEach(function(b){ b.addEventListener('click',function(){
+      var on=!b.classList.contains('sel'); btns.forEach(function(x){x.classList.remove('sel')});
+      if(on) b.classList.add('sel');
+      rows.forEach(function(r){ r.classList.toggle('dim', on && r.getAttribute('data-d')!==b.getAttribute('data-d')); });
+    }); });
+  });
+})();
+</script>
+<script>
+(function(){
+  /* board starts on requests & help, "all" moves to the end */
+  document.querySelectorAll('.ed').forEach(function(ed){
+    var all=ed.querySelector('.chip[data-f="all"]'), ask=ed.querySelector('.chip[data-f="ask"]');
+    if(all&&ask){ var p=ask.parentElement; p.insertBefore(ask,p.firstChild); p.appendChild(all); ask.click(); }
+  });
+  /* every content image opens enlarged */
+  var lb=document.getElementById('lb'), img=document.getElementById('lbimg');
+  if(lb&&!lb.querySelector('.lb-hint')){ var h=document.createElement('p'); h.className='lb-hint'; h.textContent='הקשה על התמונה מגדילה עוד · אפשר גם לצבוט'; lb.appendChild(h); }
+  document.querySelectorAll('main img').forEach(function(im){
+    if(im.closest('.byline,.writer,.avatar,.front')||im.closest('[data-poster]')) return;
+    if(im.width && im.width<60) return;
+    im.classList.add('zoomable');
+    im.addEventListener('click',function(e){ e.preventDefault(); img.src=im.currentSrc||im.src; img.alt=im.alt||''; lb.classList.remove('big'); if(lb.showModal) lb.showModal(); });
+  });
+  if(img) img.addEventListener('click',function(e){ e.stopPropagation(); lb.classList.toggle('big'); });
+  if(lb) lb.addEventListener('close',function(){ lb.classList.remove('big'); });
+})();
+</script>
+<script>
+(function(){
+  /* season on the header, from the issue */
+  var ed=document.querySelector('.ed'), mw=document.getElementById('mastwrap');
+  if(ed&&mw&&ed.getAttribute('data-season')) mw.setAttribute('data-season',ed.getAttribute('data-season'));
+
+  /* WhatsApp share on every notice */
+  var WA='<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6a2.7 2.7 0 0 0 1.8-1.2 2.2 2.2 0 0 0 .1-1.2c0-.1-.2-.2-.5-.3z"/></svg>';
+  document.querySelectorAll('.notice .txt').forEach(function(t){
+    var b=t.querySelector('b'), p=t.querySelector('p'); if(!b) return;
+    var msg=b.textContent.trim()+'\n'+(p?p.textContent.trim():'')+'\n\nמתוך מידעצמון: '+location.href.split('#')[0];
+    var a=document.createElement('a'); a.className='share'; a.target='_blank'; a.rel='noopener';
+    a.href='https://wa.me/?text='+encodeURIComponent(msg); a.innerHTML=WA+'שיתוף בוואטסאפ';
+    a.setAttribute('aria-label','שיתוף המודעה בוואטסאפ: '+b.textContent.trim()); t.appendChild(a);
+  });
+
+  /* birthday today gets a cake */
+  var now=new Date(), key=now.getDate()+'.'+(now.getMonth()+1);
+  document.querySelectorAll('.bdays li').forEach(function(li){ var d=li.querySelector('.d'); if(d&&d.textContent.trim()===key) li.classList.add('today'); });
+
+  /* confetti, once, when "mazal tov" comes into view */
+  var mz=document.querySelector('[data-sec="mazal"]'), reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(mz&&!reduce&&'IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){ if(!es[0].isIntersecting) return; io.disconnect();
+      var c=document.createElement('div'); c.className='confetti'; var cols=['#4f6b3a','#9fb27a','#f1e3b3','#c79f72','#e3e8cc'];
+      for(var i=0;i<42;i++){ var s=document.createElement('i'); s.style.left=Math.random()*100+'%'; s.style.background=cols[i%cols.length]; s.style.animationDelay=(Math.random()*.8)+'s'; s.style.animationDuration=(2+Math.random()*1.6)+'s'; c.appendChild(s); }
+      document.body.appendChild(c); setTimeout(function(){c.remove()},4800);
+    },{threshold:.35}); io.observe(mz);
+  }
+
+  /* read aloud: opening words */
+  var edArt=document.querySelector('[data-sec="editor"] .editor');
+  if(edArt&&'speechSynthesis' in window){
+    var btn=document.createElement('button'); btn.type='button'; btn.className='listen'; btn.setAttribute('aria-pressed','false');
+    btn.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9z"/><path d="M16 9a4 4 0 0 1 0 6M18.5 6.5a7.5 7.5 0 0 1 0 11"/></svg><span>הקראה בקול</span>';
+    edArt.parentNode.insertBefore(btn,edArt);
+    btn.addEventListener('click',function(){
+      if(speechSynthesis.speaking){ speechSynthesis.cancel(); btn.setAttribute('aria-pressed','false'); btn.querySelector('span').textContent='הקראה בקול'; return; }
+      var parts=[]; edArt.querySelectorAll('h2,p').forEach(function(x){ parts.push(x.textContent.trim()); });
+      var u=new SpeechSynthesisUtterance(parts.join('. ')); u.lang='he-IL'; u.rate=.92;
+      var v=speechSynthesis.getVoices().filter(function(v){return /^he|iw/i.test(v.lang)})[0]; if(v) u.voice=v;
+      u.onend=function(){ btn.setAttribute('aria-pressed','false'); btn.querySelector('span').textContent='הקראה בקול'; };
+      speechSynthesis.speak(u); btn.setAttribute('aria-pressed','true'); btn.querySelector('span').textContent='עצירת ההקראה';
+    });
+  }
+})();
+</script>
+<script>
+(function(){
+  var sw=document.getElementById('scene'); if(!sw) return;
+  var fx=sw.querySelector('.fx'), reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var now=new Date(), m=now.getMonth()+1;
+  sw.setAttribute('data-season', m>=9&&m<=11?'autumn':(m==12||m<=2?'winter':(m<=5?'spring':'summer')));
+  function tod(sr,ss){ var t=now.getTime(); if(t<sr-40*60e3||t>ss+40*60e3) return 'night'; if(t<sr+60*60e3) return 'dawn'; if(t>ss-70*60e3) return 'dusk'; return 'day'; }
+  function approx(){ var d=new Date(now); var mm=[6.6,6.4,5.9,6.2,5.7,5.5,5.7,6,6.3,6.6,6.1,6.4][m-1], ee=[17.1,17.5,17.8,19.1,19.4,19.7,19.7,19.3,18.7,18.1,16.7,16.6][m-1];
+    var a=new Date(d); a.setHours(Math.floor(mm),(mm%1)*60,0,0); var b=new Date(d); b.setHours(Math.floor(ee),(ee%1)*60,0,0); return [a.getTime(),b.getTime()]; }
+  var ab=approx(); sw.setAttribute('data-tod',tod(ab[0],ab[1]));
+  function particles(kind,n){ if(reduce||!fx) return; fx.innerHTML='';
+    var cols=['#c98a3e','#d8a93f','#a8562f','#b5a35a','#8a9c6c','#c27a45'];
+    for(var i=0;i<n;i++){ var e=document.createElement('i'); e.className=kind; e.style.left=(Math.random()*104-2)+'%';
+      var dur=kind==='drop'?(.7+Math.random()*.5):(7+Math.random()*6); e.style.animationDuration=dur+'s'; e.style.animationDelay=(-Math.random()*dur)+'s';
+      if(kind==='leaf') e.style.background=cols[i%cols.length]; fx.appendChild(e); } }
+  function season(){ if(sw.getAttribute('data-season')==='autumn') particles('leaf',18); }
+  season();
+  try{
+    fetch('https://api.open-meteo.com/v1/forecast?latitude=32.857&longitude=35.237&current=weather_code,wind_speed_10m&daily=sunrise,sunset&timezone=Asia%2FJerusalem&forecast_days=1')
+    .then(function(r){return r.json()}).then(function(d){
+      var c=d.current||{}, w=c.weather_code, wx='clear';
+      if(w===2||w===3) wx='cloudy'; else if(w===45||w===48) wx='fog';
+      else if((w>=51&&w<=67)||(w>=80&&w<=82)) wx='rain'; else if(w>=95) wx='storm'; else if(w>=71&&w<=77) wx='cloudy';
+      sw.setAttribute('data-wx',wx); if((c.wind_speed_10m||0)>=25) sw.setAttribute('data-wind','1');
+      if(d.daily&&d.daily.sunrise){ var sr=new Date(d.daily.sunrise[0]+':00').getTime(), ss=new Date(d.daily.sunset[0]+':00').getTime(); if(sr&&ss) sw.setAttribute('data-tod',tod(sr,ss)); }
+      if(wx==='rain'||wx==='storm') particles('drop',46); else season();
+    }).catch(function(){});
+  }catch(_){}
+  /* preview: ?sky=night&wx=rain */
+  var q=new URLSearchParams(location.search); if(q.get('sky')) sw.setAttribute('data-tod',q.get('sky')); if(q.get('wx')){ sw.setAttribute('data-wx',q.get('wx')); if(/rain|storm/.test(q.get('wx'))) particles('drop',46); }
+})();
+</script>
+<script>
+(function(){
+  var topbar=document.getElementById('topbar');
+  function headH(){ return topbar.getBoundingClientRect().height+8; }
+  function jump(el){ if(!el) return; var y=el.getBoundingClientRect().top+window.pageYOffset-headH(); try{window.scrollTo({top:y,behavior:'smooth'})}catch(_){window.scrollTo(0,y)} }
+  function cur(){ return [].slice.call(document.querySelectorAll('.ed')).filter(function(e){return !e.hidden})[0]; }
+  var NAMES={}; document.querySelectorAll('.tabs a').forEach(function(a){ NAMES[a.getAttribute('data-go')]=a.textContent.trim(); });
+  NAMES.editor='דברי פתיחה';
+  /* TOC panel */
+  var bt=document.getElementById('btn-toc'), pt=document.getElementById('p-toc');
+  bt.addEventListener('click',function(){ var open=pt.hidden;
+    document.querySelectorAll('.panel').forEach(function(x){x.hidden=true}); document.querySelectorAll('.act').forEach(function(x){x.setAttribute('aria-expanded','false')});
+    pt.hidden=!open; bt.setAttribute('aria-expanded',open); });
+  document.querySelectorAll('.tabs a').forEach(function(a){ a.addEventListener('click',function(){ pt.hidden=true; bt.setAttribute('aria-expanded','false'); }); });
+  /* teasers */
+  function teaser(sec,k){
+    if(k==='week'){ var n=sec.querySelectorAll('.ev').length; return n+' אירועים, ואפשר להוסיף כל אחד ליומן'; }
+    if(k==='board'){ var n2=sec.querySelectorAll('.notice').length; var a=sec.querySelectorAll('.notice[data-cat="ask"]').length; return n2+' מודעות'+(a?', מתוכן '+a+' בקשות עזרה':''); }
+    if(k==='corners'){ return [].slice.call(sec.querySelectorAll('.corner .label span, .corner .label')).map(function(x){return x.textContent.split('·')[0].trim()}).filter(function(v,i,s){return v&&s.indexOf(v)===i}).slice(0,4).join(' · '); }
+    if(k==='mazal'){ var b=sec.querySelectorAll('.bdays li').length; return (sec.querySelector('.baby')?'ברכות, ':'')+'ימי הולדת ב-'+b+' ימים'; }
+    var h=sec.querySelector('.tldr li')||sec.querySelector('h2'); var t=(h?h.textContent:'').trim(); return t.length>70?t.slice(0,68)+'…':t;
+  }
+  function build(){
+    var ed=cur(); if(!ed) return;
+    /* index */
+    var idx=ed.querySelector('.idx'); if(idx){ idx.innerHTML=''; var i=0;
+      ed.querySelectorAll('section[data-sec]').forEach(function(s){ var k=s.getAttribute('data-sec'); i++;
+        var li=document.createElement('li'); var a=document.createElement('a'); a.href='#'+k;
+        a.innerHTML='<span class="n">'+(i<10?'0':'')+i+'</span><span class="t"></span><span class="s"></span>';
+        a.querySelector('.t').textContent=NAMES[k]||s.querySelector('h2').textContent; a.querySelector('.s').textContent=teaser(s,k);
+        a.addEventListener('click',function(e){ e.preventDefault(); jump(s); }); li.appendChild(a); idx.appendChild(li); });
+      /* teasers in TOC too */
+      document.querySelectorAll('.tabs a').forEach(function(a){ var s=ed.querySelector('[data-sec="'+a.getAttribute('data-go')+'"]'); var old=a.querySelector('small'); if(old) old.remove();
+        if(s){ var sm=document.createElement('small'); sm.textContent=teaser(s,a.getAttribute('data-go')); var t=document.createElement('span'); t.textContent=NAMES[a.getAttribute('data-go')]; a.textContent=''; t.appendChild(sm); a.appendChild(t);} });
+    }
+    /* coming up */
+    var list=ed.querySelector('.soon-list'); if(list){ list.innerHTML='';
+      var MO={'ינו׳':0,'פבר׳':1,'מרץ':2,'אפר׳':3,'מאי':4,'יוני':5,'יולי':6,'אוג׳':7,'ספט׳':8,'אוק׳':9,'נוב׳':10,'דצמ׳':11};
+      var now=new Date(); now.setHours(0,0,0,0); var y=now.getFullYear(), rows=[];
+      ed.querySelectorAll('.agenda2 .day').forEach(function(day){
+        var b=day.querySelector('.dh b'), sp=day.querySelector('.dh span'); if(!b||!sp) return;
+        var parts=sp.textContent.split('·'), mo=MO[parts[0].trim()], wd=(parts[1]||'').trim(); if(mo===undefined) return;
+        var dt=new Date(y,mo,+b.textContent); if(dt<now&&(now-dt)>200*864e5) dt=new Date(y+1,mo,+b.textContent);
+        day.querySelectorAll('.ev').forEach(function(ev){ rows.push({dt:dt,wd:wd,d:b.textContent+'.'+(mo+1),ev:ev}); });
+      });
+      var fut=rows.filter(function(r){return r.dt>=now}); if(!fut.length) fut=rows;
+      fut.slice(0,3).forEach(function(r){
+        var diff=Math.round((r.dt-now)/864e5), lab= diff===0?'היום':diff===1?'מחר':(diff>1&&diff<7?'ב'+r.wd:r.d);
+        var li=document.createElement('li'), tm=r.ev.querySelector('.tm'), w=r.ev.querySelector('.w'), cal=r.ev.querySelector('.cal');
+        li.innerHTML='<div class="when"><b></b><span></span></div><div class="what"><b></b><span></span></div>';
+        li.querySelector('.when b').textContent=lab; li.querySelector('.when span').textContent=(lab===r.d?r.wd:r.d)+(tm&&tm.textContent?'\n'+tm.textContent:'');
+        li.querySelector('.what b').textContent=w.querySelector('b').textContent; var ws=w.querySelector('span'); li.querySelector('.what span').textContent=ws?ws.textContent:'';
+        if(cal) li.appendChild(cal.cloneNode(true)); list.appendChild(li);
+      });
+      var more=ed.querySelector('.fp-more'); if(more) more.onclick=function(e){ e.preventDefault(); jump(ed.querySelector('[data-sec="week"]')); };
+    }
+  }
+  build(); window.addEventListener('hashchange',function(){ setTimeout(build,60); });
+  /* current section label in the top bar */
+  var cs=document.getElementById('cursec');
+  if('IntersectionObserver' in window){ var io=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ var k=e.target.getAttribute('data-sec'); cs.textContent=NAMES[k]||''; } }); },{rootMargin:'-30% 0px -65% 0px'});
+    document.querySelectorAll('section[data-sec]').forEach(function(s){ io.observe(s); }); }
+  /* Zigi's voice */
+  document.querySelectorAll('.voice').forEach(function(v){
+    var au=v.querySelector('audio'), bt=v.querySelector('.v-play'), bar=v.querySelector('.v-bar i'), tm=v.querySelector('.v-time');
+    function f(s){ s=Math.max(0,Math.round(s)); return Math.floor(s/60)+':'+('0'+s%60).slice(-2); }
+    bt.addEventListener('click',function(){ if(au.paused){ au.play(); } else { au.pause(); } });
+    au.addEventListener('play',function(){ v.classList.add('on'); }); au.addEventListener('pause',function(){ v.classList.remove('on'); });
+    au.addEventListener('timeupdate',function(){ if(au.duration){ bar.style.width=(au.currentTime/au.duration*100)+'%'; tm.textContent=f(au.duration-au.currentTime); } });
+    au.addEventListener('ended',function(){ bar.style.width='0'; tm.textContent=f(au.duration); });
+  });
+})();
+</script>
+<script>
+(function(){
+  var f=document.getElementById('fb'); if(!f) return;
+  f.addEventListener('submit',function(e){
+    e.preventDefault();
+    var ed=[].slice.call(document.querySelectorAll('.ed')).filter(function(x){return !x.hidden})[0];
+    document.getElementById('fb-issue').value=ed?ed.getAttribute('data-n'):'';
+    var data=new URLSearchParams(new FormData(f)).toString();
+    function done(){ f.querySelector('.fb-ok').hidden=false; f.querySelector('.fb-send').disabled=true; }
+    fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:data})
+      .then(function(r){ if(!r.ok) throw 0; done(); })
+      .catch(function(){
+        var r=f.querySelector('input[name=rating]:checked'), body='דירוג: '+(r?r.value:'-')+'\n'+f.message.value+'\n'+(f.name.value?'— '+f.name.value:'');
+        location.href='mailto:yacovzig@outlook.com,nshnek@hotmail.com?subject='+encodeURIComponent('תגובה לגיליון '+document.getElementById('fb-issue').value)+'&body='+encodeURIComponent(body);
+      });
+  });
+})();
+</script>
+
+</body>
+</html>
