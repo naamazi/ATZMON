@@ -2276,7 +2276,7 @@ section[data-sec] > :not(.sec-ill):not(.kicker):not(h2){clear:both}
       [fresh||mine.length, fresh?'אירועים חדשים':'אירועים ביומן','week'],
       [ed.querySelectorAll('.notice').length,'מודעות בלוח','board'],
       [ed.querySelectorAll('[data-sec="vaad"] details.proto').length,'פרוטוקול ועד','vaad'],
-      [ed.querySelectorAll('.bdays li').length,'ימים של חוגגים','mazal']
+      [[].slice.call(ed.querySelectorAll('.bdays li span:last-child')).reduce(function(n,x){return n+x.textContent.split(/,| ו(?=[א-ת])/).filter(function(v){return v.trim()}).length},0),'חוגגים השבוע','mazal']
     ].filter(function(x){return x[0]>0});
     if(items.length<2) return;
     var h=document.createElement('div'); h.className='nums-h'; h.textContent='השבוע במספרים'; box.appendChild(h);
