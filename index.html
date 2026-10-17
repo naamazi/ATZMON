@@ -863,6 +863,67 @@ section[data-sec] > h2{letter-spacing:-.01em;line-height:1.15}
 .issue-nav::after{border:none!important;border-left:2.5px solid currentColor!important;border-bottom:2.5px solid currentColor!important;transform:rotate(45deg)!important;width:10px!important;height:10px!important}
 
 section[data-sec] > :not(.sec-ill):not(.kicker):not(h2){clear:both}
+
+/* light everywhere; the night lives only in the header art */
+:root{--hill:#4b6a36;--deep:#2f4426;--slate:#4b6a36;--slate-soft:#edf0e0;--hill-soft:#edf0e0;--line:#e3dfcd;--bg:#f8f5ec;--surface:#fffdf7;--ink:#24291f;--muted:#5d6052;--rose:#4b6a36;color-scheme:light}
+@media (prefers-color-scheme:dark){:root,:root:not([data-theme="light"]){--hill:#4b6a36!important;--deep:#2f4426!important;--slate:#4b6a36!important;--slate-soft:#edf0e0!important;--hill-soft:#edf0e0!important;--line:#e3dfcd!important;--bg:#f8f5ec!important;--surface:#fffdf7!important;--ink:#24291f!important;--muted:#5d6052!important;--rose:#4b6a36!important;color-scheme:light!important}
+  body{background:#f8f5ec!important;color:#24291f!important}
+  .scene{opacity:1!important}
+  .dateline{background:#6f8a4e!important}
+}
+/* text-size: a real button with words */
+.appbar #btn-fs{width:auto!important;border-radius:999px!important;padding:0 14px!important;gap:6px}
+.appbar #btn-fs span{position:static!important;width:auto!important;height:auto!important;overflow:visible!important;clip:auto!important;font:600 14.5px var(--f-body)}
+.mini .rl{width:50px!important}
+.appbar .mid{font-size:13.5px}
+
+/* corners: real subheads, list labels as small heads */
+.corner h4.sub{font:400 19px/1.3 var(--f-display)!important;color:var(--deep);margin:20px 0 6px;padding-top:12px;border-top:1px solid var(--line)}
+.corner .in > h4.sub:first-of-type,.corner details h4.sub:first-child{border-top:none;padding-top:0}
+.corner li{list-style:none;margin:0 0 12px}
+.corner ul,.corner ol{padding:0!important;margin:8px 0}
+.corner li b.lh{display:block;font:400 18px/1.3 var(--f-display);color:var(--deep);margin-bottom:2px}
+.corner ol{counter-reset:li}
+.corner ol li{counter-increment:li}
+.corner ol li b.lh::before{content:counter(li) ". ";color:var(--hill)}
+.corner .img{cursor:inherit!important}
+/* jokes look like every other corner */
+.corner.humor{background:var(--surface)!important;box-shadow:none!important;border:1px solid var(--line)!important}
+.corner .notes{display:grid;gap:0}
+.corner .sticky,.corner .sticky.alt{background:none!important;box-shadow:none!important;transform:none!important;border:none!important;border-bottom:1px dashed var(--line)!important;border-radius:0!important;padding:10px 0!important;margin:0!important;font:400 17px/1.6 var(--f-body)!important;color:var(--ink)!important}
+.corner .sticky:last-child{border-bottom:none!important}
+.corner .sticky::before,.corner .sticky::after{display:none!important}
+
+/* birthdays: cards, all visible */
+.bdays{display:grid!important;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px}
+.bdays li,.bdays li.clip{display:block!important;padding:12px 14px!important;border:1px solid var(--line)!important;border-radius:14px;background:var(--bg)}
+.bdays li .d{display:block;font:400 24px/1 var(--f-display)!important;color:var(--hill)!important;margin-bottom:6px}
+.bdays li span:last-child{font-size:15.5px;line-height:1.5}
+.bdays li.today{background:var(--hill-soft)!important;border-color:var(--hill)!important}
+.bdays + .more-btn{display:none!important}
+@media (min-width:700px){.bdays{grid-template-columns:repeat(3,1fr)}}
+
+/* this week in numbers */
+.nums{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:22px 0 4px}
+.nums:empty{display:none}
+.nums a{display:grid;justify-items:center;gap:2px;padding:12px 4px;border-radius:14px;background:var(--surface);border:1px solid var(--line);text-decoration:none!important;color:var(--ink)!important;text-align:center}
+.nums b{font:400 30px/1 var(--f-display);color:var(--hill)}
+.nums span{font:600 12.5px/1.25 var(--f-body);color:var(--muted)}
+.nums-h{grid-column:1/-1;font:700 13px var(--f-body);letter-spacing:.06em;color:var(--muted);margin-bottom:2px}
+
+/* effects */
+.spark{position:absolute;pointer-events:none;font-size:13px;animation:spark 1.6s ease-out forwards;color:#c9a84a}
+@keyframes spark{0%{transform:scale(.3) rotate(0);opacity:0}30%{opacity:1}100%{transform:translateY(-18px) scale(1) rotate(90deg);opacity:0}}
+.soon-list li{position:relative}
+.soon-list .new-tag{display:inline-block;margin-inline-start:6px;padding:0 7px;border-radius:999px;background:#f3e6b8;color:#5d4a17;font:700 11.5px/1.7 var(--f-body);vertical-align:2px}
+.balloon{position:fixed;bottom:-70px;pointer-events:none;z-index:55;width:30px;height:38px;border-radius:50% 50% 48% 48%;animation:rise 5.5s ease-in forwards}
+.balloon::after{content:"";position:absolute;left:50%;top:100%;width:1px;height:34px;background:rgba(0,0,0,.25)}
+@keyframes rise{to{transform:translate(var(--dx),-115vh) rotate(var(--r));opacity:.9}}
+
+.corner:not(.collapsed) .img.ill{display:none!important}
+.corner:not(.collapsed).side{grid-template-columns:1fr!important}
+
+.soon-list .what .new-tag{display:inline-block!important;width:auto!important;margin-top:0!important;opacity:1!important;color:#5d4a17!important}
 </style>
 
 </head>
@@ -872,7 +933,7 @@ section[data-sec] > :not(.sec-ill):not(.kicker):not(h2){clear:both}
     <button type="button" class="mini" id="mini" aria-label="לראש העמוד"><img class="rl" src="img/logo_round.png" alt=""><b><i>מיד</i>עצמון</b><span id="mini-n"></span></button>
     <span class="mid" id="mid"></span><div class="acts">
       <button type="button" class="act" id="btn-search" aria-expanded="false" aria-controls="p-search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M16.5 16.5 21 21"/></svg><span>חיפוש</span></button>
-      <button type="button" class="act" id="btn-fs" aria-expanded="false" aria-controls="p-fs"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 19 8 6l5 13M4.8 15h6.4M15 19l3.5-9 3.5 9M16 16.5h5"/></svg><span>גודל טקסט</span></button>
+      <button type="button" class="act" id="btn-fs" aria-expanded="false" aria-controls="p-fs"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 19 8 6l5 13M4.8 15h6.4M15 19l3.5-9 3.5 9M16 16.5h5"/></svg><span class="lbl">גודל טקסט</span></button>
     </div>
   </div>
   <div class="panel search" id="p-search" hidden>
@@ -972,7 +1033,8 @@ section[data-sec] > :not(.sec-ill):not(.kicker):not(h2){clear:both}
 </div>
 
 <main class="wrap">
-<article class="ed" id="g1804" data-n="1804" data-date="שישי, 16 באוקטובר 2026" data-extra="פרשת נח" data-season="autumn">
+<article class="ed" id="g1804" data-n="1804" data-date="שישי, 16 באוקטובר 2026" data-extra="פרשת נח" data-season="autumn"><div class="nums" aria-label="השבוע במספרים"></div>
+
   <section data-sec="editor">
     <svg class="sec-ill" viewBox="0 0 80 64" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 34h30v14a10 10 0 0 1-10 10H24a10 10 0 0 1-10-10z" fill="var(--hill-soft)"/><path d="M44 38h4a5 5 0 0 1 0 10h-4M22 28c-2-4 2-6 0-10M30 28c-2-4 2-6 0-10M38 28c-2-4 2-6 0-10M8 58h46"/><path d="M58 20h16v38H58z" fill="var(--surface)"/><path d="M62 28h8M62 34h8M62 40h6M62 46h8"/></svg>
     <span class="kicker">דברי פתיחה</span>
@@ -1025,7 +1087,7 @@ section[data-sec] > :not(.sec-ill):not(.kicker):not(h2){clear:both}
     <svg class="sec-ill" viewBox="0 0 80 64" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 18h52v40H14z" fill="var(--surface)"/><path d="M14 28h52M26 12v10M54 12v10"/><circle cx="40" cy="43" r="8" fill="#f3e6b8"/><path d="M40 30v3M40 53v3M27 43h3M50 43h3M31 34l2 2M47 50l2 2M49 34l-2 2M33 50l-2 2"/></svg>
     <span class="kicker">הוספה ליומן</span>
     <h2>השבוע בעצמון ועוד</h2><p class="calhint"><span class="ci"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4M12 13v5M9.5 15.5h5"/></svg></span>לחיצה על הכפתור מוסיפה את האירוע ליומן גוגל בטלפון</p>
-    <ul class="agenda2"><li class="day"><h3 class="dh"><b>17</b><span>אוק׳ · שבת</span></h3><div class="ev"><span class="tm">20:00</span><div class="w"><b>מוצאי שבת בספרייה</b><span>איציק פוירשטיין על הרכבת הקלה חיפה–נצרת · ועדת גיל נעים</span></div><a class="cal" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=%D7%9E%D7%95%D7%A6%D7%90%D7%99%20%D7%A9%D7%91%D7%AA%20%D7%91%D7%A1%D7%A4%D7%A8%D7%99%D7%99%D7%94&amp;dates=20261017T200000/20261017T220000&amp;ctz=Asia/Jerusalem&amp;details=%D7%90%D7%99%D7%A6%D7%99%D7%A7%20%D7%A4%D7%95%D7%99%D7%A8%D7%A9%D7%98%D7%99%D7%99%D7%9F%20%D7%A2%D7%9C%20%D7%94%D7%A8%D7%9B%D7%91%D7%AA%20%D7%94%D7%A7%D7%9C%D7%94%20%D7%97%D7%99%D7%A4%D7%94%E2%80%93%D7%A0%D7%A6%D7%A8%D7%AA%20%C2%B7%20%D7%95%D7%A2%D7%93%D7%AA%20%D7%92%D7%99%D7%9C%20%D7%A0%D7%A2%D7%99%D7%9D%0A%D7%9E%D7%AA%D7%95%D7%9A%20%D7%9E%D7%99%D7%93%D7%A2%D7%A6%D7%9E%D7%95%D7%9F" target="_blank" rel="noopener" aria-label="הוספה ליומן גוגל: מוצאי שבת בספרייה"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4M12 13v5M9.5 15.5h5"/></svg><span>ליומן</span></a></div></li><li class="day"><h3 class="dh"><b>22</b><span>אוק׳ · חמישי</span></h3><div class="ev"><span class="tm">21:00</span><div class="w"><b>הורים על הבר: יחסי אחים</b><span>ד"ר אנאבלה שקד בקונטיינר · ועדת חינוך</span></div><a class="cal" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=%D7%94%D7%95%D7%A8%D7%99%D7%9D%20%D7%A2%D7%9C%20%D7%94%D7%91%D7%A8%3A%20%D7%99%D7%97%D7%A1%D7%99%20%D7%90%D7%97%D7%99%D7%9D&amp;dates=20261022T210000/20261022T230000&amp;ctz=Asia/Jerusalem&amp;details=%D7%93%22%D7%A8%20%D7%90%D7%A0%D7%90%D7%91%D7%9C%D7%94%20%D7%A9%D7%A7%D7%93%20%D7%91%D7%A7%D7%95%D7%A0%D7%98%D7%99%D7%99%D7%A0%D7%A8%20%C2%B7%20%D7%95%D7%A2%D7%93%D7%AA%20%D7%97%D7%99%D7%A0%D7%95%D7%9A%0A%D7%9E%D7%AA%D7%95%D7%9A%20%D7%9E%D7%99%D7%93%D7%A2%D7%A6%D7%9E%D7%95%D7%9F" target="_blank" rel="noopener" aria-label="הוספה ליומן גוגל: הורים על הבר: יחסי אחים"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4M12 13v5M9.5 15.5h5"/></svg><span>ליומן</span></a></div></li><li class="day"><h3 class="dh"><b>24</b><span>אוק׳ · שבת</span></h3><div class="ev"><span class="tm">20:30</span><div class="w"><b>חמישה גוונים של ורוד</b><span>ערב לחודש המודעות לסרטן השד · מוצאי שבת</span></div><a class="cal" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=%D7%97%D7%9E%D7%99%D7%A9%D7%94%20%D7%92%D7%95%D7%95%D7%A0%D7%99%D7%9D%20%D7%A9%D7%9C%20%D7%95%D7%A8%D7%95%D7%93&amp;dates=20261024T203000/20261024T223000&amp;ctz=Asia/Jerusalem&amp;details=%D7%A2%D7%A8%D7%91%20%D7%9C%D7%97%D7%95%D7%93%D7%A9%20%D7%94%D7%9E%D7%95%D7%93%D7%A2%D7%95%D7%AA%20%D7%9C%D7%A1%D7%A8%D7%98%D7%9F%20%D7%94%D7%A9%D7%93%20%C2%B7%20%D7%9E%D7%95%D7%A6%D7%90%D7%99%20%D7%A9%D7%91%D7%AA%0A%D7%9E%D7%AA%D7%95%D7%9A%20%D7%9E%D7%99%D7%93%D7%A2%D7%A6%D7%9E%D7%95%D7%9F" target="_blank" rel="noopener" aria-label="הוספה ליומן גוגל: חמישה גוונים של ורוד"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4M12 13v5M9.5 15.5h5"/></svg><span>ליומן</span></a></div></li><li class="day"><h3 class="dh"><b>28</b><span>אוק׳ · רביעי</span></h3><div class="ev"><span class="tm">16:00–21:00</span><div class="w"><b>התרמת דם במועדון</b><span>מגן דוד אדום · כולם מוזמנים</span></div><a class="cal" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=%D7%94%D7%AA%D7%A8%D7%9E%D7%AA%20%D7%93%D7%9D%20%D7%91%D7%9E%D7%95%D7%A2%D7%93%D7%95%D7%9F&amp;dates=20261028T160000/20261028T210000&amp;ctz=Asia/Jerusalem&amp;details=%D7%9E%D7%92%D7%9F%20%D7%93%D7%95%D7%93%20%D7%90%D7%93%D7%95%D7%9D%20%C2%B7%20%D7%9B%D7%95%D7%9C%D7%9D%20%D7%9E%D7%95%D7%96%D7%9E%D7%A0%D7%99%D7%9D%0A%D7%9E%D7%AA%D7%95%D7%9A%20%D7%9E%D7%99%D7%93%D7%A2%D7%A6%D7%9E%D7%95%D7%9F" target="_blank" rel="noopener" aria-label="הוספה ליומן גוגל: התרמת דם במועדון"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4M12 13v5M9.5 15.5h5"/></svg><span>ליומן</span></a></div></li><li class="day"><h3 class="dh"><b>30</b><span>אוק׳ · שישי</span></h3><div class="ev"><span class="tm"></span><div class="w"><b>ליגת הפטאנק של משגב</b><span class="nx"></span><span>מפגש הליגה הראשון · קבוצת עצמון מחפשת שחקנים</span></div></div></li><li class="day"><h3 class="dh"><b>3</b><span>נוב׳ · שלישי</span></h3><div class="ev"><span class="tm">17:45–18:30</span><div class="w"><b>חיסוני כלבת</b><span class="nx"></span><span>בחדר הדואר, בתיאום תור מראש</span></div></div></li><li class="day"><h3 class="dh"><b>6</b><span>נוב׳ · שישי</span></h3><div class="ev"><span class="tm">09:00</span><div class="w"><b>"מעגלי שכנים": סיור בגילון</b><span>עד 12:00 · בהרשמה מראש</span></div><a class="cal" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=%22%D7%9E%D7%A2%D7%92%D7%9C%D7%99%20%D7%A9%D7%9B%D7%A0%D7%99%D7%9D%22%3A%20%D7%A1%D7%99%D7%95%D7%A8%20%D7%91%D7%92%D7%99%D7%9C%D7%95%D7%9F&amp;dates=20261106T090000/20261106T110000&amp;ctz=Asia/Jerusalem&amp;details=%D7%A2%D7%93%2012%3A00%20%C2%B7%20%D7%91%D7%94%D7%A8%D7%A9%D7%9E%D7%94%20%D7%9E%D7%A8%D7%90%D7%A9%0A%D7%9E%D7%AA%D7%95%D7%9A%20%D7%9E%D7%99%D7%93%D7%A2%D7%A6%D7%9E%D7%95%D7%9F" target="_blank" rel="noopener" aria-label="הוספה ליומן גוגל: "מעגלי שכנים": סיור בגילון"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4M12 13v5M9.5 15.5h5"/></svg><span>ליומן</span></a></div></li><li class="day"><h3 class="dh"><b>10</b><span>נוב׳ · שלישי</span></h3><div class="ev"><span class="tm">08:00</span><div class="w"><b>סיור טבע, היסטוריה ואמנות</b><span>עין עירון, שדות ים וקיסריה · ועדת גיל נעים</span></div><a class="cal" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=%D7%A1%D7%99%D7%95%D7%A8%20%D7%98%D7%91%D7%A2%2C%20%D7%94%D7%99%D7%A1%D7%98%D7%95%D7%A8%D7%99%D7%94%20%D7%95%D7%90%D7%9E%D7%A0%D7%95%D7%AA&amp;dates=20261110T080000/20261110T100000&amp;ctz=Asia/Jerusalem&amp;details=%D7%A2%D7%99%D7%9F%20%D7%A2%D7%99%D7%A8%D7%95%D7%9F%2C%20%D7%A9%D7%93%D7%95%D7%AA%20%D7%99%D7%9D%20%D7%95%D7%A7%D7%99%D7%A1%D7%A8%D7%99%D7%94%20%C2%B7%20%D7%95%D7%A2%D7%93%D7%AA%20%D7%92%D7%99%D7%9C%20%D7%A0%D7%A2%D7%99%D7%9D%0A%D7%9E%D7%AA%D7%95%D7%9A%20%D7%9E%D7%99%D7%93%D7%A2%D7%A6%D7%9E%D7%95%D7%9F" target="_blank" rel="noopener" aria-label="הוספה ליומן גוגל: סיור טבע, היסטוריה ואמנות"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4M12 13v5M9.5 15.5h5"/></svg><span>ליומן</span></a></div><div class="ev"><span class="tm">19:30</span><div class="w"><b>מפגש ועדות</b><span>הוועדות מציגות תוכניות עבודה ותקציב 2027 · מועדון היישוב</span></div><a class="cal" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=%D7%9E%D7%A4%D7%92%D7%A9%20%D7%95%D7%A2%D7%93%D7%95%D7%AA&amp;dates=20261110T193000/20261110T213000&amp;ctz=Asia/Jerusalem&amp;details=%D7%94%D7%95%D7%95%D7%A2%D7%93%D7%95%D7%AA%20%D7%9E%D7%A6%D7%99%D7%92%D7%95%D7%AA%20%D7%AA%D7%95%D7%9B%D7%A0%D7%99%D7%95%D7%AA%20%D7%A2%D7%91%D7%95%D7%93%D7%94%20%D7%95%D7%AA%D7%A7%D7%A6%D7%99%D7%91%202027%20%C2%B7%20%D7%9E%D7%95%D7%A2%D7%93%D7%95%D7%9F%20%D7%94%D7%99%D7%99%D7%A9%D7%95%D7%91%0A%D7%9E%D7%AA%D7%95%D7%9A%20%D7%9E%D7%99%D7%93%D7%A2%D7%A6%D7%9E%D7%95%D7%9F" target="_blank" rel="noopener" aria-label="הוספה ליומן גוגל: מפגש ועדות"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4M12 13v5M9.5 15.5h5"/></svg><span>ליומן</span></a></div></li><li class="day"><h3 class="dh"><b>27</b><span>נוב׳ · שישי</span></h3><div class="ev"><span class="tm"></span><div class="w"><b>שלבים מארחים מס' 2</b><span>שמרו את התאריך · פרטים בהמשך</span></div><a class="cal" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=%D7%A9%D7%9C%D7%91%D7%99%D7%9D%20%D7%9E%D7%90%D7%A8%D7%97%D7%99%D7%9D%20%D7%9E%D7%A1%27%202&amp;dates=20261127/20261128&amp;ctz=Asia/Jerusalem&amp;details=%D7%A9%D7%9E%D7%A8%D7%95%20%D7%90%D7%AA%20%D7%94%D7%AA%D7%90%D7%A8%D7%99%D7%9A%20%C2%B7%20%D7%A4%D7%A8%D7%98%D7%99%D7%9D%20%D7%91%D7%94%D7%9E%D7%A9%D7%9A%0A%D7%9E%D7%AA%D7%95%D7%9A%20%D7%9E%D7%99%D7%93%D7%A2%D7%A6%D7%9E%D7%95%D7%9F" target="_blank" rel="noopener" aria-label="הוספה ליומן גוגל: שלבים מארחים מס' 2"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4M12 13v5M9.5 15.5h5"/></svg><span>ליומן</span></a></div></li></ul>
+    <ul class="agenda2"><li class="day"><h3 class="dh"><b>17</b><span>אוק׳ · שבת</span></h3><div class="ev"><span class="tm">20:00</span><div class="w"><b>מוצאי שבת בספרייה</b><span>איציק פוירשטיין על הרכבת הקלה חיפה–נצרת · ועדת גיל נעים</span></div><a class="cal" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=%D7%9E%D7%95%D7%A6%D7%90%D7%99%20%D7%A9%D7%91%D7%AA%20%D7%91%D7%A1%D7%A4%D7%A8%D7%99%D7%99%D7%94&amp;dates=20261017T200000/20261017T220000&amp;ctz=Asia/Jerusalem&amp;details=%D7%90%D7%99%D7%A6%D7%99%D7%A7%20%D7%A4%D7%95%D7%99%D7%A8%D7%A9%D7%98%D7%99%D7%99%D7%9F%20%D7%A2%D7%9C%20%D7%94%D7%A8%D7%9B%D7%91%D7%AA%20%D7%94%D7%A7%D7%9C%D7%94%20%D7%97%D7%99%D7%A4%D7%94%E2%80%93%D7%A0%D7%A6%D7%A8%D7%AA%20%C2%B7%20%D7%95%D7%A2%D7%93%D7%AA%20%D7%92%D7%99%D7%9C%20%D7%A0%D7%A2%D7%99%D7%9D%0A%D7%9E%D7%AA%D7%95%D7%9A%20%D7%9E%D7%99%D7%93%D7%A2%D7%A6%D7%9E%D7%95%D7%9F" target="_blank" rel="noopener" aria-label="הוספה ליומן גוגל: מוצאי שבת בספרייה"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4M12 13v5M9.5 15.5h5"/></svg><span>ליומן</span></a></div></li><li class="day"><h3 class="dh"><b>22</b><span>אוק׳ · חמישי</span></h3><div class="ev"><span class="tm">21:00</span><div class="w"><b>הורים על הבר: יחסי אחים</b><span>ד"ר אנאבלה שקד בקונטיינר · ועדת חינוך</span></div><a class="cal" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=%D7%94%D7%95%D7%A8%D7%99%D7%9D%20%D7%A2%D7%9C%20%D7%94%D7%91%D7%A8%3A%20%D7%99%D7%97%D7%A1%D7%99%20%D7%90%D7%97%D7%99%D7%9D&amp;dates=20261022T210000/20261022T230000&amp;ctz=Asia/Jerusalem&amp;details=%D7%93%22%D7%A8%20%D7%90%D7%A0%D7%90%D7%91%D7%9C%D7%94%20%D7%A9%D7%A7%D7%93%20%D7%91%D7%A7%D7%95%D7%A0%D7%98%D7%99%D7%99%D7%A0%D7%A8%20%C2%B7%20%D7%95%D7%A2%D7%93%D7%AA%20%D7%97%D7%99%D7%A0%D7%95%D7%9A%0A%D7%9E%D7%AA%D7%95%D7%9A%20%D7%9E%D7%99%D7%93%D7%A2%D7%A6%D7%9E%D7%95%D7%9F" target="_blank" rel="noopener" aria-label="הוספה ליומן גוגל: הורים על הבר: יחסי אחים"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4M12 13v5M9.5 15.5h5"/></svg><span>ליומן</span></a></div></li><li class="day"><h3 class="dh"><b>24</b><span>אוק׳ · שבת</span></h3><div class="ev"><span class="tm">20:30</span><div class="w"><b>חמישה גוונים של ורוד</b><span>ערב לחודש המודעות לסרטן השד · מוצאי שבת</span></div><a class="cal" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=%D7%97%D7%9E%D7%99%D7%A9%D7%94%20%D7%92%D7%95%D7%95%D7%A0%D7%99%D7%9D%20%D7%A9%D7%9C%20%D7%95%D7%A8%D7%95%D7%93&amp;dates=20261024T203000/20261024T223000&amp;ctz=Asia/Jerusalem&amp;details=%D7%A2%D7%A8%D7%91%20%D7%9C%D7%97%D7%95%D7%93%D7%A9%20%D7%94%D7%9E%D7%95%D7%93%D7%A2%D7%95%D7%AA%20%D7%9C%D7%A1%D7%A8%D7%98%D7%9F%20%D7%94%D7%A9%D7%93%20%C2%B7%20%D7%9E%D7%95%D7%A6%D7%90%D7%99%20%D7%A9%D7%91%D7%AA%0A%D7%9E%D7%AA%D7%95%D7%9A%20%D7%9E%D7%99%D7%93%D7%A2%D7%A6%D7%9E%D7%95%D7%9F" target="_blank" rel="noopener" aria-label="הוספה ליומן גוגל: חמישה גוונים של ורוד"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4M12 13v5M9.5 15.5h5"/></svg><span>ליומן</span></a></div></li><li class="day"><h3 class="dh"><b>28</b><span>אוק׳ · רביעי</span></h3><div class="ev"><span class="tm">16:00–21:00</span><div class="w"><b>התרמת דם במועדון</b><span>מגן דוד אדום · כולם מוזמנים</span></div><a class="cal" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=%D7%94%D7%AA%D7%A8%D7%9E%D7%AA%20%D7%93%D7%9D%20%D7%91%D7%9E%D7%95%D7%A2%D7%93%D7%95%D7%9F&amp;dates=20261028T160000/20261028T210000&amp;ctz=Asia/Jerusalem&amp;details=%D7%9E%D7%92%D7%9F%20%D7%93%D7%95%D7%93%20%D7%90%D7%93%D7%95%D7%9D%20%C2%B7%20%D7%9B%D7%95%D7%9C%D7%9D%20%D7%9E%D7%95%D7%96%D7%9E%D7%A0%D7%99%D7%9D%0A%D7%9E%D7%AA%D7%95%D7%9A%20%D7%9E%D7%99%D7%93%D7%A2%D7%A6%D7%9E%D7%95%D7%9F" target="_blank" rel="noopener" aria-label="הוספה ליומן גוגל: התרמת דם במועדון"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4M12 13v5M9.5 15.5h5"/></svg><span>ליומן</span></a></div></li><li class="day"><h3 class="dh"><b>30</b><span>אוק׳ · שישי</span></h3><div class="ev"><span class="tm"></span><div class="w"><b>ליגת הפטאנק של משגב</b><span>מפגש הליגה הראשון · קבוצת עצמון מחפשת שחקנים</span><span class="nx"></span></div><a class="cal" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=%D7%9C%D7%99%D7%92%D7%AA%20%D7%94%D7%A4%D7%98%D7%90%D7%A0%D7%A7%20%D7%A9%D7%9C%20%D7%9E%D7%A9%D7%92%D7%91&amp;dates=20261030/20261031&amp;ctz=Asia/Jerusalem&amp;details=%D7%9E%D7%A4%D7%92%D7%A9%20%D7%94%D7%9C%D7%99%D7%92%D7%94%20%D7%94%D7%A8%D7%90%D7%A9%D7%95%D7%9F%20%C2%B7%20%D7%A7%D7%91%D7%95%D7%A6%D7%AA%20%D7%A2%D7%A6%D7%9E%D7%95%D7%9F%20%D7%9E%D7%97%D7%A4%D7%A9%D7%AA%20%D7%A9%D7%97%D7%A7%D7%A0%D7%99%D7%9D%0A%D7%9E%D7%AA%D7%95%D7%9A%20%D7%9E%D7%99%D7%93%D7%A2%D7%A6%D7%9E%D7%95%D7%9F" target="_blank" rel="noopener" aria-label="הוספה ליומן גוגל: ליגת הפטאנק של משגב"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4M12 13v5M9.5 15.5h5"/></svg><span>ליומן</span></a></div></li><li class="day"><h3 class="dh"><b>3</b><span>נוב׳ · שלישי</span></h3><div class="ev"><span class="tm">17:45–18:30</span><div class="w"><b>חיסוני כלבת</b><span>בחדר הדואר, בתיאום תור מראש</span><span class="nx"></span></div><a class="cal" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=%D7%97%D7%99%D7%A1%D7%95%D7%A0%D7%99%20%D7%9B%D7%9C%D7%91%D7%AA&amp;dates=20261103T174500/20261103T183000&amp;ctz=Asia/Jerusalem&amp;details=%D7%91%D7%97%D7%93%D7%A8%20%D7%94%D7%93%D7%95%D7%90%D7%A8%2C%20%D7%91%D7%AA%D7%99%D7%90%D7%95%D7%9D%20%D7%AA%D7%95%D7%A8%20%D7%9E%D7%A8%D7%90%D7%A9%0A%D7%9E%D7%AA%D7%95%D7%9A%20%D7%9E%D7%99%D7%93%D7%A2%D7%A6%D7%9E%D7%95%D7%9F" target="_blank" rel="noopener" aria-label="הוספה ליומן גוגל: חיסוני כלבת"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4M12 13v5M9.5 15.5h5"/></svg><span>ליומן</span></a></div></li><li class="day"><h3 class="dh"><b>6</b><span>נוב׳ · שישי</span></h3><div class="ev"><span class="tm">09:00</span><div class="w"><b>"מעגלי שכנים": סיור בגילון</b><span>עד 12:00 · בהרשמה מראש</span></div><a class="cal" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=%22%D7%9E%D7%A2%D7%92%D7%9C%D7%99%20%D7%A9%D7%9B%D7%A0%D7%99%D7%9D%22%3A%20%D7%A1%D7%99%D7%95%D7%A8%20%D7%91%D7%92%D7%99%D7%9C%D7%95%D7%9F&amp;dates=20261106T090000/20261106T110000&amp;ctz=Asia/Jerusalem&amp;details=%D7%A2%D7%93%2012%3A00%20%C2%B7%20%D7%91%D7%94%D7%A8%D7%A9%D7%9E%D7%94%20%D7%9E%D7%A8%D7%90%D7%A9%0A%D7%9E%D7%AA%D7%95%D7%9A%20%D7%9E%D7%99%D7%93%D7%A2%D7%A6%D7%9E%D7%95%D7%9F" target="_blank" rel="noopener" aria-label="הוספה ליומן גוגל: "מעגלי שכנים": סיור בגילון"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4M12 13v5M9.5 15.5h5"/></svg><span>ליומן</span></a></div></li><li class="day"><h3 class="dh"><b>10</b><span>נוב׳ · שלישי</span></h3><div class="ev"><span class="tm">08:00</span><div class="w"><b>סיור טבע, היסטוריה ואמנות</b><span>עין עירון, שדות ים וקיסריה · ועדת גיל נעים</span></div><a class="cal" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=%D7%A1%D7%99%D7%95%D7%A8%20%D7%98%D7%91%D7%A2%2C%20%D7%94%D7%99%D7%A1%D7%98%D7%95%D7%A8%D7%99%D7%94%20%D7%95%D7%90%D7%9E%D7%A0%D7%95%D7%AA&amp;dates=20261110T080000/20261110T100000&amp;ctz=Asia/Jerusalem&amp;details=%D7%A2%D7%99%D7%9F%20%D7%A2%D7%99%D7%A8%D7%95%D7%9F%2C%20%D7%A9%D7%93%D7%95%D7%AA%20%D7%99%D7%9D%20%D7%95%D7%A7%D7%99%D7%A1%D7%A8%D7%99%D7%94%20%C2%B7%20%D7%95%D7%A2%D7%93%D7%AA%20%D7%92%D7%99%D7%9C%20%D7%A0%D7%A2%D7%99%D7%9D%0A%D7%9E%D7%AA%D7%95%D7%9A%20%D7%9E%D7%99%D7%93%D7%A2%D7%A6%D7%9E%D7%95%D7%9F" target="_blank" rel="noopener" aria-label="הוספה ליומן גוגל: סיור טבע, היסטוריה ואמנות"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4M12 13v5M9.5 15.5h5"/></svg><span>ליומן</span></a></div><div class="ev"><span class="tm">19:30</span><div class="w"><b>מפגש ועדות</b><span>הוועדות מציגות תוכניות עבודה ותקציב 2027 · מועדון היישוב</span></div><a class="cal" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=%D7%9E%D7%A4%D7%92%D7%A9%20%D7%95%D7%A2%D7%93%D7%95%D7%AA&amp;dates=20261110T193000/20261110T213000&amp;ctz=Asia/Jerusalem&amp;details=%D7%94%D7%95%D7%95%D7%A2%D7%93%D7%95%D7%AA%20%D7%9E%D7%A6%D7%99%D7%92%D7%95%D7%AA%20%D7%AA%D7%95%D7%9B%D7%A0%D7%99%D7%95%D7%AA%20%D7%A2%D7%91%D7%95%D7%93%D7%94%20%D7%95%D7%AA%D7%A7%D7%A6%D7%99%D7%91%202027%20%C2%B7%20%D7%9E%D7%95%D7%A2%D7%93%D7%95%D7%9F%20%D7%94%D7%99%D7%99%D7%A9%D7%95%D7%91%0A%D7%9E%D7%AA%D7%95%D7%9A%20%D7%9E%D7%99%D7%93%D7%A2%D7%A6%D7%9E%D7%95%D7%9F" target="_blank" rel="noopener" aria-label="הוספה ליומן גוגל: מפגש ועדות"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4M12 13v5M9.5 15.5h5"/></svg><span>ליומן</span></a></div></li><li class="day"><h3 class="dh"><b>27</b><span>נוב׳ · שישי</span></h3><div class="ev"><span class="tm"></span><div class="w"><b>שלבים מארחים מס' 2</b><span>שמרו את התאריך · פרטים בהמשך</span></div><a class="cal" href="https://calendar.google.com/calendar/render?action=TEMPLATE&amp;text=%D7%A9%D7%9C%D7%91%D7%99%D7%9D%20%D7%9E%D7%90%D7%A8%D7%97%D7%99%D7%9D%20%D7%9E%D7%A1%27%202&amp;dates=20261127/20261128&amp;ctz=Asia/Jerusalem&amp;details=%D7%A9%D7%9E%D7%A8%D7%95%20%D7%90%D7%AA%20%D7%94%D7%AA%D7%90%D7%A8%D7%99%D7%9A%20%C2%B7%20%D7%A4%D7%A8%D7%98%D7%99%D7%9D%20%D7%91%D7%94%D7%9E%D7%A9%D7%9A%0A%D7%9E%D7%AA%D7%95%D7%9A%20%D7%9E%D7%99%D7%93%D7%A2%D7%A6%D7%9E%D7%95%D7%9F" target="_blank" rel="noopener" aria-label="הוספה ליומן גוגל: שלבים מארחים מס' 2"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4M12 13v5M9.5 15.5h5"/></svg><span>ליומן</span></a></div></li></ul>
   </section>
 
 
@@ -1147,8 +1209,8 @@ section[data-sec] > :not(.sec-ill):not(.kicker):not(h2){clear:both}
           <p>מסלול הליכה קצר ויפהפה בצפון, בין כפר בלום לשדה נחמיה, עם נוף לנהר הירדן ולמפגש הנחלים שניר, דן וחרמון. לאורך הטיילת מפל קטן ופינת ישיבה מוצלת לפיקניק או קפה בשטח. הטיילת, כ-1.5 ק"מ, מוקדשת לזכרו של הנער עמי פלד.</p>
           <details class="more"><summary>להמשך</summary>
             <p>הטיילת מתחילה בגשר הירוק (גשר יוסף) מעל הירדן, בכביש 9779, המחבר את קריית שמונה עם צומת אנפה. מדרגות אבן יורדות אל נקודה מוצלת סמוך למים, ובימי הקיץ מי הנהר מדלגים מעל הסלעים בזרם מעודן. בחורף הזרם שוצף, וקשה לנהל שיחה בגלל רעש המים.</p>
-            <p><b>נקודה שווה לקפה:</b> כמה מדרגות יורדות אל המפל, שם, תחת עץ, ממתינה פינת ישיבה קסומה. על משטח הטיילת מוטבעים פסוקים, הלקוחים מהתנ"ך ובהם מוזכר הירדן.</p>
-            <p><b>מתי לבוא:</b> כל השנה. בחורפים גשומים פני הירדן עולים, המים מטפסים על הגדות, והמפל כמעט נעלם. מומלץ להימנע משימוש בכלים חד-פעמיים, בהתאם לחוקי המועצה האזורית.</p>
+            <h4 class="sub">נקודה שווה לקפה</h4><p>כמה מדרגות יורדות אל המפל, שם, תחת עץ, ממתינה פינת ישיבה קסומה. על משטח הטיילת מוטבעים פסוקים, הלקוחים מהתנ"ך ובהם מוזכר הירדן.</p>
+            <h4 class="sub">מתי לבוא</h4><p>כל השנה. בחורפים גשומים פני הירדן עולים, המים מטפסים על הגדות, והמפל כמעט נעלם. מומלץ להימנע משימוש בכלים חד-פעמיים, בהתאם לחוקי המועצה האזורית.</p>
           </details>
         <div class="rx" data-item="c3" data-title="טיילת עמי ומפגש מקורות הירדן"><button type="button" class="rx-b" data-e="heart" aria-label="אהבתי">❤️<span></span></button><button type="button" class="rx-b" data-e="laugh" aria-label="מצחיק">😂<span></span></button><button type="button" class="rx-b" data-e="wow" aria-label="מרשים">😮<span></span></button><button type="button" class="rx-b" data-e="clap" aria-label="כל הכבוד">👏<span></span></button><button type="button" class="rx-share" aria-label="שיתוף: טיילת עמי ומפגש מקורות הירדן"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 8l5-5 5 5M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg>שיתוף</button></div></div>
       </article>
@@ -1159,11 +1221,11 @@ section[data-sec] > :not(.sec-ill):not(.kicker):not(h2){clear:both}
           <div class="label"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z"/></svg><span>אולי יעניין אתכם לדעת</span></div>
           <h3>הגינה בסתיו: מה עושים עכשיו</h3>
           <ul>
-            <li><b>קרקע:</b> מאווררים ומדשנים בקומפוסט, בערך דלי לכל שני מטר רבוע. זהירות עם שורשי הצמח.</li>
-            <li><b>גיזום:</b> מרחיקים ענפים סדוקים ופצועים לפני רוחות החורף, ושימו לב לקווי חשמל וטלפון. צמחים שפורחים באביב לא גוזמים עכשיו.</li>
-            <li><b>שתילה:</b> עונה מצוינת לשתילת פרחים, שיחים ועצים, כי האוויר קריר והשקיה נדרשת פחות.</li>
-            <li><b>השקיה:</b> הגשמים עוד לא מספיקים, אז ממשיכים להשקות, אבל מגדילים את המרווחים.</li>
-            <li><b>מדשאה:</b> לפני הגשמים הראשונים מגביהים את הכיסוח ל-7–10 ס"מ, כדי שלא תיחשף לקור.</li>
+            <li><b class="lh">קרקע</b>מאווררים ומדשנים בקומפוסט, בערך דלי לכל שני מטר רבוע. זהירות עם שורשי הצמח.</li>
+            <li><b class="lh">גיזום</b>מרחיקים ענפים סדוקים ופצועים לפני רוחות החורף, ושימו לב לקווי חשמל וטלפון. צמחים שפורחים באביב לא גוזמים עכשיו.</li>
+            <li><b class="lh">שתילה</b>עונה מצוינת לשתילת פרחים, שיחים ועצים, כי האוויר קריר והשקיה נדרשת פחות.</li>
+            <li><b class="lh">השקיה</b>הגשמים עוד לא מספיקים, אז ממשיכים להשקות, אבל מגדילים את המרווחים.</li>
+            <li><b class="lh">מדשאה</b>לפני הגשמים הראשונים מגביהים את הכיסוח ל-7–10 ס"מ, כדי שלא תיחשף לקור.</li>
           </ul>
         <div class="rx" data-item="c4" data-title="הגינה בסתיו: מה עושים עכשיו"><button type="button" class="rx-b" data-e="heart" aria-label="אהבתי">❤️<span></span></button><button type="button" class="rx-b" data-e="laugh" aria-label="מצחיק">😂<span></span></button><button type="button" class="rx-b" data-e="wow" aria-label="מרשים">😮<span></span></button><button type="button" class="rx-b" data-e="clap" aria-label="כל הכבוד">👏<span></span></button><button type="button" class="rx-share" aria-label="שיתוף: הגינה בסתיו: מה עושים עכשיו"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 8l5-5 5 5M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg>שיתוף</button></div></div>
       </article>
@@ -1175,7 +1237,7 @@ section[data-sec] > :not(.sec-ill):not(.kicker):not(h2){clear:both}
           <h3>הפועל חיפה חגגה בתוספת הזמן</h3>
           <p>הצדק נעשה: הפועל חיפה ניצחה 2:1 את מכבי פתח תקווה, עם שער של סאלי פחימה בתוספת הזמן, וטיפסה למקום החמישי עם 9 נקודות מ-18. בתחילת המשחק נערך טקס לזכרו של סרן אליאב חיים צפלמוס, שנפל בדרום לבנון, ולזכרם של אוהדי הפועל חיפה שנרצחו ב-7 באוקטובר.</p>
           <details class="more"><summary>להמשך</summary>
-            <p><b>במכבי חיפה:</b> אלי דסה חתם לשנתיים, חיזוק משמעותי לירוקים לפני שזומן לחלון האחרון. הוא מצטרף מיד לסגל של ברק בכר.</p>
+            <h4 class="sub">במכבי חיפה</h4><p>אלי דסה חתם לשנתיים, חיזוק משמעותי לירוקים לפני שזומן לחלון האחרון. הוא מצטרף מיד לסגל של ברק בכר.</p>
             <p><b>הברק חזר?</b> ארבעה ניצחונות ברציפות, כולל 1:4 על הפועל ירושלים בטדי. זו הפתיחה הטובה ביותר של בכר מאז עונת האליפות השלישית שלו, עם 15 נקודות בשישה מחזורים. ההתקפה מביאה ניצחונות, אבל ההגנה עוד לא מספקת את הסחורה. אולי דסה יביא את השינוי.</p>
           </details>
         <div class="rx" data-item="c5" data-title="הפועל חיפה חגגה בתוספת הזמן"><button type="button" class="rx-b" data-e="heart" aria-label="אהבתי">❤️<span></span></button><button type="button" class="rx-b" data-e="laugh" aria-label="מצחיק">😂<span></span></button><button type="button" class="rx-b" data-e="wow" aria-label="מרשים">😮<span></span></button><button type="button" class="rx-b" data-e="clap" aria-label="כל הכבוד">👏<span></span></button><button type="button" class="rx-share" aria-label="שיתוף: הפועל חיפה חגגה בתוספת הזמן"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 8l5-5 5 5M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg>שיתוף</button></div></div>
@@ -1194,10 +1256,10 @@ section[data-sec] > :not(.sec-ill):not(.kicker):not(h2){clear:both}
           <div class="label"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19C5 11 11 5 19 5c0 8-6 14-14 14zM5 19l7.5-7.5"/></svg><span>תרופות סבתא</span></div>
           <h3>שיעול בלי תרופות</h3>
           <ul>
-            <li><b>לשאוף אדים:</b> מזרימים מים חמים במקלחת, סוגרים את הדלת ויושבים כ-20 דקות בחדר המלא אדים.</li>
-            <li><b>לשתות הרבה:</b> משקאות חמים וקרים מדללים את הליחה. כפית דבש בתה חם עוזרת במיוחד.</li>
-            <li><b>לישון בתנוחה נכונה:</b> כרית נוספת מתחת לראש מקלה על הנשימה.</li>
-            <li><b>מכשיר אדים קרים:</b> בחדר השינה, ואפשר להוסיף כמה טיפות שמן אקליפטוס.</li>
+            <li><b class="lh">לשאוף אדים</b>מזרימים מים חמים במקלחת, סוגרים את הדלת ויושבים כ-20 דקות בחדר המלא אדים.</li>
+            <li><b class="lh">לשתות הרבה</b>משקאות חמים וקרים מדללים את הליחה. כפית דבש בתה חם עוזרת במיוחד.</li>
+            <li><b class="lh">לישון בתנוחה נכונה</b>כרית נוספת מתחת לראש מקלה על הנשימה.</li>
+            <li><b class="lh">מכשיר אדים קרים</b>בחדר השינה, ואפשר להוסיף כמה טיפות שמן אקליפטוס.</li>
           </ul>
         <div class="rx" data-item="c7" data-title="שיעול בלי תרופות"><button type="button" class="rx-b" data-e="heart" aria-label="אהבתי">❤️<span></span></button><button type="button" class="rx-b" data-e="laugh" aria-label="מצחיק">😂<span></span></button><button type="button" class="rx-b" data-e="wow" aria-label="מרשים">😮<span></span></button><button type="button" class="rx-b" data-e="clap" aria-label="כל הכבוד">👏<span></span></button><button type="button" class="rx-share" aria-label="שיתוף: שיעול בלי תרופות"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 8l5-5 5 5M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg>שיתוף</button></div></div>
       </article>
@@ -1209,10 +1271,10 @@ section[data-sec] > :not(.sec-ill):not(.kicker):not(h2){clear:both}
           <h3>איך ליצור תמונות AI מדויקות יותר</h3><p class="c-meta">מאמר מס' 57 · מגיש שמוליק נוי</p>
           <p>ביקשתם תמונה ולא קיבלתם בדיוק מה שרציתם? במקום לנסח בכל פעם בקשה מאפס, אפשר לעבוד עם תבנית פרומפט קבועה בארבעה חלקים:</p>
           <ol>
-            <li><b>הרעיון המרכזי:</b> מה יוצרים ולשם מה. "תמונה מדהימה" לא מספיק; "איור למאמר על מעבר מעומס לסדר" נותן כיוון.</li>
-            <li><b>תמונות ייחוס:</b> אם מצרפים תמונות, כתבו מה לקחת מכל אחת, למשל דמות מאחת וסגנון מאחרת.</li>
-            <li><b>הפרטים החזותיים:</b> מה נמצא איפה, הרקע, הסגנון, הצבעים והתאורה, ומה אסור שיופיע.</li>
-            <li><b>התוצר והגימור:</b> יחס רוחב לגובה, איזה טקסט יופיע (כולל עברית), ומה תוסיפו בעצמכם.</li>
+            <li><b class="lh">הרעיון המרכזי</b>מה יוצרים ולשם מה. "תמונה מדהימה" לא מספיק; "איור למאמר על מעבר מעומס לסדר" נותן כיוון.</li>
+            <li><b class="lh">תמונות ייחוס</b>אם מצרפים תמונות, כתבו מה לקחת מכל אחת, למשל דמות מאחת וסגנון מאחרת.</li>
+            <li><b class="lh">הפרטים החזותיים</b>מה נמצא איפה, הרקע, הסגנון, הצבעים והתאורה, ומה אסור שיופיע.</li>
+            <li><b class="lh">התוצר והגימור</b>יחס רוחב לגובה, איזה טקסט יופיע (כולל עברית), ומה תוסיפו בעצמכם.</li>
           </ol>
           <details class="more"><summary>איך לנסות ולשפר</summary>
             <p>בחרו כלי שיש לכם גישה אליו (למשל ChatGPT או Google AI), הדביקו את הפרומפט המלא, ובדקו את התמונה מול הבקשה. במקום להתחיל מחדש, בקשו תיקון ממוקד אחד בכל פעם, למשל "הרחיבו את השטח הפנוי בצד שמאל", ושמרו את התבנית שעבדה לפעם הבאה.</p>
@@ -1235,7 +1297,7 @@ section[data-sec] > :not(.sec-ill):not(.kicker):not(h2){clear:both}
           <div class="label"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 4C12 4 7 9 6 18M6 18c5 0 10-3 12-9M6 18l-2 2.5"/></svg><span>סיפור לשבת</span></div>
           <h3>הצרצר ברחוב הסואן</h3>
           <p>שני חברים טיילו בצהריים ברחוב הומה. פתאום עצר אחד מהם, התכופף והוציא מתחת לגדר צרצר קטן. "איך שמעת אותו בתוך כל הרעש הזה?" שאל חברו. "אין לי שום יכולת מיוחדת", ענה. "בוא נבדוק". הוא הוציא מטבע מכיסו והשליך אותו על המדרכה, ומיד עצרו כל האנשים מסביב והתחילו לחפש. "לכולנו יש כישרון הקשבה", אמר, "השאלה רק מה מעניין אותנו לשמוע".</p>
-          <p><b>והנמשל:</b> כל המילים שילדינו אומרים, כל הצלילים המופלאים שבטבע, נעלמים בתוך אין קשב. רגע להבחין, לבחור לשמוע, לדעת.</p>
+          <h4 class="sub">והנמשל</h4><p>כל המילים שילדינו אומרים, כל הצלילים המופלאים שבטבע, נעלמים בתוך אין קשב. רגע להבחין, לבחור לשמוע, לדעת.</p>
         <div class="rx" data-item="c10" data-title="הצרצר ברחוב הסואן"><button type="button" class="rx-b" data-e="heart" aria-label="אהבתי">❤️<span></span></button><button type="button" class="rx-b" data-e="laugh" aria-label="מצחיק">😂<span></span></button><button type="button" class="rx-b" data-e="wow" aria-label="מרשים">😮<span></span></button><button type="button" class="rx-b" data-e="clap" aria-label="כל הכבוד">👏<span></span></button><button type="button" class="rx-share" aria-label="שיתוף: הצרצר ברחוב הסואן"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 8l5-5 5 5M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg>שיתוף</button></div></div>
       </article>
 
@@ -1286,7 +1348,8 @@ section[data-sec] > :not(.sec-ill):not(.kicker):not(h2){clear:both}
   </section>
 <nav class="issue-navs" aria-label="גיליונות"><a class="issue-nav" href="#g1803"><span>לגיליון הקודם</span><b>1803</b></a></nav>
 </article>
-<article class="ed" id="g1803" data-n="1803" data-date="שישי, 9 באוקטובר 2026" data-extra="פרשת בראשית" data-season="autumn"><p class="old-note top">גיליון קודם · <a href="#g1804">לגיליון החדש</a></p>
+<article class="ed" id="g1803" data-n="1803" data-date="שישי, 9 באוקטובר 2026" data-extra="פרשת בראשית" data-season="autumn"><p class="old-note top">גיליון קודם · <a href="#g1804">לגיליון החדש</a></p><div class="nums" aria-label="השבוע במספרים"></div>
+
 
 
   <div class="memorial">
@@ -1528,7 +1591,7 @@ section[data-sec] > :not(.sec-ill):not(.kicker):not(h2){clear:both}
           <div class="label"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 19l6-9 4 5 3-3 7 7zM17 5.5a2 2 0 1 0 0 .01"/></svg><span>טיול לשבת</span></div>
           <h3>אגמון החולה בתחילת אוקטובר</h3>
           <p>שיא נדידת הסתיו: להקות חסידות, שקנאים, העגורים הראשונים ועופות דורסים. מסלול אספלט מישורי של כ-8.5 ק"מ, ברגל, באופניים, ברכב גולף או בעגלת המסתור.</p>
-          <p><b>טיפ:</b> להגיע עם הפתיחה או אחר הצהריים המאוחרים, כשהציפורים הכי פעילות והאור הכי יפה.</p>
+          <h4 class="sub">טיפ</h4><p>להגיע עם הפתיחה או אחר הצהריים המאוחרים, כשהציפורים הכי פעילות והאור הכי יפה.</p>
         <div class="rx" data-item="c5" data-title="אגמון החולה בתחילת אוקטובר"><button type="button" class="rx-b" data-e="heart" aria-label="אהבתי">❤️<span></span></button><button type="button" class="rx-b" data-e="laugh" aria-label="מצחיק">😂<span></span></button><button type="button" class="rx-b" data-e="wow" aria-label="מרשים">😮<span></span></button><button type="button" class="rx-b" data-e="clap" aria-label="כל הכבוד">👏<span></span></button><button type="button" class="rx-share" aria-label="שיתוף: אגמון החולה בתחילת אוקטובר"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 8l5-5 5 5M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg>שיתוף</button></div></div>
       </article>
 
@@ -2150,6 +2213,109 @@ section[data-sec] > :not(.sec-ill):not(.kicker):not(h2){clear:both}
     var io=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('seen'); io.unobserve(e.target); } }); },{rootMargin:'0px 0px -8% 0px'});
     document.querySelectorAll('section[data-sec],.corner,.soon,.notice').forEach(function(el){ io.observe(el); });
     setTimeout(function(){ document.querySelectorAll('section[data-sec],.corner,.soon,.notice').forEach(function(el){ var r=el.getBoundingClientRect(); if(r.top<innerHeight) el.classList.add('seen'); }); },60); }
+})();
+</script>
+<script>window.MZ_TRACK=false;</script>
+<script>
+(function(){
+  var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var topbar=document.getElementById('topbar');
+  function cur(){ return [].slice.call(document.querySelectorAll('.ed')).filter(function(e){return !e.hidden})[0]; }
+  function jumpY(y){ try{window.scrollTo({top:y,behavior:'smooth'})}catch(_){window.scrollTo(0,y)} }
+
+  /* ---- calendar for everyone: Apple devices get an .ics, others Google ---- */
+  var APPLE=/iPhone|iPad|iPod|Macintosh/.test(navigator.userAgent)&&!/Android/.test(navigator.userAgent);
+  function ics(href){
+    var u=new URL(href), p=u.searchParams, d=(p.get('dates')||'').split('/'), t=p.get('text')||'אירוע', det=(p.get('details')||'').replace(/\n/g,'\\n');
+    function f(x){ return x.length===8?';VALUE=DATE:'+x:';TZID=Asia/Jerusalem:'+x; }
+    return ['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//midatzmon//he','CALSCALE:GREGORIAN','BEGIN:VEVENT','UID:'+Date.now()+'@midatzmon','DTSTAMP:'+new Date().toISOString().replace(/[-:]/g,'').slice(0,15)+'Z',
+      'DTSTART'+f(d[0]),'DTEND'+f(d[1]||d[0]),'SUMMARY:'+t,'DESCRIPTION:'+det,'END:VEVENT','END:VCALENDAR'].join('\r\n');
+  }
+  document.addEventListener('click',function(e){
+    var a=e.target.closest('a.cal'); if(!a||!APPLE) return; e.preventDefault();
+    var blob=new Blob([ics(a.href)],{type:'text/calendar;charset=utf-8'}), url=URL.createObjectURL(blob);
+    var l=document.createElement('a'); l.href=url; l.download='midatzmon-event.ics'; document.body.appendChild(l); l.click(); setTimeout(function(){ l.remove(); URL.revokeObjectURL(url); },2000);
+  });
+  if(APPLE) document.querySelectorAll('.calhint').forEach(function(h){ h.lastChild.textContent='לחיצה על הכפתור מוסיפה את האירוע ליומן בטלפון'; });
+  document.querySelectorAll('a.cal').forEach(function(a){ a.setAttribute('aria-label',(a.getAttribute('aria-label')||'').replace('ליומן גוגל','ליומן')); });
+
+  /* ---- decorative corner images are not zoomable ---- */
+  document.querySelectorAll('.corner img.img').forEach(function(im){ im.classList.remove('zoomable'); var c=im.cloneNode(true); im.replaceWith(c); });
+
+  /* ---- floating close that brings you back to where you started ---- */
+  var fc=document.querySelector('.fclose'), origin=new WeakMap(), target=null;
+  document.addEventListener('click',function(e){
+    var c=e.target.closest('.corner'); if(c&&c.classList.contains('collapsed')&&!e.target.closest('.rx,a,button')) origin.set(c,window.pageYOffset);
+    var s=e.target.closest('details>summary'); if(s&&!s.parentNode.open) origin.set(s.parentNode,window.pageYOffset);
+  },true);
+  function blocks(){ var ed=cur(); if(!ed) return []; var a=[].slice.call(ed.querySelectorAll('.corner:not(.collapsed)')); ed.querySelectorAll('details[open]').forEach(function(d){ if(!d.closest('.corner')) a.push(d); }); return a; }
+  function name(t){ if(t.classList&&t.classList.contains('corner')) return ((t.querySelector('h3')||{}).textContent||'הפינה');
+    if(t.closest('[data-sec="editor"]')) return 'דברי הפתיחה'; var s=t.querySelector('summary'); return s?s.textContent:'הקטע'; }
+  function check(){ if(!fc) return; var hb=topbar.getBoundingClientRect().height, vh=innerHeight, t=null;
+    blocks().forEach(function(el){ var box=(el.tagName==='DETAILS'&&el.closest('.editor'))?el.closest('.editor'):el, r=box.getBoundingClientRect(); if(r.top<hb+10&&r.bottom>hb+140) t=el; });
+    target=t; if(t) fc.querySelector('span').textContent='סגירת '+name(t).trim().slice(0,26); fc.classList.toggle('show',!!t&&!(t.getBoundingClientRect().bottom<vh*.3)); }
+  window.addEventListener('scroll',check,{passive:true}); document.addEventListener('click',function(){ setTimeout(check,60); });
+  if(fc){ var nf=fc.cloneNode(true); fc.replaceWith(nf); fc=nf;
+    fc.addEventListener('click',function(){ var t=target; if(!t) return; var y=origin.get(t);
+      if(t.tagName==='DETAILS') t.open=false; else { t.classList.add('collapsed'); t.setAttribute('aria-expanded','false'); }
+      fc.classList.remove('show');
+      if(y===undefined){ var anchor=(t.tagName==='DETAILS'&&t.closest('section'))||t; y=anchor.getBoundingClientRect().top+pageYOffset-topbar.getBoundingClientRect().height-10; }
+      setTimeout(function(){ jumpY(y); },20); }); }
+
+  /* ---- comment name starts empty and clears after sending ---- */
+  document.querySelectorAll('.talk .t-form').forEach(function(f){ var n=f.querySelector('[name=name]'); n.value='';
+    f.addEventListener('submit',function(){ setTimeout(function(){ if(!f.querySelector('[name=text]').value) n.value=''; },1500); }); });
+
+  /* ---- this week in numbers ---- */
+  function nums(){
+    var ed=cur(); if(!ed) return; var box=ed.querySelector('.nums'); if(!box||box.childNodes.length) return;
+    var all=[].slice.call(document.querySelectorAll('.ed')), i=all.indexOf(ed), prev=all[i+1];
+    var titles=function(e){ return [].slice.call(e.querySelectorAll('.agenda2 .w b')).map(function(b){return b.textContent.replace(/[^א-תa-z0-9]/gi,'')}); };
+    var mine=titles(ed), old=prev?titles(prev):[], fresh=mine.filter(function(t){return old.indexOf(t)<0}).length;
+    var items=[
+      [fresh||mine.length, fresh?'אירועים חדשים':'אירועים ביומן','week'],
+      [ed.querySelectorAll('.notice').length,'מודעות בלוח','board'],
+      [ed.querySelectorAll('[data-sec="vaad"] details.proto').length,'פרוטוקול ועד','vaad'],
+      [ed.querySelectorAll('.bdays li').length,'ימים של חוגגים','mazal']
+    ].filter(function(x){return x[0]>0});
+    if(items.length<2) return;
+    var h=document.createElement('div'); h.className='nums-h'; h.textContent='השבוע במספרים'; box.appendChild(h);
+    items.slice(0,4).forEach(function(x){ var a=document.createElement('a'); a.href='#'+x[2]; a.innerHTML='<b></b><span></span>'; a.querySelector('b').textContent=x[0]; a.querySelector('span').textContent=x[1]; box.appendChild(a); });
+    box.style.gridTemplateColumns='repeat('+Math.min(items.length,4)+',1fr)';
+  }
+  nums(); window.addEventListener('hashchange',function(){ setTimeout(nums,120); });
+
+  /* ---- new events sparkle in the coming-up card ---- */
+  function markNew(){
+    var ed=cur(); if(!ed) return; var all=[].slice.call(document.querySelectorAll('.ed')), prev=all[all.indexOf(ed)+1]; if(!prev) return;
+    var old=[].slice.call(prev.querySelectorAll('.agenda2 .w b')).map(function(b){return b.textContent.trim()});
+    ed.querySelectorAll('.soon-list li').forEach(function(li){ var b=li.querySelector('.what b'); if(!b||li.querySelector('.new-tag')||old.indexOf(b.textContent.trim())>-1) return;
+      var t=document.createElement('span'); t.className='new-tag'; t.textContent='חדש'; b.appendChild(t);
+      if(!reduce) for(var k=0;k<3;k++){ var s=document.createElement('i'); s.className='spark'; s.textContent='✦'; s.style.top=(10+Math.random()*30)+'px'; s.style.right=(70+Math.random()*120)+'px'; s.style.animationDelay=(k*.25+Math.random()*.3)+'s'; li.appendChild(s); setTimeout(function(x){return function(){x.remove()}}(s),2600); } });
+  }
+  var sl=document.querySelector('.soon-list'); if(sl&&'MutationObserver' in window){ new MutationObserver(function(){ setTimeout(markNew,30); }).observe(sl,{childList:true}); } markNew();
+
+  /* ---- balloons with the mazal tov confetti ---- */
+  var mz=document.querySelector('.ed:not([hidden]) [data-sec="mazal"]')||document.querySelector('[data-sec="mazal"]');
+  if(mz&&!reduce&&'IntersectionObserver' in window){ var io=new IntersectionObserver(function(es){ if(!es[0].isIntersecting) return; io.disconnect();
+      var cols=['#e9c46a','#8fae6b','#e8a0a0','#a9c4d8','#c9a6d8'];
+      for(var i=0;i<7;i++){ var b=document.createElement('i'); b.className='balloon'; b.style.left=(8+Math.random()*84)+'vw'; b.style.background=cols[i%cols.length]; b.style.setProperty('--dx',(Math.random()*60-30)+'px'); b.style.setProperty('--r',(Math.random()*20-10)+'deg'); b.style.animationDelay=(Math.random()*1.2)+'s'; document.body.appendChild(b); setTimeout(function(x){return function(){x.remove()}}(b),7500); }
+    },{threshold:.35}); io.observe(mz); }
+
+  /* ---- hearts when a comment is posted ---- */
+  document.addEventListener('submit',function(e){ if(!e.target.closest('.talk')||reduce) return; var r=e.target.querySelector('.t-send').getBoundingClientRect();
+    setTimeout(function(){ for(var i=0;i<10;i++){ var s=document.createElement('span'); s.className='burst'; s.textContent='❤️'; s.style.left=(r.left+r.width/2)+'px'; s.style.top=r.top+'px'; var a=Math.random()*Math.PI*2, d=40+Math.random()*60; s.style.setProperty('--dx',Math.cos(a)*d+'px'); s.style.setProperty('--dy',(Math.sin(a)*d-50)+'px'); s.style.setProperty('--r',(Math.random()*60-30)+'deg'); document.body.appendChild(s); setTimeout(function(x){return function(){x.remove()}}(s),1300); } },400); },true);
+
+  /* ---- anonymous reading stats (switched on at launch) ---- */
+  if(window.MZ_TRACK&&/\.vercel\.app$/.test(location.hostname)){
+    var vid; try{ vid=localStorage.getItem('mz-vid'); if(!vid){ vid=Math.random().toString(36).slice(2)+Date.now().toString(36); localStorage.setItem('mz-vid',vid); } }catch(_){ vid='anon'; }
+    function send(ev,extra){ var ed=cur(); if(!ed) return; var body=JSON.stringify(Object.assign({ev:ev,issue:ed.getAttribute('data-n'),vid:vid},extra||{}));
+      try{ if(navigator.sendBeacon) navigator.sendBeacon('/api/track',new Blob([body],{type:'application/json'})); else fetch('/api/track',{method:'POST',headers:{'Content-Type':'application/json'},body:body,keepalive:true}); }catch(_){} }
+    send('view');
+    var acc=0, last=Date.now(); setInterval(function(){ if(document.visibilityState==='visible'){ acc+=Math.min(30,(Date.now()-last)/1000); } last=Date.now(); if(acc>=15){ send('time',{sec:Math.round(acc)}); acc=0; } },5000);
+    document.addEventListener('visibilitychange',function(){ if(document.visibilityState==='hidden'&&acc>2){ send('time',{sec:Math.round(acc)}); acc=0; } last=Date.now(); });
+    document.addEventListener('click',function(e){ var c=e.target.closest('.corner'); if(c&&!c.classList.contains('collapsed')){ var h=c.querySelector('h3'); var lab=c.querySelector('.label'); send('open',{item:((lab&&lab.textContent)||(h&&h.textContent)||'').trim().slice(0,40)}); } });
+  }
 })();
 </script>
 

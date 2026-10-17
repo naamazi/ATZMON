@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>מידעצמון · נתונים</title>
+<link rel="icon" href="icon-192.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;600;700&family=Secular+One&display=swap">
+<style>
+:root{--bg:#f8f5ec;--surface:#fffdf7;--ink:#24291f;--muted:#5d6052;--line:#e3dfcd;--hill:#4b6a36;--soft:#edf0e0}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.55 Heebo,Arial,sans-serif}
+.wrap{max-width:900px;margin:0 auto;padding:20px 16px 50px}
+h1{font:400 30px "Secular One",Heebo,sans-serif;margin:0}
+h1 span{color:var(--hill)}
+.sub{color:var(--muted);margin:2px 0 20px}
+h2{font:400 21px "Secular One",Heebo,sans-serif;margin:30px 0 10px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px 16px}
+.kpi b{display:block;font:400 34px/1.1 "Secular One",Heebo,sans-serif;color:var(--hill)}
+.kpi span{font-weight:600;color:var(--muted);font-size:14px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px;position:relative}
+.bars{display:flex;align-items:flex-end;gap:4px;height:180px;border-bottom:1px solid var(--line);padding-top:10px;direction:ltr}
+.bar{flex:1;min-width:6px;background:var(--hill);border-radius:4px 4px 0 0;position:relative;cursor:default}
+.bar:hover,.bar:focus{background:#2f4426;outline:none}
+.axis{display:flex;justify-content:space-between;direction:ltr;color:var(--muted);font-size:12px;margin-top:6px}
+.tip{position:absolute;pointer-events:none;background:#2f4426;color:#fff;font-size:13px;padding:6px 9px;border-radius:8px;white-space:nowrap;transform:translate(-50%,-110%);display:none}
+table{width:100%;border-collapse:collapse;font-size:15px}
+th,td{text-align:right;padding:8px 6px;border-bottom:1px solid var(--line)}
+th{color:var(--muted);font-weight:600}
+td.n{font-variant-numeric:tabular-nums}
+.btn{display:inline-flex;align-items:center;min-height:44px;padding:0 18px;border-radius:999px;border:1.5px solid var(--hill);background:transparent;color:var(--hill);font:600 15px Heebo,sans-serif;cursor:pointer;margin-top:16px}
+.msg{padding:30px 0;color:var(--muted)}
+form{display:flex;gap:8px;margin-top:10px}
+input{flex:1;font:16px Heebo,sans-serif;padding:11px 14px;border-radius:12px;border:1.5px solid var(--line)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1><span>מיד</span>עצמון · נתונים</h1>
+  <p class="sub">כמה קוראים, כמה זמן ומה הכי אהבו. אנונימי לגמרי.</p>
+  <div id="app"><p class="msg">טוען...</p></div>
+</div>
+<script>
+(function(){
+  var app=document.getElementById('app');
+  var key=new URLSearchParams(location.search).get('key'); try{ if(key) localStorage.setItem('mz-stats-key',key); else key=localStorage.getItem('mz-stats-key'); }catch(_){}
+  if(!key){ app.innerHTML='<form><input placeholder="קוד גישה" aria-label="קוד גישה"><button class="btn" style="margin:0">כניסה</button></form>';
+    app.querySelector('form').onsubmit=function(e){ e.preventDefault(); location.search='?key='+encodeURIComponent(app.querySelector('input').value.trim()); }; return; }
+  function esc(s){ return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]}); }
+  function mins(s){ return Math.round(s/60); }
+  function bars(rows,val,lab,fmt){
+    var max=Math.max.apply(null,rows.map(val).concat([1]));
+    var h='<div class="card"><div class="tip"></div><div class="bars">'+rows.map(function(r){ var v=val(r); return '<div class="bar" tabindex="0" data-t="'+esc(lab(r)+': '+fmt(v))+'" style="height:'+Math.max(2,v/max*100)+'%"></div>'; }).join('')+'</div>'
+      +'<div class="axis"><span>'+esc(lab(rows[0]||{}))+'</span><span>'+esc(lab(rows[rows.length-1]||{}))+'</span></div></div>';
+    return h;
+  }
+  fetch('/api/stats?key='+encodeURIComponent(key)).then(function(r){ if(r.status===403) throw 'key'; return r.json(); }).then(function(d){
+    if(!d.issues||!d.issues.length){ app.innerHTML='<p class="msg">עוד אין נתונים. המדידה תתחיל ביום שמפרסמים את הגיליון לכל היישוב.</p>'; return; }
+    var last=d.issues[d.issues.length-1], opens=Object.keys(last.opens).sort(function(a,b){return last.opens[b]-last.opens[a]});
+    var avg=last.readers?(last.seconds/last.readers/60):0;
+    var h='<div class="kpis">'
+      +'<div class="kpi"><b>'+last.views+'</b><span>צפיות בגיליון '+esc(last.issue)+'</span></div>'
+      +'<div class="kpi"><b>'+last.readers+'</b><span>קוראים שונים</span></div>'
+      +'<div class="kpi"><b>'+mins(last.seconds)+'</b><span>דקות קריאה בסך הכול</span></div>'
+      +'<div class="kpi"><b>'+avg.toFixed(1)+'</b><span>דקות בממוצע לקורא</span></div>'
+      +'<div class="kpi"><b>'+d.totalReaders+'</b><span>קוראים מאז ההשקה</span></div>'
+      +(opens[0]?'<div class="kpi"><b style="font-size:22px">'+esc(opens[0])+'</b><span>הפינה הכי נפתחת</span></div>':'')+'</div>';
+    if(d.days.length){ h+='<h2>צפיות לפי יום</h2>'+bars(d.days,function(r){return r.views},function(r){return (r.day||'').split('-').reverse().slice(0,2).join('.')},function(v){return v+' צפיות'}); }
+    if(d.issues.length>1){ h+='<h2>קוראים לפי גיליון</h2>'+bars(d.issues,function(r){return r.readers},function(r){return 'גיליון '+r.issue},function(v){return v+' קוראים'}); }
+    h+='<h2>הפינות שנפתחו בגיליון '+esc(last.issue)+'</h2><div class="card"><table><tr><th>פינה</th><th>פתיחות</th></tr>'+(opens.length?opens.map(function(k){return '<tr><td>'+esc(k)+'</td><td class="n">'+last.opens[k]+'</td></tr>'}).join(''):'<tr><td colspan="2">עוד אין</td></tr>')+'</table></div>';
+    h+='<h2>כל הגיליונות</h2><div class="card"><table><tr><th>גיליון</th><th>צפיות</th><th>קוראים</th><th>דקות</th></tr>'+d.issues.slice().reverse().map(function(r){return '<tr><td>'+esc(r.issue)+'</td><td class="n">'+r.views+'</td><td class="n">'+r.readers+'</td><td class="n">'+mins(r.seconds)+'</td></tr>'}).join('')+'</table></div>';
+    h+='<button class="btn" id="csv">הורדת הנתונים לאקסל</button>';
+    app.innerHTML=h;
+    app.querySelectorAll('.card').forEach(function(c){ var tip=c.querySelector('.tip'); if(!tip) return;
+      c.querySelectorAll('.bar').forEach(function(b){ function on(){ var r=b.getBoundingClientRect(), cr=c.getBoundingClientRect(); tip.textContent=b.getAttribute('data-t'); tip.style.left=(r.left-cr.left+r.width/2)+'px'; tip.style.top=(r.top-cr.top)+'px'; tip.style.display='block'; }
+        b.addEventListener('mouseenter',on); b.addEventListener('focus',on); b.addEventListener('click',on); b.addEventListener('mouseleave',function(){tip.style.display='none'}); b.addEventListener('blur',function(){tip.style.display='none'}); }); });
+    document.getElementById('csv').onclick=function(){ var rows=[['issue','views','readers','minutes']].concat(d.issues.map(function(r){return [r.issue,r.views,r.readers,mins(r.seconds)]})).concat([[]]).concat([['day','views','readers','minutes']]).concat(d.days.map(function(r){return [r.day,r.views,r.readers,mins(r.seconds)]}));
+      var b=new Blob(['﻿'+rows.map(function(r){return r.join(',')}).join('\n')],{type:'text/csv'}), a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download='midatzmon-stats.csv'; a.click(); };
+  }).catch(function(e){ app.innerHTML='<p class="msg">'+(e==='key'?'קוד הגישה לא נכון.':'לא הצלחנו לטעון נתונים כרגע.')+'</p>'; try{ if(e==='key') localStorage.removeItem('mz-stats-key'); }catch(_){} });
+})();
+</script>
+</body>
+</html>
