@@ -1,5 +1,19 @@
 // Anonymous reading stats: views, unique readers, reading time, opened corners. No personal data.
-import { ready, pipeline } from "./_redis.js";
+const URL_ = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
+const TOKEN = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN;
+const ready = () => !!(URL_ && TOKEN);
+async function redis(cmd) {
+  const r = await fetch(URL_, { method: "POST", headers: { Authorization: "Bearer " + TOKEN, "Content-Type": "application/json" }, body: JSON.stringify(cmd) });
+  if (!r.ok) throw new Error("redis " + r.status);
+  return (await r.json()).result;
+}
+async function pipeline(cmds) {
+  if (!cmds.length) return [];
+  const r = await fetch(URL_ + "/pipeline", { method: "POST", headers: { Authorization: "Bearer " + TOKEN, "Content-Type": "application/json" }, body: JSON.stringify(cmds) });
+  if (!r.ok) throw new Error("redis " + r.status);
+  return (await r.json()).map((x) => x.result);
+}
+
 export default async function handler(req, res) {
   res.setHeader("Cache-Control", "no-store");
   try {
