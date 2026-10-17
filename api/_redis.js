@@ -7,6 +7,7 @@ export async function redis(cmd) {
   return (await r.json()).result;
 }
 export async function pipeline(cmds) {
+  if (!cmds.length) return [];
   const r = await fetch(URL_ + "/pipeline", { method: "POST", headers: { Authorization: "Bearer " + TOKEN, "Content-Type": "application/json" }, body: JSON.stringify(cmds) });
   if (!r.ok) throw new Error("redis " + r.status);
   return (await r.json()).map((x) => x.result);
